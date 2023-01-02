@@ -2,6 +2,10 @@
 title: "Collisions in Wired Networks"
 date: 2023-01-02T11:48:07Z
 draft: false
+authors: ["Miguel Vila"]
+description: "Understanding how CSMA and CSMA/CD works."
+
+categories: ["network"]
 ---
 # Collisions in Wired Networks
 
