@@ -5,7 +5,7 @@ draft: false
 authors: ["Miguel Vila"]
 description: "Understanding how CSMA and CSMA/CD works."
 
-categories: ["network"]
+categories: ["Network"]
 ---
 Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).
 
