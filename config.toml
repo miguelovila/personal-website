@@ -1,6 +1,6 @@
 baseURL = "https://miguelovila.com/"
-defaultContentLanguage = "en"
-languageCode = "en"
+defaultContentLanguage = "pt"
+languageCode = "pt"
 title = "Miguel Vila"
 
 theme = "DoIt"
