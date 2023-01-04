@@ -1,13 +1,15 @@
 baseURL = "https://miguelovila.com/"
 defaultContentLanguage = "pt"
-languageCode = "pt"
 title = "Miguel Vila"
-
+enableRobotsTXT = true
 theme = "DoIt"
+enableEmoji = true
 
 [params.home.profile]
   enable = true
   gravatarEmail = "miguelovila@proton.me"
+  title = "Miguel Vila"
+  subtitle = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
 
 [params]
   version = "0.2.X"
