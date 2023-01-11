@@ -4,11 +4,11 @@
         <link>https://miguelovila.com/categories/network/</link>
         <description>Network - category - Miguel Vila</description>
         <generator>Hugo -- gohugo.io</generator><language>pt</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 02 Jan 2023 11:48:07 &#43;0000</lastBuildDate><atom:link href="https://miguelovila.com/categories/network/" rel="self" type="application/rss+xml" /><item>
-    <title>Collisions in Wired Networks</title>
-    <link>https://miguelovila.com/posts/collisions_in_wired_networks/</link>
+    <title>Colisões em Redes com Fio</title>
+    <link>https://miguelovila.com/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/</link>
     <pubDate>Mon, 02 Jan 2023 11:48:07 &#43;0000</pubDate><author>
                     <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/collisions_in_wired_networks/</guid>
+                </author><guid>https://miguelovila.com/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/</guid>
     <description><![CDATA[Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).
 Carrier Sense Multiple AccessCom este método, antes do cliente começar a comunicar na rede, avalia primeiro o estado atual da rede, ou seja, se a rede está livre ou a transmitir pacotes de outros clientes.]]></description>
 </item></channel>

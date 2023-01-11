@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title class="pjax-title">Conceitos Básicos da Arquitetura de Computadores - Miguel Vila</title><meta name="Description" content="Compreender os princípios básicos da arquitetura dos computadores atuais."><meta property="og:title" content="Conceitos Básicos da Arquitetura de Computadores" />
+<meta property="og:description" content="Compreender os princípios básicos da arquitetura dos computadores atuais." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://miguelovila.com/posts/arquitetura_basica_de_um_sistema_computacional/arquitetura_basica_de_um_sistema_computacional/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-11T15:47:07+00:00" />
+<meta property="article:modified_time" content="2023-01-11T15:47:07+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Conceitos Básicos da Arquitetura de Computadores"/>
+<meta name="twitter:description" content="Compreender os princípios básicos da arquitetura dos computadores atuais."/>
+<meta name="application-name" content="DoIt">
+<meta name="apple-mobile-web-app-title" content="DoIt">
+
+<meta name="theme-color" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://miguelovila.com/posts/arquitetura_basica_de_um_sistema_computacional/arquitetura_basica_de_um_sistema_computacional/" /><link rel="prev" href="https://miguelovila.com/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Conceitos Básicos da Arquitetura de Computadores",
+        "inLanguage": "pt",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/miguelovila.com\/posts\/arquitetura_basica_de_um_sistema_computacional\/arquitetura_basica_de_um_sistema_computacional\/"
+        },"genre": "posts","wordcount":  705 ,
+        "url": "https:\/\/miguelovila.com\/posts\/arquitetura_basica_de_um_sistema_computacional\/arquitetura_basica_de_um_sistema_computacional\/","datePublished": "2023-01-11T15:47:07+00:00","dateModified": "2023-01-11T15:47:07+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": ""},"authors": [{
+                        "@type": "Person",
+                        "name": "Miguel Vila"                    
+                    }],"description": "Compreender os princípios básicos da arquitetura dos computadores atuais."
+    }
+    </script></head>
+
+<body header-desktop="" header-mobile=""><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark');}
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('' === 'light' || '' === 'dark' || '' === 'black') setTheme(''), saveTheme(''); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Miguel Vila">Miguel Vila</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="Publicações"> Publicações </a><a class="menu-item" href="/categories/" title="Categorias"> Categorias </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="" id="search-input-desktop">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-desktop" title="">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-desktop" title="">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="#" onclick="return false;" class="menu-item theme-switch" title="">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Miguel Vila">Miguel Vila</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="" id="search-input-mobile">
+                        <a href="#" onclick="return false;" class="search-button search-toggle" id="search-toggle-mobile" title="">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="#" onclick="return false;" class="search-button search-clear" id="search-clear-mobile" title="">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="#" onclick="return false;" class="search-cancel" id="search-cancel-mobile">
+                        
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="Publicações">Publicações</a><a class="menu-item" href="/categories/" title="Categorias">Categorias</a><a href="#" onclick="return false;" class="menu-item theme-switch" title="">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Conceitos Básicos da Arquitetura de Computadores</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://miguelovila.com/authors/miguel-vila'>Miguel Vila</a></span>
+                </span>&nbsp;<span class="post-category"></span>&nbsp;<span class="post-category"></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-11">2023-01-11</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-01-11">2023-01-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;&nbsp;</div>
+        </div><div class="content" id="content"><p>Nos computadores atuais, as instruções são representadas da mesma forma que dados. Os programas são armazenados em memória para serem lidos e escritos tais como os dados. São estes dois princípios que formam os fundamentos do conceito da aquitetura &ldquo;<em>stored-program</em>&rdquo;.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">O conceito &ldquo;<em>stored-program</em>&rdquo; permite que tanto o código fonte, como um editor de texto, como o próprio programa sejam armazenados ao mesmo tempo na memória.</div>
+        </div>
+    </div>
+<h2 id="arquitetura-básica-de-um-sistema-computacional" class="headerLink">
+    <a href="#arquitetura-b%c3%a1sica-de-um-sistema-computacional" class="header-mark"></a>Arquitetura Básica de um Sistema Computacional</h2><p>Os computadores são constituídos por três unidades fundamentais:</p>
+<ol>
+<li>CPU: responsável pelo processamento de dados através da execução de uma sequência de instruções (programa);</li>
+<li>Memória: responsável pelo armazenamento das sequências de instruções (programas), pelo armazenamento dos dados para processamento e pelo armazenamento dos resultados;</li>
+<li>I/O: responsável pela entrada de dados (<em>input</em>) e pela saída de dados (<em>output</em>).</li>
+</ol>
+<blockquote>
+<p>TODO: Adicionar imagem ilustrativa</p>
+</blockquote>
+<h2 id="conceitos-básicos" class="headerLink">
+    <a href="#conceitos-b%c3%a1sicos" class="header-mark"></a>Conceitos Básicos</h2><ol>
+<li>
+<p>Endereço (<em>address</em>): é um número único que identifica cada registo de memória. São contados sequencialmente a partir do 0.</p>
+</li>
+<li>
+<p>Espaço de endereçamento (address space): a gama total de endereços que um CPU consegue referenciar. A gama depende da dimensão do barramento de endereços. Um barramento de endereços de 16 bits pode gerar endereços de 0x0000 a 0xFFFF (de 0 a 2¹⁶-1).</p>
+<p><div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Questão<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Quantos endereços poderá um processador com um barramento de 32 bits referenciar?</div>
+        </div>
+    </div>
+<div class="details admonition success">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-check-circle fa-fw"></i>Resposta<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Se um processador tiver um barramento de endereços de 32 bits poderá referenciar 2³². Os endereços refrenciados estarão entre 0x00000000 e 0xFFFFFFFF (de 0 a 2³²-1).</div>
+        </div>
+    </div></p>
+</li>
+<li>
+<p>Secção de dados (<em>datapath</em>): elementos funcionais para encaminhamento, processamento e armazenamento de dados. (multiplexers, unidade aritmética, registos internos do CPU,&hellip;)</p>
+</li>
+<li>
+<p>Unidade de controlo (<em>control unit</em>): é responsável por controlar a comunicação entre o CPU e os outros componentes do computador, como a memória e dispositivos de entrada/saída.</p>
+</li>
+</ol>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Independente da unidade de controlo ser combinatória ou sequencial, o CPU é sempre uma máquina de estados síncrona.</div>
+        </div>
+    </div>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">É importante notar que CPU é um componente diferente da UC (unidade de controlo) embora trabalhem juntos. O CPU realiza operações matemáticas e lógicas, enquanto a CU controla o fluxo de dados no computador.</div>
+        </div>
+    </div>
+<h2 id="ciclo-base-de-execução-de-uma-instrução" class="headerLink">
+    <a href="#ciclo-base-de-execu%c3%a7%c3%a3o-de-uma-instru%c3%a7%c3%a3o" class="header-mark"></a>Ciclo-base de Execução de uma Instrução</h2><p>A execução de um programa consiste num ciclo de várias fases:</p>
+<ul>
+<li>Intruction fetch: leitura do código de máquina da instrução a partir da memória;</li>
+<li>Instruction decode: a unidade de controlo descodifica a instrução;</li>
+<li>Operand fetch: lê os operandos;</li>
+<li>Execute: execução da operação especificada pela instrução;</li>
+<li>Store result: armazenamento do resultado da operação no destino especificado na instrução.</li>
+</ul>
+<p>Com este processo concluído, é carregada uma nova instrução e volta-se a repetir estes passos.</p>
+<h2 id="codificação-das-instruções" class="headerLink">
+    <a href="#codifica%c3%a7%c3%a3o-das-instru%c3%a7%c3%b5es" class="header-mark"></a>Codificação das Instruções</h2><p>A codificação de uma instrução num número expresso em binário, terá que ter toda a informação que o CPU necessita para a executar:</p>
+<ul>
+<li>Qual a operação a realizar;</li>
+<li>Qual a localização dos operandos e do resultado;
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Os operandos que residam nos registos internos do CPU, deverão ser especificados pelo número do registo. Já os operandos que residam na memória deverão ser especificados pelo seu endereço na memória.</div>
+        </div>
+    </div></li>
+<li>Qual a próxima instrução a executar. Em casos normais é a instrução seguinte, mas quando instruções alteram a sequência de execução, na codificação da instrução deverá constar o endereço da próxima instrução a ser executada.</li>
+</ul>
+<h2 id="arquitetura-do-conjunto-de-instruções" class="headerLink">
+    <a href="#arquitetura-do-conjunto-de-instru%c3%a7%c3%b5es" class="header-mark"></a>Arquitetura do Conjunto de Instruções</h2><ul>
+<li>Instruction set: conjunto de todas a instruções suportadas pelo processador.</li>
+<li>Instruction set architecture (ISA): especifica não só as instruções suportadas, mas também o seu formato. Como é independente do desenho lógico e da implementação física, serve como uma abstração que permite que os desenvolvedores escrevam código que funcione em diferentes plataformas desde que estas suportem a ISA em questão.</li>
+</ul>
+<p>Por outras palavras, serve como um modelo de programação que descreve tudo o que o programador necessita de saber para programar corretamente em assembly um detereminado processdor.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Existem várias famílias ISA, por exemplo: x86, ARM, MIPS, SPARC e PowerP. A mesma ISA pode ter várias implementações físicas distintas, por exemplo, processadores Intel e AMD são compatíveis com a ISA x86.</div>
+        </div>
+    </div>
+<h2 id="classes-de-instruções" class="headerLink">
+    <a href="#classes-de-instru%c3%a7%c3%b5es" class="header-mark"></a>Classes de Instruções</h2><p>Uma dada aquitetura pode ter centenas de instruções, no entanto essas instruções podem pertencer a classes de instruções que são comuns à generalidade das arquiteturas:</p>
+<ul>
+<li>Processamento: artimético e lógico;</li>
+<li>Transferência de informação: cópia entre registos internos e entre registos internos e memória.</li>
+<li>Controlo de fluxo e execução: alteração da sequência de execução através de estruturas condicionais, ciclos e chamadas a sub-rotinas.</li>
+</ul>
+</div>
+
+        <div class="sponsor">
+        <div class="sponsor-avatar"></div><p class="sponsor-bio"><em>Se achaste este conteúdo útil considera fazer-me uma doação.</em></p><a href="https://ko-fi.com/miguelovila" title="Sponsor" target="_blank" class="sponsor-button" rel="noopener noreferrer">
+                <i class="far fa-heart fa-fw icon" style="color: #ec6cb9;"></i>
+                <span></span>
+            </a></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();"></a></span>&nbsp;|&nbsp;<span><a href="/"></a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/" class="prev" rel="prev" title="Colisões em Redes com Fio"><i class="fas fa-angle-left fa-fw"></i>Colisões em Redes com Fio</a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    &nbsp;|&nbsp;
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer"></a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/topbar/topbar.min.js"></script><script type="text/javascript" src="/lib/pjax/pjax.min.js"></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+
+<div class="pjax-assets"><script type="text/javascript">window.config={"code":{"copyTitle":"","maxShownLines":10},"comment":{},"search":{"algoliaAppID":"5YGRNRQK1G","algoliaIndex":"en_index","algoliaSearchKey":"0ff6874805de24b84aa1d5ebccad56cd","highlightTag":"em","maxResultLength":10,"noResultsFound":"","snippetLength":300,"type":"algolia"}};</script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script></div>
+</body>
+
+</html>

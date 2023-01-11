@@ -1,5 +1,5 @@
 ---
-title: "Collisions in Wired Networks"
+title: "Colisões em Redes com Fio"
 date: 2023-01-02T11:48:07Z
 draft: false
 authors: ["Miguel Vila"]
