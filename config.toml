@@ -4,48 +4,226 @@ title = "Miguel Vila"
 enableRobotsTXT = true
 theme = "DoIt"
 enableEmoji = true
-
-[params.home.profile]
-  enable = true
-  gravatarEmail = "miguelovila@proton.me"
-  title = "Miguel Vila"
-  subtitle = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
+copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
 [params]
   version = "0.2.X"
 
-[menu]
-  [[menu.main]]
-    identifier = "posts"
-    # you can add extra information before the name (HTML format is supported), such as icons
-    pre = ""
-    # you can add extra information after the name (HTML format is supported), such as icons
-    post = ""
-    name = "Posts"
-    url = "/posts/"
-    # title will be shown when you hover on this menu link
-    title = ""
+[languages]
+  [languages.pt]
     weight = 1
-  [[menu.main]]
-    identifier = "tags"
-    pre = ""
-    post = ""
-    name = "Tags"
-    url = "/tags/"
-    title = ""
-    weight = 2
-  [[menu.main]]
-    identifier = "categories"
-    pre = ""
-    post = ""
-    name = "Categories"
-    url = "/categories/"
-    title = ""
-    weight = 3
+    languageCode = "pt"
+    languageName = "Português"
+    hasCJKLanguage = false
+    paginate = 10
+    googleAnalytics = ""
+    copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
-# Markup related configuration in Hugo
-[markup]
-  # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
-  [markup.highlight]
-    # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
-    noClasses = false
+    [languages.pt.menu]
+      [[languages.pt.menu.main]]
+        identifier = "Publicações"
+        pre = ""
+        post = ""
+        name = "Publicações"
+        url = "/posts/"
+        title = "Publicações"
+        weight = 1
+      [[languages.pt.menu.main]]
+        identifier = "Categorias"
+        pre = ""
+        post = ""
+        name = "Categorias"
+        url = "/categories/"
+        title = "Categorias"
+        weight = 3
+    [languages.pt.params]
+      # site description
+      description = "The official documentation for the Hugo DoIt theme"
+      # site keywords
+      keywords = ["Theme", "Hugo"]
+      # App icon config
+      [languages.pt.params.app]
+        # optional site title override for the app when added to an iOS home screen or Android launcher
+        title = "DoIt"
+        # whether to omit favicon resource links
+        noFavicon = false
+        # modern SVG favicon to use in place of older style .png and .ico files
+        svgFavicon = ""
+        # Safari mask icon color
+        iconColor = "#5bbad5"
+        # Windows v8-10 tile color
+        tileColor = "#da532c"
+      # Search config
+      [languages.pt.params.search]
+        enable = true
+        # type of search engine ("lunr", "algolia", "fuse")
+        type = "algolia"
+        # max index length of the chunked content
+        contentLength = 4000
+        # placeholder of the search bar
+        placeholder = ""
+        # max number of results length
+        maxResultLength = 10
+        # snippet length of the result
+        snippetLength = 300
+        # HTML tag name of the highlight part in results
+        highlightTag = "em"
+        # whether to use the absolute URL based on the baseURL in search index
+        absoluteURL = false
+        [languages.pt.params.search.algolia]
+          index = "en_index"
+          appID = "5YGRNRQK1G"
+          searchKey = "0ff6874805de24b84aa1d5ebccad56cd"
+        [languages.pt.params.search.fuse]
+          # https://fusejs.io/api/options.html
+          isCaseSensitive = false
+          minMatchCharLength = 2
+          findAllMatches = false
+          location = 0
+          threshold = 0.1
+          distance = 100
+          ignoreLocation = true
+          useExtendedSearch = false
+          ignoreFieldNorm = false
+
+      [languages.pt.params.home]
+        # amount of RSS pages
+        rss = 10
+        # Home page profile
+        [languages.pt.params.home.profile]
+          enable = true
+          gravatarEmail = "miguelovila@proton.me"
+          title = "Miguel Vila"
+          subtitle = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
+          social = true
+
+
+        [languages.pt.params.home.posts]
+          enable = true
+          paginate = 10
+
+      [languages.pt.params.social]
+        Angellist = ""
+        Bandcamp = ""
+        Behance = ""
+        Bilibili = ""
+        Bitbucket = ""
+        BuyMeACoffee = ""
+        Codepen = ""
+        Deviantart = ""
+        Devto = ""
+        Douban = ""
+        Dribbble = ""
+        Email = "miguelovila@gmail.me"
+        Facebook = ""
+        Fivehundredpx = ""
+        Flickr = ""
+        Foursquare = ""
+        FreeCodeCamp = ""
+        Gitea = ""
+        GitHub = "miguelovila"
+        Gitlab = ""
+        Goodreads = ""
+        Googlescholar = ""
+        Hackernews = ""
+        Instagram = "miguelovila"
+        Jsfiddle = ""
+        Keybase = ""
+        Kickstarter = ""
+        Ko-Fi = ""
+        Lastfm = ""
+        Liberapay = ""
+        Linkedin = ""
+        Linktree = ""
+        Matrix = ""
+        Medium = ""
+        Mix = ""
+        Odnoklassniki = ""
+        ORCID = ""
+        Patreon = ""
+        Paypal = ""
+        Pinterest = ""
+        QQ = ""
+        QQGroup = ""
+        Quora = ""
+        Reddit = ""
+        Researchgate = ""
+        RSS = true
+        Skype = ""
+        Slidershare = ""
+        Snapchat = ""
+        Soundcloud = ""
+        Spotify = ""
+        Stackoverflow = ""
+        Steam = ""
+        Strava = ""
+        Telegram = ""
+        Thingiverse = ""
+        Tumblr = ""
+        Twitch = ""
+        Twitter = ""
+        Vine = ""
+        VK = ""
+        Weibo = ""
+        Whatsapp = ""
+        Wordpress = ""
+        Xing = ""
+        XMPP = ""
+        Youtubechannel = ""
+        Youtubecustom = ""
+        Youtubelegacy = ""
+        Zhihu = ""
+        [languages.pt.params.social.Mastodon]
+          id = "@miguelovila"
+          prefix = "https://masto.pt/"
+
+      [languages.pt.params.sponsor]
+        enable = true
+        bio = "Se achaste este conteúdo útil considera fazer-me uma doação."
+        link = "https://ko-fi.com/miguelovila"
+
+#[params.home.profile]
+#  enable = true
+#  gravatarEmail = "miguelovila@proton.me"
+#  title = "Miguel Vila"
+#  subtitle = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
+#
+#[params]
+#  version = "0.2.X"
+#
+#[menu]
+#  [[menu.main]]
+#    identifier = "posts"
+#    # you can add extra information before the name (HTML format is supported), such as icons
+#    pre = ""
+#    # you can add extra information after the name (HTML format is supported), such as icons
+#    post = ""
+#    name = "Posts"
+#    url = "/posts/"
+#    # title will be shown when you hover on this menu link
+#    title = ""
+#    weight = 1
+#  [[menu.main]]
+#    identifier = "tags"
+#    pre = ""
+#    post = ""
+#    name = "Tags"
+#    url = "/tags/"
+#    title = ""
+#    weight = 2
+#  [[menu.main]]
+#    identifier = "categories"
+#    pre = ""
+#    post = ""
+#    name = "Categories"
+#    url = "/categories/"
+#    title = ""
+#    weight = 3
+#
+## Markup related configuration in Hugo
+#[markup]
+#  # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
+#  [markup.highlight]
+#    # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
+#    noClasses = false
+#
