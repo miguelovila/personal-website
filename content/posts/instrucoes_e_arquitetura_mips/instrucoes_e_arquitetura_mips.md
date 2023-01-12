@@ -1,5 +1,5 @@
 ---
-title: "Instrucoes e Arquitetura MIPS"
+title: "Instruções e Arquitetura MIPS"
 date: 2023-01-11T23:42:51Z
 draft: false
 authors: ["Miguel Vila"]
@@ -38,12 +38,12 @@ Existem essencialmente dois tipos de arquiteturas: as baseadas num acumulador e 
 
 Vejamos o seguinte exemplo em que queremos realizar: C = A + B
 
-| Pilha  | Acumulador |
-|--------|------------|
-| PUSH A | LOAD A     |
-| PUSH B | ADD B      |
-| ADD    | STORE C    |
-| POP C  |            |
+|  Pilha | Acumulador |
+|:------:|:----------:|
+| PUSH A |   LOAD A   |
+| PUSH B |    ADD B   |
+|   ADD  |   STORE C  |
+|  POP C |            |
 
 Estas arquiteturas podem ainda ser do tipo _register-memory_ e to tipo _load-store_.
 
