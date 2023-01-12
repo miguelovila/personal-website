@@ -8,6 +8,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 
 [params]
   version = "0.2.X"
+  dateFormat = "02-01-2006"
 
 [params.footer]
   enable = true
@@ -30,7 +31,7 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
     maxShownLines = 15
 
 [params.cookieconsent]
-    enable = false
+    enable = true
 
 [sitemap]
   changefreq = "weekly"
