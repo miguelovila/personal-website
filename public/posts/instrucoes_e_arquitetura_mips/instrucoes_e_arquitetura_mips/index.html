@@ -31,7 +31,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/miguelovila.com\/posts\/instrucoes_e_arquitetura_mips\/instrucoes_e_arquitetura_mips\/"
-        },"genre": "posts","wordcount":  958 ,
+        },"genre": "posts","wordcount":  971 ,
         "url": "https:\/\/miguelovila.com\/posts\/instrucoes_e_arquitetura_mips\/instrucoes_e_arquitetura_mips\/","datePublished": "2023-01-11T23:42:51+00:00","dateModified": "2023-01-11T23:42:51+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": ""},"authors": [{
@@ -110,13 +110,78 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Instrucoes e Arquitetura MIPS</h1><div class="post-meta">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title"></h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#instruções-e-implementação-em-hardware">Instruções e Implementação em Hardware</a></li>
+    <li><a href="#diferentes-isas-diferentes-abordagens">Diferentes ISA&rsquo;s, Diferentes Abordagens</a>
+      <ul>
+        <li><a href="#formato-e-codificação-das-instruções">Formato e Codificação das Instruções</a></li>
+        <li><a href="#número-de-registos-internos-do-cpu">Número de Registos Internos do CPU</a></li>
+        <li><a href="#localização-dos-operandos-das-instruções">Localização dos Operandos das Instruções</a></li>
+      </ul>
+    </li>
+    <li><a href="#convenções-da-isa-do-mips">Convenções da ISA do MIPS</a></li>
+    <li><a href="#registos-internos">Registos Internos</a></li>
+    <li><a href="#codificação-de-instruções-no-mips---formato-r">Codificação de Instruções no MIPS - Formato R</a>
+      <ul>
+        <li><a href="#instruções-aritméticas">Instruções Aritméticas</a>
+          <ul>
+            <li><a href="#soma">Soma</a></li>
+            <li><a href="#subtração">Subtração</a></li>
+            <li><a href="#multiplicação">Multiplicação</a></li>
+            <li><a href="#divisão">Divisão</a></li>
+          </ul>
+        </li>
+        <li><a href="#instruções-lógicas">Instruções Lógicas</a></li>
+        <li><a href="#instruções-de-deslocamento">Instruções de Deslocamento</a></li>
+      </ul>
+    </li>
+    <li><a href="#instruções-de-transferência-entre-registos">Instruções de Transferência Entre Registos</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Instrucoes e Arquitetura MIPS</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://miguelovila.com/authors/miguel-vila'>Miguel Vila</a></span>
                 </span>&nbsp;<span class="post-category"></span>&nbsp;<span class="post-category"></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-11">2023-01-11</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-01-11">2023-01-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;&nbsp;</div>
-        </div><div class="content" id="content"><h2 id="instruções-e-implementação-em-hardware" class="headerLink">
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span></span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#instruções-e-implementação-em-hardware">Instruções e Implementação em Hardware</a></li>
+    <li><a href="#diferentes-isas-diferentes-abordagens">Diferentes ISA&rsquo;s, Diferentes Abordagens</a>
+      <ul>
+        <li><a href="#formato-e-codificação-das-instruções">Formato e Codificação das Instruções</a></li>
+        <li><a href="#número-de-registos-internos-do-cpu">Número de Registos Internos do CPU</a></li>
+        <li><a href="#localização-dos-operandos-das-instruções">Localização dos Operandos das Instruções</a></li>
+      </ul>
+    </li>
+    <li><a href="#convenções-da-isa-do-mips">Convenções da ISA do MIPS</a></li>
+    <li><a href="#registos-internos">Registos Internos</a></li>
+    <li><a href="#codificação-de-instruções-no-mips---formato-r">Codificação de Instruções no MIPS - Formato R</a>
+      <ul>
+        <li><a href="#instruções-aritméticas">Instruções Aritméticas</a>
+          <ul>
+            <li><a href="#soma">Soma</a></li>
+            <li><a href="#subtração">Subtração</a></li>
+            <li><a href="#multiplicação">Multiplicação</a></li>
+            <li><a href="#divisão">Divisão</a></li>
+          </ul>
+        </li>
+        <li><a href="#instruções-lógicas">Instruções Lógicas</a></li>
+        <li><a href="#instruções-de-deslocamento">Instruções de Deslocamento</a></li>
+      </ul>
+    </li>
+    <li><a href="#instruções-de-transferência-entre-registos">Instruções de Transferência Entre Registos</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="instruções-e-implementação-em-hardware" class="headerLink">
     <a href="#instru%c3%a7%c3%b5es-e-implementa%c3%a7%c3%a3o-em-hardware" class="header-mark"></a>Instruções e Implementação em Hardware</h2><p>No desenho de um processador, a definição do conjunto de instruções a implementar exige um equilíbrio entre as facilidades oferecidas aos programadores e a complexidade do hardware necessário para a sua implementação.</p>
 <h2 id="diferentes-isas-diferentes-abordagens" class="headerLink">
     <a href="#diferentes-isas-diferentes-abordagens" class="header-mark"></a>Diferentes ISA&rsquo;s, Diferentes Abordagens</h2><h3 id="formato-e-codificação-das-instruções" class="headerLink">
@@ -222,19 +287,57 @@
 <p>O &ldquo;opcode&rdquo; é sempre zero nas instruções de formato &ldquo;R&rdquo;. &ldquo;shamt&rdquo; corresponde ao número de bits para deslocar. &ldquo;funct&rdquo; corresponde à operação a realizar.</p>
 <h3 id="instruções-aritméticas" class="headerLink">
     <a href="#instru%c3%a7%c3%b5es-aritm%c3%a9ticas" class="header-mark"></a>Instruções Aritméticas</h3><h4 id="soma" class="headerLink">
-    <a href="#soma" class="header-mark"></a>Soma</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">add</span> <span style="color:#66d9ef">a</span>,<span style="color:#66d9ef">b</span>,<span style="color:#66d9ef">c</span> <span style="color:#75715e"># Soma b com c e armazena o resultado em a
-</span></span></span></code></pre></div><h4 id="subtração" class="headerLink">
-    <a href="#subtra%c3%a7%c3%a3o" class="header-mark"></a>Subtração</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">a</span>,<span style="color:#66d9ef">b</span>,<span style="color:#66d9ef">c</span> <span style="color:#75715e"># Subtrai c a b e armazena o resultado em a
-</span></span></span></code></pre></div><h4 id="multiplicação" class="headerLink">
-    <a href="#multiplica%c3%a7%c3%a3o" class="header-mark"></a>Multiplicação</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mult</span> <span style="color:#66d9ef">a</span>,<span style="color:#66d9ef">b</span>,<span style="color:#66d9ef">c</span> <span style="color:#75715e"># Multiplica b com c e armazena o resultado em a
-</span></span></span></code></pre></div><h4 id="divisão" class="headerLink">
-    <a href="#divis%c3%a3o" class="header-mark"></a>Divisão</h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">div</span> <span style="color:#66d9ef">a</span>,<span style="color:#66d9ef">b</span>,<span style="color:#66d9ef">c</span> <span style="color:#75715e"># Divide b por c e armazena o resultado em a
-</span></span></span></code></pre></div><h3 id="instruções-lógicas" class="headerLink">
-    <a href="#instru%c3%a7%c3%b5es-l%c3%b3gicas" class="header-mark"></a>Instruções Lógicas</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">and</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc1</span>,<span style="color:#66d9ef">Rsrc2</span> <span style="color:#75715e"># Rdst = Rsrc1 &amp; Rsrc2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">or</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc1</span>,<span style="color:#66d9ef">Rsrc2</span> <span style="color:#75715e"># Rdst = Rsrc1 | Rsrc2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">xor</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc1</span>,<span style="color:#66d9ef">Rsrc2</span> <span style="color:#75715e"># Rdst = Rsrc1 ^ Rsrc2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">nor</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc1</span>,<span style="color:#66d9ef">Rsrc2</span> <span style="color:#75715e"># Rdst = ~(Rsrc1 | Rsrc2)
-</span></span></span></code></pre></div><div class="details admonition note open">
+    <a href="#soma" class="header-mark"></a>Soma</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">add</span> <span class="no">a</span><span class="p">,</span><span class="no">b</span><span class="p">,</span><span class="no">c</span> <span class="c"># Soma b com c e armazena o resultado em a
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="subtração" class="headerLink">
+    <a href="#subtra%c3%a7%c3%a3o" class="header-mark"></a>Subtração</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">sub</span> <span class="no">a</span><span class="p">,</span><span class="no">b</span><span class="p">,</span><span class="no">c</span> <span class="c"># Subtrai c a b e armazena o resultado em a
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="multiplicação" class="headerLink">
+    <a href="#multiplica%c3%a7%c3%a3o" class="header-mark"></a>Multiplicação</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">mult</span> <span class="no">a</span><span class="p">,</span><span class="no">b</span><span class="p">,</span><span class="no">c</span> <span class="c"># Multiplica b com c e armazena o resultado em a
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="divisão" class="headerLink">
+    <a href="#divis%c3%a3o" class="header-mark"></a>Divisão</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">div</span> <span class="no">a</span><span class="p">,</span><span class="no">b</span><span class="p">,</span><span class="no">c</span> <span class="c"># Divide b por c e armazena o resultado em a
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="instruções-lógicas" class="headerLink">
+    <a href="#instru%c3%a7%c3%b5es-l%c3%b3gicas" class="header-mark"></a>Instruções Lógicas</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">and</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc1</span><span class="p">,</span><span class="no">Rsrc2</span> <span class="c"># Rdst = Rsrc1 &amp; Rsrc2
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="no">or</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc1</span><span class="p">,</span><span class="no">Rsrc2</span> <span class="c"># Rdst = Rsrc1 | Rsrc2
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="no">xor</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc1</span><span class="p">,</span><span class="no">Rsrc2</span> <span class="c"># Rdst = Rsrc1 ^ Rsrc2
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="no">nor</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc1</span><span class="p">,</span><span class="no">Rsrc2</span> <span class="c"># Rdst = ~(Rsrc1 | Rsrc2)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="details admonition note open">
         <div class="details-summary admonition-title">
             <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
         </div>
@@ -243,15 +346,38 @@
         </div>
     </div>
 <h3 id="instruções-de-deslocamento" class="headerLink">
-    <a href="#instru%c3%a7%c3%b5es-de-deslocamento" class="header-mark"></a>Instruções de Deslocamento</h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sll</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc</span>,<span style="color:#66d9ef">shamt</span> <span style="color:#75715e"># Rdst = Rsrc &lt;&lt; shamt
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">srl</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc</span>,<span style="color:#66d9ef">shamt</span> <span style="color:#75715e"># Rdst = Rsrc &gt;&gt; shamt
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">sra</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc</span>,<span style="color:#66d9ef">shamt</span> <span style="color:#75715e"># Rdst = Rsrc &gt;&gt; shamt (com sinal)
-</span></span></span></code></pre></div><h2 id="instruções-de-transferência-entre-registos" class="headerLink">
+    <a href="#instru%c3%a7%c3%b5es-de-deslocamento" class="header-mark"></a>Instruções de Deslocamento</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">sll</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc</span><span class="p">,</span><span class="no">shamt</span> <span class="c"># Rdst = Rsrc &lt;&lt; shamt
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="no">srl</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc</span><span class="p">,</span><span class="no">shamt</span> <span class="c"># Rdst = Rsrc &gt;&gt; shamt
+</span></span></span><span class="line"><span class="cl"><span class="c"></span><span class="no">sra</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc</span><span class="p">,</span><span class="no">shamt</span> <span class="c"># Rdst = Rsrc &gt;&gt; shamt (com sinal)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="instruções-de-transferência-entre-registos" class="headerLink">
     <a href="#instru%c3%a7%c3%b5es-de-transfer%c3%aancia-entre-registos" class="header-mark"></a>Instruções de Transferência Entre Registos</h2><p>Já sabemos que $0 é um registo especial que contém sempre o valor 0. Então para passar o valor num registo Rsrc para um registo Rdst poderá fazer-se isto:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">or</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc</span>,<span style="color:#66d9ef">$0</span>
-</span></span></code></pre></div><p>Para melhorar a legibilidade dos programas foi criada uma instrução virtual (um alias) que faz a mesma coisa: move.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">move</span> <span style="color:#66d9ef">Rdst</span>,<span style="color:#66d9ef">Rsrc</span>
-</span></span></code></pre></div><p>No processo de geração de código de máquina, o assembler substitui move pela instrução nativa or.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">or</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc</span><span class="p">,</span><span class="no">$0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Para melhorar a legibilidade dos programas foi criada uma instrução virtual (um alias) que faz a mesma coisa: move.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-asm" data-lang="asm"><span class="line"><span class="cl"><span class="nf">move</span> <span class="no">Rdst</span><span class="p">,</span><span class="no">Rsrc</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>No processo de geração de código de máquina, o assembler substitui move pela instrução nativa or.</p>
 </div>
 
         <div class="sponsor">
@@ -298,7 +424,7 @@
         </a>
     </div><div class="assets"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/topbar/topbar.min.js"></script><script type="text/javascript" src="/lib/pjax/pjax.min.js"></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
 
-<div class="pjax-assets"><script type="text/javascript">window.config={"code":{"copyTitle":"","maxShownLines":10},"comment":{},"search":{"algoliaAppID":"5YGRNRQK1G","algoliaIndex":"en_index","algoliaSearchKey":"0ff6874805de24b84aa1d5ebccad56cd","highlightTag":"em","maxResultLength":10,"noResultsFound":"","snippetLength":300,"type":"algolia"}};</script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script></div>
+<div class="pjax-assets"><script type="text/javascript">window.config={"code":{"copyTitle":"","maxShownLines":15},"comment":{},"search":{"algoliaAppID":"5YGRNRQK1G","algoliaIndex":"en_index","algoliaSearchKey":"0ff6874805de24b84aa1d5ebccad56cd","highlightTag":"em","maxResultLength":10,"noResultsFound":"","snippetLength":300,"type":"algolia"}};</script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script></div>
 </body>
 
 </html>

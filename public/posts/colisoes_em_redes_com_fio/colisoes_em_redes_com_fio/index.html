@@ -110,13 +110,32 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Colisões em Redes com Fio</h1><div class="post-meta">
+            <div class="container"><div class="toc" id="toc-auto">
+        <h2 class="toc-title"></h2>
+        <div class="toc-content" id="toc-content-auto"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#carrier-sense-multiple-access">Carrier Sense Multiple Access</a></li>
+    <li><a href="#carrier-sense-multiple-access-with-collision-detection">Carrier Sense Multiple Access with Collision Detection</a></li>
+  </ul>
+</nav></div>
+    </div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle", "normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Colisões em Redes com Fio</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><i class="author fas fa-user-circle fa-fw"></i><span class='screen-reader-text'>  </span><a href='https://miguelovila.com/authors/miguel-vila'>Miguel Vila</a></span>
                 </span>&nbsp;<span class="post-category"></span>&nbsp;<span class="post-category"></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-01-02">2023-01-02</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-01-02">2023-01-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;&nbsp;</div>
-        </div><div class="content" id="content"><p>Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).</p>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span></span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#carrier-sense-multiple-access">Carrier Sense Multiple Access</a></li>
+    <li><a href="#carrier-sense-multiple-access-with-collision-detection">Carrier Sense Multiple Access with Collision Detection</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).</p>
 <h2 id="carrier-sense-multiple-access" class="headerLink">
     <a href="#carrier-sense-multiple-access" class="header-mark"></a>Carrier Sense Multiple Access</h2><p>Com este método, antes do cliente começar a comunicar na rede, avalia primeiro o estado atual da rede, ou seja, se a rede está livre ou a transmitir pacotes de outros clientes. Assim, ao ter esta percepção do que se passa na rede antes de transmitir, o número de colizões é minimizado.</p>
 <p>Porém, este método ainda não resolve completamente o problema. Em casos em que os clientes estão distânciados uns dos outros o atraso da propagação do sinal pode ser responsável pela perda de pacotes:</p>
@@ -183,7 +202,7 @@ Um sinal JAM consiste em pequenos pulsos de energia que são transmitidos pela r
         </a>
     </div><div class="assets"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/topbar/topbar.min.js"></script><script type="text/javascript" src="/lib/pjax/pjax.min.js"></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
 
-<div class="pjax-assets"><script type="text/javascript">window.config={"code":{"copyTitle":"","maxShownLines":10},"comment":{},"search":{"algoliaAppID":"5YGRNRQK1G","algoliaIndex":"en_index","algoliaSearchKey":"0ff6874805de24b84aa1d5ebccad56cd","highlightTag":"em","maxResultLength":10,"noResultsFound":"","snippetLength":300,"type":"algolia"}};</script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script></div>
+<div class="pjax-assets"><script type="text/javascript">window.config={"code":{"copyTitle":"","maxShownLines":15},"comment":{},"search":{"algoliaAppID":"5YGRNRQK1G","algoliaIndex":"en_index","algoliaSearchKey":"0ff6874805de24b84aa1d5ebccad56cd","highlightTag":"em","maxResultLength":10,"noResultsFound":"","snippetLength":300,"type":"algolia"}};</script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script></div>
 </body>
 
 </html>
