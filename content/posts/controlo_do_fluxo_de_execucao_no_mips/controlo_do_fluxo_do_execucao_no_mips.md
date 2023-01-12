@@ -1,7 +1,7 @@
 ---
 title: "Controlo do Fluxo de Execução no MIPS"
 date: 2023-01-12T10:25:10Z
-draft: true
+draft: false
 authors: ["Miguel Vila"]
 description: "Aprender quais as instruções que o MIPS tem para controlar o fluxo de execução e perceber como estas funcionam."
 
