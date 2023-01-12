@@ -1,7 +1,7 @@
 ---
 title: "Instrucoes e Arquitetura MIPS"
 date: 2023-01-11T23:42:51Z
-draft: true
+draft: false
 authors: ["Miguel Vila"]
 description: "Compreender a ISA do MIPS e as instruções da arquitetura."
 
