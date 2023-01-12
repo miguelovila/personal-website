@@ -32,6 +32,11 @@ copyright = "This work is licensed under a Creative Commons Attribution-NonComme
 [params.cookieconsent]
     enable = false
 
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
 [markup]
   [markup.highlight]
     codeFences = true
