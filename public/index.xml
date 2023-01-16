@@ -3,9 +3,16 @@
         <title>Miguel Vila</title>
         <link>https://miguelovila.com/</link>
         <description>The official documentation for the Hugo DoIt theme</description>
-        <generator>Hugo -- gohugo.io</generator><language>pt</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 14 Jan 2023 11:26:05 &#43;0000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>pt</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</lastBuildDate>
             <atom:link href="https://miguelovila.com/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Colisões em Redes Wireless</title>
+    <link>https://miguelovila.com/posts/colisoes_em_redes_wireless/colisoes_em_redes_com_fio/</link>
+    <pubDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</pubDate><author>
+                    <name>Miguel Vila</name>
+                </author><guid>https://miguelovila.com/posts/colisoes_em_redes_wireless/colisoes_em_redes_com_fio/</guid>
+    <description><![CDATA[Componentes de uma Rede Wireless Station (STA): conhecido também por cliente, é um dispositivo sem fios que se conecta a um access point. Access Point (AP): é um dispositivo ao qual dispositivos sem fios se conectam para terem acesso à rede ethernet. Consiste num transmissor e recetor de radiofrequência geralmente com uma ou mais antenas. Basic Service Set (BSS): é o conjunto de pelo menos uma station IEEE 802.11 associada a um access point com uma SSID definida.]]></description>
+</item><item>
     <title>Leitura e Escrita na Memoria Externa</title>
     <link>https://miguelovila.com/posts/leitura_e_escrita_na_memoria_externa/leitura_e_escrita_na_memoria_externa/</link>
     <pubDate>Sat, 14 Jan 2023 11:26:05 &#43;0000</pubDate><author>
