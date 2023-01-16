@@ -3,9 +3,9 @@ title: "Colisões em Redes com Fio"
 date: 2023-01-02T11:48:07Z
 draft: false
 authors: ["Miguel Vila"]
-description: "Understanding how CSMA and CSMA/CD works."
+description: "Compreender como as redes com fios evitam colisões."
 
-categories: ["Network"]
+categories: ["Redes e Comunicações"]
 ---
 Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).
 
