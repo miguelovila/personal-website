@@ -2,6 +2,7 @@
 author: Hugo Authors
 title: Placeholder Text
 date: 2023-02-07
+draft: true
 description: A post with placeholder text
 ---
 

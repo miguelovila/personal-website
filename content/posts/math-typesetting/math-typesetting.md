@@ -2,6 +2,7 @@
 author: Hugo Authors
 title: Math Typesetting
 date: 2023-02-05
+draft: true
 description: A brief guide to setup KaTeX
 math: true
 ---
