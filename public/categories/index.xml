@@ -1,28 +1,11 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>Categories - category - Miguel Vila</title>
-        <link>https://miguelovila.com/categories/</link>
-        <description>Categories - category - Miguel Vila</description>
-        <generator>Hugo -- gohugo.io</generator><language>pt</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</lastBuildDate><atom:link href="https://miguelovila.com/categories/" rel="self" type="application/rss+xml" /><item>
-    <title>Redes e Comunicações</title>
-    <link>https://miguelovila.com/categories/redes-e-comunica%C3%A7%C3%B5es/</link>
-    <pubDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</pubDate><author>
-        <name></name>
-    </author><guid>https://miguelovila.com/categories/redes-e-comunica%C3%A7%C3%B5es/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>Arquitetura de Computadores</title>
-    <link>https://miguelovila.com/categories/arquitetura-de-computadores/</link>
-    <pubDate>Sat, 14 Jan 2023 11:26:05 &#43;0000</pubDate><author>
-        <name></name>
-    </author><guid>https://miguelovila.com/categories/arquitetura-de-computadores/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>Network</title>
-    <link>https://miguelovila.com/categories/network/</link>
-    <pubDate>Mon, 02 Jan 2023 11:48:07 &#43;0000</pubDate><author>
-        <name></name>
-    </author><guid>https://miguelovila.com/categories/network/</guid>
-    <description><![CDATA[]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Miguel Vila</title>
+    <link>https://miguelovila.com/categories/</link>
+    <description>Recent content in Categories on Miguel Vila</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://miguelovila.com/categories/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
 </rss>
