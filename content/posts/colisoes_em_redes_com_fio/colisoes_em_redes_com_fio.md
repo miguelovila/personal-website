@@ -1,7 +1,7 @@
 ---
 title: "Colisões em Redes com Fio"
 date: 2023-01-02T11:48:07Z
-draft: false
+draft: true
 authors: ["Miguel Vila"]
 description: "Compreender como as redes com fios evitam colisões."
 

@@ -1,7 +1,7 @@
 ---
 title: "Conceitos Básicos da Arquitetura de Computadores"
 date: 2023-01-11T15:47:07Z
-draft: false
+draft: true
 authors: ["Miguel Vila"]
 description: "Compreender os princípios básicos da arquitetura dos computadores atuais."
 

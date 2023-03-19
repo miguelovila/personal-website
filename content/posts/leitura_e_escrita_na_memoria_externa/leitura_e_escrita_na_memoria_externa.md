@@ -1,7 +1,7 @@
 ---
 title: "Leitura e Escrita na Memoria Externa"
 date: 2023-01-14T11:26:05Z
-draft: false
+draft: true
 authors: ["Miguel Vila"]
 description: "Compreender como a informação é lida e guardada na memória externa na aqruitetura MIPS."
 

@@ -1,7 +1,7 @@
 ---
 title: "Colisões em Redes Wireless"
 date: 2023-01-16T11:48:07Z
-draft: false
+draft: true
 authors: ["Miguel Vila"]
 description: "Compreender como as redes wireless evitam colisões."
 
