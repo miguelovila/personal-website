@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Miguel Vila</title>
+    <title>Tags on Miguel Vila&#39;s Blog</title>
     <link>https://miguelovila.com/tags/</link>
-    <description>Recent content in Tags on Miguel Vila</description>
+    <description>Recent content in Tags on Miguel Vila&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pt</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://miguelovila.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>emoji</title>
+      <link>https://miguelovila.com/tags/emoji/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/tags/emoji/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

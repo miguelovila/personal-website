@@ -1,53 +1,56 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title> - Miguel Vila</title>
-        <link>https://miguelovila.com/posts/</link>
-        <description> | Miguel Vila</description>
-        <generator>Hugo -- gohugo.io</generator><language>pt</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</lastBuildDate><atom:link href="https://miguelovila.com/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>Colisões em Redes Wireless</title>
-    <link>https://miguelovila.com/posts/colisoes_em_redes_wireless/colisoes_em_redes_com_fio/</link>
-    <pubDate>Mon, 16 Jan 2023 11:48:07 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/colisoes_em_redes_wireless/colisoes_em_redes_com_fio/</guid>
-    <description><![CDATA[Componentes de uma Rede Wireless Station (STA): conhecido também por cliente, é um dispositivo sem fios que se conecta a um access point. Access Point (AP): é um dispositivo ao qual dispositivos sem fios se conectam para terem acesso à rede ethernet. Consiste num transmissor e recetor de radiofrequência geralmente com uma ou mais antenas. Basic Service Set (BSS): é o conjunto de pelo menos uma station IEEE 802.11 associada a um access point com uma SSID definida.]]></description>
-</item><item>
-    <title>Leitura e Escrita na Memoria Externa</title>
-    <link>https://miguelovila.com/posts/leitura_e_escrita_na_memoria_externa/leitura_e_escrita_na_memoria_externa/</link>
-    <pubDate>Sat, 14 Jan 2023 11:26:05 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/leitura_e_escrita_na_memoria_externa/leitura_e_escrita_na_memoria_externa/</guid>
-    <description><![CDATA[A arquitetura do MIPS é do tipo load-store, ou seja, só é possível operar sobre valores armazenados nos registos internos do CPU. Para que seja possível operar sobre valores armazenados na memória externa, é necessário que estes sejam carregados para os registos internos do CPU. O processo de carregar valores da memória externa para os registos internos do CPU é chamado de load e o processo de guardar valores dos registos internos do CPU para a memória externa é chamado de store.]]></description>
-</item><item>
-    <title>Controlo do Fluxo de Execução no MIPS</title>
-    <link>https://miguelovila.com/posts/controlo_do_fluxo_de_execucao_no_mips/controlo_do_fluxo_do_execucao_no_mips/</link>
-    <pubDate>Thu, 12 Jan 2023 10:25:10 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/controlo_do_fluxo_de_execucao_no_mips/controlo_do_fluxo_do_execucao_no_mips/</guid>
-    <description><![CDATA[Durante a execução de um programa pode haver a necessidade de executar certas instruções com base em valores calculados durante a execução do programa. Assim, no MIPS existem várias instruções que controlam o fluxo do programa.
-Instruções de Controlo de Fluxo Básicas1 2  beq $t0, $t1, label # Branch if equal bne $t0, $t1, label # Branch if not equal   No caso de &lsquo;beq&rsquo; se os registos $t0 e $t1 forem iguais, a próxima instrução a ser executada será a que está no endereço da label.]]></description>
-</item><item>
-    <title>Instruções e Arquitetura MIPS</title>
-    <link>https://miguelovila.com/posts/instrucoes_e_arquitetura_mips/instrucoes_e_arquitetura_mips/</link>
-    <pubDate>Wed, 11 Jan 2023 23:42:51 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/instrucoes_e_arquitetura_mips/instrucoes_e_arquitetura_mips/</guid>
-    <description><![CDATA[Instruções e Implementação em HardwareNo desenho de um processador, a definição do conjunto de instruções a implementar exige um equilíbrio entre as facilidades oferecidas aos programadores e a complexidade do hardware necessário para a sua implementação.
-Diferentes ISA&rsquo;s, Diferentes AbordagensFormato e Codificação das Instruções  Em algumas ISA&rsquo;s opta-se pela codificação das instruções com um número de bits variável, o que leva a um código mais pequeno, a uma maior flexibilidade e a uma instruction fetch em vários passos.]]></description>
-</item><item>
-    <title>Conceitos Básicos da Arquitetura de Computadores</title>
-    <link>https://miguelovila.com/posts/arquitetura_basica_de_um_sistema_computacional/arquitetura_basica_de_um_sistema_computacional/</link>
-    <pubDate>Wed, 11 Jan 2023 15:47:07 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/arquitetura_basica_de_um_sistema_computacional/arquitetura_basica_de_um_sistema_computacional/</guid>
-    <description><![CDATA[Nos computadores atuais, as instruções são representadas da mesma forma que dados. Os programas são armazenados em memória para serem lidos e escritos tais como os dados. São estes dois princípios que formam os fundamentos do conceito da aquitetura &ldquo;stored-program&rdquo;.
-Nota  O conceito &ldquo;stored-program&rdquo; permite que tanto o código fonte, como um editor de texto, como o próprio programa sejam armazenados ao mesmo tempo na memória.   Arquitetura Básica de um Sistema ComputacionalOs computadores são constituídos por três unidades fundamentais:]]></description>
-</item><item>
-    <title>Colisões em Redes com Fio</title>
-    <link>https://miguelovila.com/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/</link>
-    <pubDate>Mon, 02 Jan 2023 11:48:07 &#43;0000</pubDate><author>
-                    <name>Miguel Vila</name>
-                </author><guid>https://miguelovila.com/posts/colisoes_em_redes_com_fio/colisoes_em_redes_com_fio/</guid>
-    <description><![CDATA[Quando uma rede passa a ter múltiplos clientes conectados que estão sempre a comunicar, a probabilidade de haver colisão de pacotes aumenta. Por isso, houve a necessidade de desenvolver um método que fosse capaz de reduzir a probabilidade disso acontecer: Carrier Sense Multiple Access (CSMA).
-Carrier Sense Multiple AccessCom este método, antes do cliente começar a comunicar na rede, avalia primeiro o estado atual da rede, ou seja, se a rede está livre ou a transmitir pacotes de outros clientes.]]></description>
-</item></channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Miguel Vila&#39;s Blog</title>
+    <link>https://miguelovila.com/posts/</link>
+    <description>Recent content in Posts on Miguel Vila&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Markdown Syntax Guide</title>
+      <link>https://miguelovila.com/posts/markdown-syntax/</link>
+      <pubDate>Sat, 11 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/markdown-syntax/</guid>
+      <description>&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Rich Content</title>
+      <link>https://miguelovila.com/posts/rich-content/rich-content/</link>
+      <pubDate>Thu, 09 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/rich-content/rich-content/</guid>
+      <description>&lt;p&gt;Hugo ships with several &lt;a href=&#34;https://gohugo.io/content-management/shortcodes/#use-hugos-built-in-shortcodes&#34;&gt;Built-in Shortcodes&lt;/a&gt; for rich content, along with a &lt;a href=&#34;https://gohugo.io/about/hugo-and-gdpr/&#34;&gt;Privacy Config&lt;/a&gt; and a set of Simple Shortcodes that enable static and no-JS versions of various social media embeds.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Placeholder Text</title>
+      <link>https://miguelovila.com/posts/placeholder-text/placeholder-text/</link>
+      <pubDate>Tue, 07 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/placeholder-text/placeholder-text/</guid>
+      <description>&lt;p&gt;Lorem est tota propiore conpellat pectoribus de pectora summo.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Math Typesetting</title>
+      <link>https://miguelovila.com/posts/math-typesetting/math-typesetting/</link>
+      <pubDate>Sun, 05 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/math-typesetting/math-typesetting/</guid>
+      <description>&lt;p&gt;Mathematical notation in a Hugo project can be enabled by using third party JavaScript libraries.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Emoji Support</title>
+      <link>https://miguelovila.com/posts/emoji-support/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/emoji-support/</guid>
+      <description>&lt;p&gt;Emoji can be enabled in a Hugo project in a number of ways.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
 </rss>

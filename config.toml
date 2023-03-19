@@ -1,234 +1,62 @@
-baseURL = "https://miguelovila.com/"
-defaultContentLanguage = "pt"
-title = "Miguel Vila"
-enableRobotsTXT = true
-theme = "DoIt"
+title = "Miguel Vila's Blog"
+baseURL = 'https://miguelovila.com/'
+languageCode = 'en-us'
+theme = "hugo-blog-awesome"
+
+# To enable Google Analytics 4 (gtag.js) provide G-MEASUREMENT_ID below.
+# To disable  Google Analytics, simply leave the field empty or remove the next line
+googleAnalytics = '' # G-MEASUREMENT_ID
+
+# Enable emojis globally
 enableEmoji = true
-copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
 
-[params]
-  version = "0.2.X"
-  dateFormat = "02-01-2006"
-
-[params.footer]
-  enable = true
-  custom = ''
-  hugo = false
-  hostedOn = '' 
-  copyright = true
-  author = true
-  since = 2023
-  icp = ""
-  license= '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
-
-[params.page]
-  [params.page.toc]
-    enable = true
-    keepStatic = false
-    auto = true
-  [params.page.code]
-    copy = true
-    maxShownLines = 15
-
-[params.cookieconsent]
-    enable = true
-
-[sitemap]
-  changefreq = "weekly"
-  filename = "sitemap.xml"
-  priority = 0.5
-
+# set markup.highlight.noClasses=false to enable code highlight
 [markup]
   [markup.highlight]
-    codeFences = true
-    guessSyntax = true
-    lineNos = true
-    lineNumbersInTable = true
     noClasses = false
-  [markup.goldmark]
-    [markup.goldmark.extensions]
-      definitionList = true
-      footnote = true
-      linkify = true
-      strikethrough = true
-      table = true
-      taskList = true
-      typographer = true
-    [markup.goldmark.renderer]
-      unsafe = true
-  [markup.tableOfContents]
-    startLevel = 2
-    endLevel = 6
+  [markup.goldmark.renderer]
+    unsafe = true
 
-[languages]
-  [languages.pt]
-    weight = 1
-    languageCode = "pt"
-    languageName = "Português"
-    hasCJKLanguage = false
-    paginate = 10
-    googleAnalytics = ""
-    copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
+[menu]
+  [[menu.main]] 
+    # The page reference (pageRef) is useful for menu highlighting
+    # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+    pageRef="/"
+    name = 'Home'
+    url = '/'
+    weight = 10
+  [[menu.main]]
+    pageRef="posts"
+    name = 'Posts'
+    url = '/posts/'
+    weight = 20
+  [[menu.main]]
+    pageRef="about"
+    name = 'About'
+    url = '/about/'
+    weight = 30
 
-    [languages.pt.menu]
-      [[languages.pt.menu.main]]
-        identifier = "Publicações"
-        pre = ""
-        post = ""
-        name = "Publicações"
-        url = "/posts/"
-        title = "Publicações"
-        weight = 1
-      [[languages.pt.menu.main]]
-        identifier = "Categorias"
-        pre = ""
-        post = ""
-        name = "Categorias"
-        url = "/categories/"
-        title = "Categorias"
-        weight = 3
-    [languages.pt.params]
-      # site description
-      description = "The official documentation for the Hugo DoIt theme"
-      # site keywords
-      keywords = ["Theme", "Hugo"]
-      # App icon config
-      [languages.pt.params.app]
-        # optional site title override for the app when added to an iOS home screen or Android launcher
-        title = "DoIt"
-        # whether to omit favicon resource links
-        noFavicon = false
-        # modern SVG favicon to use in place of older style .png and .ico files
-        svgFavicon = ""
-        # Safari mask icon color
-        iconColor = "#5bbad5"
-        # Windows v8-10 tile color
-        tileColor = "#da532c"
-      # Search config
-      [languages.pt.params.search]
-        enable = true
-        # type of search engine ("lunr", "algolia", "fuse")
-        type = "algolia"
-        # max index length of the chunked content
-        contentLength = 4000
-        # placeholder of the search bar
-        placeholder = ""
-        # max number of results length
-        maxResultLength = 10
-        # snippet length of the result
-        snippetLength = 300
-        # HTML tag name of the highlight part in results
-        highlightTag = "em"
-        # whether to use the absolute URL based on the baseURL in search index
-        absoluteURL = false
-        [languages.pt.params.search.algolia]
-          index = "en_index"
-          appID = "5YGRNRQK1G"
-          searchKey = "0ff6874805de24b84aa1d5ebccad56cd"
-        [languages.pt.params.search.fuse]
-          # https://fusejs.io/api/options.html
-          isCaseSensitive = false
-          minMatchCharLength = 2
-          findAllMatches = false
-          location = 0
-          threshold = 0.1
-          distance = 100
-          ignoreLocation = true
-          useExtendedSearch = false
-          ignoreFieldNorm = false
+[params]
+  sitename = "Miguel Vila's Blog"
+  defaultColor = "dark" # set default color mode: dark or light
+  custom_css = ["css/mycss.css"] # add custom css files
+  description = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
 
-      [languages.pt.params.home]
-        # amount of RSS pages
-        rss = 10
-        # Home page profile
-        [languages.pt.params.home.profile]
-          enable = true
-          gravatarEmail = "miguelovila@proton.me"
-          title = "Miguel Vila"
-          subtitle = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
-          social = true
+[params.author]
+  avatar = "avatar.png" # put the file in assets folder; also ensure that image has same height and width
+  # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
+  intro = "Miguel Vila's Blog"
+  name = "Miguel Vila"
+  description = "Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running."
 
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/miguelovila"
 
-        [languages.pt.params.home.posts]
-          enable = true
-          paginate = 10
+[[params.socialIcons]]
+name = "email"
+url = "mailto:miguelovila@ua.pt"
 
-      [languages.pt.params.social]
-        Angellist = ""
-        Bandcamp = ""
-        Behance = ""
-        Bilibili = ""
-        Bitbucket = ""
-        BuyMeACoffee = ""
-        Codepen = ""
-        Deviantart = ""
-        Devto = ""
-        Douban = ""
-        Dribbble = ""
-        Email = "miguelovila@gmail.me"
-        Facebook = ""
-        Fivehundredpx = ""
-        Flickr = ""
-        Foursquare = ""
-        FreeCodeCamp = ""
-        Gitea = ""
-        GitHub = "miguelovila"
-        Gitlab = ""
-        Goodreads = ""
-        Googlescholar = ""
-        Hackernews = ""
-        Instagram = "miguelovila"
-        Jsfiddle = ""
-        Keybase = ""
-        Kickstarter = ""
-        Ko-Fi = ""
-        Lastfm = ""
-        Liberapay = ""
-        Linkedin = ""
-        Linktree = ""
-        Matrix = ""
-        Medium = ""
-        Mix = ""
-        Odnoklassniki = ""
-        ORCID = ""
-        Patreon = ""
-        Paypal = ""
-        Pinterest = ""
-        QQ = ""
-        QQGroup = ""
-        Quora = ""
-        Reddit = ""
-        Researchgate = ""
-        RSS = true
-        Skype = ""
-        Slidershare = ""
-        Snapchat = ""
-        Soundcloud = ""
-        Spotify = ""
-        Stackoverflow = ""
-        Steam = ""
-        Strava = ""
-        Telegram = ""
-        Thingiverse = ""
-        Tumblr = ""
-        Twitch = ""
-        Twitter = ""
-        Vine = ""
-        VK = ""
-        Weibo = ""
-        Whatsapp = ""
-        Wordpress = ""
-        Xing = ""
-        XMPP = ""
-        Youtubechannel = ""
-        Youtubecustom = ""
-        Youtubelegacy = ""
-        Zhihu = ""
-        [languages.pt.params.social.Mastodon]
-          id = "@miguelovila"
-          prefix = "https://masto.pt/"
-
-      [languages.pt.params.sponsor]
-        enable = true
-        bio = "Se achaste este conteúdo útil considera fazer-me uma doação."
-        link = "https://ko-fi.com/miguelovila"
+[[params.socialIcons]]
+name = "mastodon"
+url = "https://masto.pt/@miguelovila"
