@@ -1,8 +1,8 @@
 ---
-title: "Do Ubuntu ao Arch Linux"
-date: 2023-03-6
+title: 'Do Ubuntu ao Arch Linux'
+date: '2023-03-06'
 author: Miguel Vila
-description: Como passei do Ubuntu ao Arch Linux
+description: 'A minha jornada do Ubuntu ao Arch Linux'
 draft: false
 tags:
   - linux
