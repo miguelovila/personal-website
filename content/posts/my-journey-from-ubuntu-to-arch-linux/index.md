@@ -13,6 +13,8 @@ tags:
 ---
 My adventures with GNU/Linux systems began around the year 2017, when I finally managed to get my first computer working. Having a personal computer, with which I could do everything I wanted, I started exploring other operating systems besides Windows.
 
+![Banner Image](banner.png)
+
 ## 1. Ubuntu
 
 My journey began, like many others, with the Ubuntu operating system, as it was highly recommended for beginners like me. Even so, every week I had to reinstall it because I always found a way to make it stop working.
