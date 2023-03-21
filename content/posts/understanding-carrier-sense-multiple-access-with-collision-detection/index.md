@@ -22,17 +22,17 @@ However, this method still does not completely solve the problem. In cases where
 
 ## Carrier Sense Multiple Access with Collision Detection
 
-Carrier Sense Multiple Access with Collision Detection is a method that monitors the state of the network before initiating transmission. If the network is free, it starts transmission by sending a packet and then evaluates the state of the network to see if packet collision occurred or not. If it detects a collision, it stops transmission.
+Carrier Sense Multiple Access with Collision Detection is a method that monitors the state of the network before initiating the transmission. If the network is free, it starts transmitting by sending a packet and then evaluating the state of the network to see if packet collision occurred or not. If it detects a collision, it stops the transmission.
 
 Now let's take a closer look at how this method works:
 
-When a client has a packet to send, it first checks the state of the network: if the network is free for a period of time IFS (Inter Frame Spacing), it initiates transmission; if the network is busy, it waits for a period of time IFS and checks the network status again.
+When a client has a packet to send, it first checks the state of the network: if the network is free for a period of time IFS (Inter Frame Spacing), it initiates the transmission; if the network is busy, it waits for a period of time IFS and checks the network status again.
 
 > Inter Frame Spacing (IFS) is an interval of time between the transmission of two consecutive data packets in a network with CSMA/CD. The goal of IFS is to allow each device on the network enough time to detect collisions and transmit a JAM signal.
 
-When multiple clients initiate transmission at the same time on the network, a collision occurs, i.e., multiple packets are being transmitted at the same time and, therefore, will not be received correctly by any client.
+When multiple clients initiate a transmission at the same time on the network, a collision occurs, i.e., multiple packets are being transmitted at the same time and, therefore, will not be received correctly by any client.
 
-When this collision occurs, all devices involved in the collision stop transmission and send a JAM signal to alert other clients that a collision has occurred. After the JAM signal, the devices involved in the collision wait for a random time before trying to initiate transmission again.
+When this collision occurs, all devices involved in the collision stop the transmission and send a JAM signal to alert other clients that a collision has occurred. After the JAM signal, the devices involved in the collision wait for a random time before trying to initiate the transmission again.
 
 > A JAM signal consists of small pulses of energy that are transmitted through the network to alert all other devices that a collision has occurred.
 
