@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>collisions on Miguel Vila&#39;s Blog</title>
+    <link>https://miguelovila.com/tags/collisions/</link>
+    <description>Recent content in collisions on Miguel Vila&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 02 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/tags/collisions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Carrier Sense Multiple Access with Collision Detection</title>
+      <link>https://miguelovila.com/posts/understanding-carrier-sense-multiple-access-with-collision-detection/</link>
+      <pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/understanding-carrier-sense-multiple-access-with-collision-detection/</guid>
+      <description>When a network has multiple connected clients that are always communicating, the probability of packet collision increases. Hence, the need to develop a method that can reduce the likelihood of this happening: Carrier Sense Multiple Access (CSMA).
+Carrier Sense Multiple Access With this method, before the client starts communicating on the network, it first evaluates the current state of the network, i.e., whether the network is free or transmitting packets from other clients.</description>
+    </item>
+    
+  </channel>
+</rss>

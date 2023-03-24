@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Miguel Vila&#39;s Blog</title>
+    <link>https://miguelovila.com/tags/linux/</link>
+    <description>Recent content in linux on Miguel Vila&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Journey: From Ubuntu to Arch Linux</title>
+      <link>https://miguelovila.com/posts/my-journey-from-ubuntu-to-arch-linux/</link>
+      <pubDate>Mon, 06 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://miguelovila.com/posts/my-journey-from-ubuntu-to-arch-linux/</guid>
+      <description>My adventures with GNU/Linux systems began around the year 2017, when I finally managed to get my first computer working. Having a personal computer, with which I could do everything I wanted, I started exploring other operating systems besides Windows.
+1. Ubuntu My journey began, like many others, with the Ubuntu operating system, as it was highly recommended for beginners like me. Even so, every week I had to reinstall it because I always found a way to make it stop working.</description>
+    </item>
+    
+  </channel>
+</rss>

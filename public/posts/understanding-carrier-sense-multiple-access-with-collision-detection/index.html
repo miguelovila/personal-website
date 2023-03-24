@@ -4,17 +4,17 @@
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title itemprop="name">404 Page not found | Miguel Vila&#39;s Blog</title>
-<meta property="og:title" content="404 Page not found | Miguel Vila&#39;s Blog" />
-<meta name="twitter:title" content="404 Page not found | Miguel Vila&#39;s Blog" />
-<meta itemprop="name" content="404 Page not found | Miguel Vila&#39;s Blog" />
-<meta name="application-name" content="404 Page not found | Miguel Vila&#39;s Blog" />
+<title itemprop="name">Understanding Carrier Sense Multiple Access with Collision Detection | Miguel Vila&#39;s Blog</title>
+<meta property="og:title" content="Understanding Carrier Sense Multiple Access with Collision Detection | Miguel Vila&#39;s Blog" />
+<meta name="twitter:title" content="Understanding Carrier Sense Multiple Access with Collision Detection | Miguel Vila&#39;s Blog" />
+<meta itemprop="name" content="Understanding Carrier Sense Multiple Access with Collision Detection | Miguel Vila&#39;s Blog" />
+<meta name="application-name" content="Understanding Carrier Sense Multiple Access with Collision Detection | Miguel Vila&#39;s Blog" />
 <meta property="og:site_name" content="Miguel Vila&#39;s Blog" />
 
-<meta name="description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running.">
-<meta itemprop="description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
-<meta property="og:description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
-<meta name="twitter:description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
+<meta name="description" content="This article explains the CSMA/CD method, which is used to minimize the probability of packet collisions in a network. It discusses how the method works, its limitations, and how it addresses the problem of collisions.">
+<meta itemprop="description" content="This article explains the CSMA/CD method, which is used to minimize the probability of packet collisions in a network. It discusses how the method works, its limitations, and how it addresses the problem of collisions." />
+<meta property="og:description" content="This article explains the CSMA/CD method, which is used to minimize the probability of packet collisions in a network. It discusses how the method works, its limitations, and how it addresses the problem of collisions." />
+<meta name="twitter:description" content="This article explains the CSMA/CD method, which is used to minimize the probability of packet collisions in a network. It discusses how the method works, its limitations, and how it addresses the problem of collisions." />
 
 <meta property="og:locale" content="en-us" />
 <meta name="language" content="en-us" />
@@ -29,11 +29,53 @@
 
 
 
+    
+    
+    
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content=2023-01-02T00:00:00Z />
+    <meta property="article:published_time" content=2023-01-02T00:00:00Z />
+
+    
+    <meta property="og:article:author" content="Miguel vila" />
+    <meta property="article:author" content="Miguel vila" />
+    <meta name="author" content="Miguel vila" />
+    
+
+    
+
+    <script defer type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "headline": "Understanding Carrier Sense Multiple Access with Collision Detection",
+        "author": {
+        "@type": "Person",
+        "name": ""
+        },
+        "datePublished": "2023-01-02",
+        "description": "This article explains the CSMA/CD method, which is used to minimize the probability of packet collisions in a network. It discusses how the method works, its limitations, and how it addresses the problem of collisions.",
+        "wordCount":  549 ,
+        "mainEntityOfPage": "True",
+        "dateModified": "2023-01-02",
+        "image": {
+        "@type": "imageObject",
+        "url": ""
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "Miguel Vila\u0027s Blog"
+        }
+    }
+    </script>
+
   <meta name="generator" content="Hugo 0.111.3">
 
   
 
-  <link rel="canonical" href="https://miguelovila.com/404.html"><link href="/sass/main.min.0eebb6db90b4ec9f4444ef402f08421ee056025ba860df3d749a9f299d472008.css" rel="stylesheet"><link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+  <link rel="canonical" href="https://miguelovila.com/posts/understanding-carrier-sense-multiple-access-with-collision-detection/"><link href="/sass/main.min.0eebb6db90b4ec9f4444ef402f08421ee056025ba860df3d749a9f299d472008.css" rel="stylesheet"><link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
   <link rel="stylesheet" href="https://miguelovila.com/css/mycss.css">
 
   
@@ -97,7 +139,7 @@ stroke-linejoin="round" class="feather feather-home">
         
           <li>
             <a 
-            class="menu-link "
+            class="menu-link active"
             href="/posts/">
             Posts
             </a>
@@ -127,8 +169,44 @@ stroke-linejoin="round" class="feather feather-home">
   </nav>
 </div>
 
-<h1>NOT FOUND</h1>
-<p>You just hit a route that doesn&#39;t exist...</p>
+<div class="wrapper post">
+    <main class="page-content" aria-label="Content">
+        <article>
+            <header class="header">
+                <h1 class="header-title">Understanding Carrier Sense Multiple Access with Collision Detection</h1>
+                
+                <div class="post-meta">
+                    <time datetime="2023-01-02T00:00:00&#43;00:00" itemprop="datePublished"> Jan 2, 2023 </time>
+                </div>
+            </header>
+            <div class="page-content">
+                <p>When a network has multiple connected clients that are always communicating, the probability of packet collision increases. Hence, the need to develop a method that can reduce the likelihood of this happening: Carrier Sense Multiple Access (CSMA).</p>
+<h2 id="carrier-sense-multiple-access">Carrier Sense Multiple Access</h2>
+<p>With this method, before the client starts communicating on the network, it first evaluates the current state of the network, i.e., whether the network is free or transmitting packets from other clients. Thus, by having this perception of what is happening in the network before transmitting, the number of collisions is minimized.</p>
+<p>However, this method still does not completely solve the problem. In cases where clients are far apart from each other, the delay in signal propagation can be responsible for packet loss:</p>
+<ol>
+<li>Client A, 500 meters away from client B, starts transmitting;</li>
+<li>Client B, at the same time as client A initiates the transmission, evaluates the medium and checks that no one is transmitting (client A&rsquo;s signal still takes time to propagate in the network) and then begins to transmit;</li>
+<li>Meanwhile, the transmission of B and the transmission of A collide in the network.</li>
+</ol>
+<h2 id="carrier-sense-multiple-access-with-collision-detection">Carrier Sense Multiple Access with Collision Detection</h2>
+<p>Carrier Sense Multiple Access with Collision Detection is a method that monitors the state of the network before initiating the transmission. If the network is free, it starts transmitting by sending a packet and then evaluating the state of the network to see if packet collision occurred or not. If it detects a collision, it stops the transmission.</p>
+<p>Now let&rsquo;s take a closer look at how this method works:</p>
+<p>When a client has a packet to send, it first checks the state of the network: if the network is free for a period of time IFS (Inter Frame Spacing), it initiates the transmission; if the network is busy, it waits for a period of time IFS and checks the network status again.</p>
+<blockquote>
+<p>Inter Frame Spacing (IFS) is an interval of time between the transmission of two consecutive data packets in a network with CSMA/CD. The goal of IFS is to allow each device on the network enough time to detect collisions and transmit a JAM signal.</p>
+</blockquote>
+<p>When multiple clients initiate a transmission at the same time on the network, a collision occurs, i.e., multiple packets are being transmitted at the same time and, therefore, will not be received correctly by any client.</p>
+<p>When this collision occurs, all devices involved in the collision stop the transmission and send a JAM signal to alert other clients that a collision has occurred. After the JAM signal, the devices involved in the collision wait for a random time before trying to initiate the transmission again.</p>
+<blockquote>
+<p>A JAM signal consists of small pulses of energy that are transmitted through the network to alert all other devices that a collision has occurred.</p>
+</blockquote>
+<p>This random time is determined by the Truncated Binary Exponential Backoff algorithm. This algorithm sets a base time to wait and doubles it for each subsequent collision. For example, if the base time is set to 64, the waiting time for each collision will be 64, 128, 256, 512&hellip; To avoid excessive waiting times, this algorithm limits (truncates) the waiting time. The maximum waiting time depends on the size of the network and the speed at which devices are transmitting.</p>
+
+            </div>
+        </article>
+    </main>
+</div>
 <footer class="footer">
     <span class="footer_item"> </span>
     &nbsp;
