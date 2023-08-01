@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Miguel Vila&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 01:13:10 +0100</lastBuildDate><atom:link href="https://miguelovila.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux</title>
+      <link>https://miguelovila.com/tags/linux/</link>
+      <pubDate>Tue, 01 Aug 2023 01:13:10 +0100</pubDate>
+      
+      <guid>https://miguelovila.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>https://miguelovila.com/tags/tutorial/</link>
+      <pubDate>Tue, 01 Aug 2023 01:13:10 +0100</pubDate>
+      
+      <guid>https://miguelovila.com/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>arch</title>
       <link>https://miguelovila.com/tags/arch/</link>
@@ -31,15 +49,6 @@
       <pubDate>Mon, 06 Mar 2023 00:00:00 +0000</pubDate>
       
       <guid>https://miguelovila.com/tags/fedora/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://miguelovila.com/tags/linux/</link>
-      <pubDate>Mon, 06 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://miguelovila.com/tags/linux/</guid>
       <description></description>
     </item>
     

@@ -6,7 +6,17 @@
     <description>Recent content in Home on Miguel Vila&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://miguelovila.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 01:13:10 +0100</lastBuildDate><atom:link href="https://miguelovila.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Seamless Tailscale Experience: Bypassing Password Prompts</title>
+      <link>https://miguelovila.com/posts/using-tailscale-without-password-prompts/</link>
+      <pubDate>Tue, 01 Aug 2023 01:13:10 +0100</pubDate>
+      
+      <guid>https://miguelovila.com/posts/using-tailscale-without-password-prompts/</guid>
+      <description>If you, like me, use Tailscale daily, you&amp;rsquo;ve probably felt the irritation of being prompted for a password every time you tweak a setting. Whether it&amp;rsquo;s switching exit nodes, changing accounts, or adjusting other settings, those password prompts can be realy annoying. Let&amp;rsquo;s change this behavior.
+Why Does Tailscale Ask for Root Privileges? Tailscale isn&amp;rsquo;t trying to upset you. It changes the network configuration of the system: the routing table, the DNS servers, etc.</description>
+    </item>
+    
     <item>
       <title>My Journey: From Ubuntu to Arch Linux</title>
       <link>https://miguelovila.com/posts/my-journey-from-ubuntu-to-arch-linux/</link>

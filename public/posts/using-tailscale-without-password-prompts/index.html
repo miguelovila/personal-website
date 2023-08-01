@@ -4,17 +4,17 @@
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title itemprop="name">debian | Miguel Vila&#39;s Blog</title>
-<meta property="og:title" content="debian | Miguel Vila&#39;s Blog" />
-<meta name="twitter:title" content="debian | Miguel Vila&#39;s Blog" />
-<meta itemprop="name" content="debian | Miguel Vila&#39;s Blog" />
-<meta name="application-name" content="debian | Miguel Vila&#39;s Blog" />
+<title itemprop="name">A Seamless Tailscale Experience: Bypassing Password Prompts | Miguel Vila&#39;s Blog</title>
+<meta property="og:title" content="A Seamless Tailscale Experience: Bypassing Password Prompts | Miguel Vila&#39;s Blog" />
+<meta name="twitter:title" content="A Seamless Tailscale Experience: Bypassing Password Prompts | Miguel Vila&#39;s Blog" />
+<meta itemprop="name" content="A Seamless Tailscale Experience: Bypassing Password Prompts | Miguel Vila&#39;s Blog" />
+<meta name="application-name" content="A Seamless Tailscale Experience: Bypassing Password Prompts | Miguel Vila&#39;s Blog" />
 <meta property="og:site_name" content="Miguel Vila&#39;s Blog" />
 
-<meta name="description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running.">
-<meta itemprop="description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
-<meta property="og:description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
-<meta name="twitter:description" content="Computer and Informatics Engineering student at UA with a passion for Linux, Open Source and Trail Running." />
+<meta name="description" content="Dive into a step-by-step guide to eliminate the pesky password prompts from &#34;tailscale&#34; and the &#34;Tailscale Status&#34; GNOME extension.">
+<meta itemprop="description" content="Dive into a step-by-step guide to eliminate the pesky password prompts from &#34;tailscale&#34; and the &#34;Tailscale Status&#34; GNOME extension." />
+<meta property="og:description" content="Dive into a step-by-step guide to eliminate the pesky password prompts from &#34;tailscale&#34; and the &#34;Tailscale Status&#34; GNOME extension." />
+<meta name="twitter:description" content="Dive into a step-by-step guide to eliminate the pesky password prompts from &#34;tailscale&#34; and the &#34;Tailscale Status&#34; GNOME extension." />
 
 <meta property="og:locale" content="en-us" />
 <meta name="language" content="en-us" />
@@ -29,13 +29,53 @@
 
 
 
+    
+    
+    
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content=2023-08-01T01:13:10&#43;0100 />
+    <meta property="article:published_time" content=2023-08-01T01:13:10&#43;0100 />
+
+    
+    <meta property="og:article:author" content="Miguel vila" />
+    <meta property="article:author" content="Miguel vila" />
+    <meta name="author" content="Miguel vila" />
+    
+    <meta name="keywords" content="tutorial, networks, tailscale, sudoers, visudo, gnome, tailscale status">
+    
+
+    <script defer type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "headline": "A Seamless Tailscale Experience: Bypassing Password Prompts",
+        "author": {
+        "@type": "Person",
+        "name": ""
+        },
+        "datePublished": "2023-08-01",
+        "description": "Dive into a step-by-step guide to eliminate the pesky password prompts from \"tailscale\" and the \"Tailscale Status\" GNOME extension.",
+        "wordCount":  403 ,
+        "mainEntityOfPage": "True",
+        "dateModified": "2023-08-01",
+        "image": {
+        "@type": "imageObject",
+        "url": ""
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "Miguel Vila\u0027s Blog"
+        }
+    }
+    </script>
+
   <meta name="generator" content="Hugo 0.115.4">
 
   
 
-  <link rel="canonical" href="https://miguelovila.com/tags/debian/">
-  <link href="https://miguelovila.com/tags/debian/index.xml" rel="alternate" type="application/rss+xml" title="Miguel Vila&#39;s Blog">
-  <link href="https://miguelovila.com/tags/debian/index.xml" rel="feed" type="application/rss+xml" title="Miguel Vila&#39;s Blog"><link href="/sass/main.min.0eebb6db90b4ec9f4444ef402f08421ee056025ba860df3d749a9f299d472008.css" rel="stylesheet"><link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+  <link rel="canonical" href="https://miguelovila.com/posts/using-tailscale-without-password-prompts/"><link href="/sass/main.min.0eebb6db90b4ec9f4444ef402f08421ee056025ba860df3d749a9f299d472008.css" rel="stylesheet"><link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
   <link rel="stylesheet" href="https://miguelovila.com/css/mycss.css">
 
   
@@ -99,7 +139,7 @@ stroke-linejoin="round" class="feather feather-home">
         
           <li>
             <a 
-            class="menu-link "
+            class="menu-link active"
             href="/posts/">
             Posts
             </a>
@@ -128,36 +168,56 @@ stroke-linejoin="round" class="feather feather-home">
     </div>
   </nav>
 </div>
-<div class="wrapper list-page">
-    <header class="header">
-        <h1 class="header-title center">debian</h1>
-    </header>
+
+<div class="wrapper post">
     <main class="page-content" aria-label="Content">
-        
-        
-        <h2 class="post-year">2023</h2>
+        <article>
+            <header class="header">
+                <h1 class="header-title">A Seamless Tailscale Experience: Bypassing Password Prompts</h1>
+                
+                <div class="post-meta">
+                    <time datetime="2023-08-01T01:13:10&#43;01:00" itemprop="datePublished"> Aug 1, 2023 </time>
+                </div>
+            </header>
+            <div class="page-content">
+                <p>If you, like me, use Tailscale daily, you&rsquo;ve probably felt the irritation of being prompted for a password every time you tweak a setting. Whether it&rsquo;s switching exit nodes, changing accounts, or adjusting other settings, those password prompts can be realy annoying. Let&rsquo;s change this behavior.</p>
+<p><img src="banner.png" alt="Banner Image"></p>
+<h2 id="why-does-tailscale-ask-for-root-privileges">Why Does Tailscale Ask for Root Privileges?</h2>
+<p>Tailscale isn&rsquo;t trying to upset you. It changes the network configuration of the system: the routing table, the DNS servers, etc. These tasks require root privileges.</p>
+<h2 id="the-password-free-solution">The Password-Free Solution</h2>
+<p>Fortunately, <code>sudo</code> allows us to configure which commands can be executed without a password by using the <code>NOPASSWD</code> directive. We can use this feature to allow the <code>sudo tailscale</code> command to be executed without a password.</p>
+<p>And if you&rsquo;re using the &ldquo;Tailscale Status&rdquo; GNOME extension, you&rsquo;ll need to adapt its source code in order to avoid the password prompt. (Nothing too complicated, don&rsquo;t worry).</p>
+<h2 id="step-by-step-guide">Step-by-Step Guide</h2>
+<p>Read all the steps before doing anything, so you know what you&rsquo;re doing. Do it at your own risk, I&rsquo;m not responsible for any damage you may cause to your system.</p>
+<h3 id="1-edit-the-sudoers-file">1. Edit the sudoers file</h3>
+<ul>
+<li>Launch a terminal and type <code>sudo visudo</code>. If you&rsquo;re more comfortable with another text editor, like <code>nano</code>, use the <code>EDITOR</code> environment variable: <code>EDITOR=nano sudo visudo</code>.</li>
+<li>At the end of the file, insert the lines below, replacing <code>&lt;username&gt;</code> with your actual username:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;username&gt; <span class="nv">ALL</span><span class="o">=</span>NOPASSWD: /bin/tailscale
+</span></span><span class="line"><span class="cl">&lt;username&gt; <span class="nv">ALL</span><span class="o">=</span>NOPASSWD: /usr/bin/tailscale
+</span></span></code></pre></div><p>These lines let the user <code>&lt;username&gt;</code> run the <code>sudo tailscale</code> command without a password. If you want to allow all users to run the command without a password, replace <code>&lt;username&gt;</code> with <code>ALL</code> (this is not recommended).</p>
+<blockquote>
+<p><strong>WARNING</strong>: Always use <code>visudo</code> to edit the sudoers file. If you edit it with a different text editor and make a mistake, you might get locked out of your system.</p>
+</blockquote>
+<h3 id="2-adapt-tailscale-status-source-code">2. Adapt Tailscale Status source code</h3>
+<p>Because we can now run <code>sudo tailscale</code> without a password, we need to adapt Tailscale Status to use <code>sudo</code> when executing <code>tailscale</code>.</p>
+<ul>
+<li>Find the extension&rsquo;s source code. It&rsquo;s either in <code>~/.local/share/gnome-shell/extensions/tailscale-status@maxgallup.github.com</code> or <code>/usr/share/gnome-shell/extensions/tailscale-status@maxgallup.github.com</code>, depending on your installation type.</li>
+<li>Inside the extension folder, open <code>extension.js</code> and using the find and replace tool, replace all occurrences of <code>pkexec</code> with <code>sudo</code>.</li>
+<li>Save and reboot GNOME Shell. For Xorg, hit <code>Alt+F2</code> and type <code>r</code>. For Wayland, log out and log back in.</li>
+</ul>
+<blockquote>
+<p><strong>NOTE</strong>: You might need to re-do this step after updating the extension.</p>
+</blockquote>
+<h2 id="wrap-up">Wrap-Up</h2>
+<p>There you have it! A smoother, password-prompt-free Tailscale experience.</p>
 
-        
-
-        
-
-        <article class="post-item">
-    <h4 class="post-item-title">
-        <a href="https://miguelovila.com/posts/my-journey-from-ubuntu-to-arch-linux/">My Journey: From Ubuntu to Arch Linux</a>
-    </h4>
-    
-    
-    <time class="post-item-meta" datetime="2023-03-06T00:00:00Z">
-        06 Mar 2023
-    </time>
-</article>
-
-         
-
-         
-
+            </div>
+        </article>
     </main>
-</div><footer class="footer">
+</div>
+<footer class="footer">
     <span class="footer_item"> </span>
     &nbsp;
 
