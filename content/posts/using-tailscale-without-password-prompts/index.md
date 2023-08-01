@@ -17,7 +17,7 @@ keywords:
   - tailscale status
 ---
 
-If you, like me, use Tailscale daily, you've probably felt the irritation of being prompted for a password every time you tweak a setting. Whether it's switching exit nodes, changing accounts, or adjusting other settings, those password prompts can be realy annoying. Let's change this behavior.
+If you are ike me and use Tailscale daily, you've probably felt the irritation of being prompted for a password every time you tweak a setting. Whether it's switching exit nodes, changing accounts, or adjusting other settings, those password prompts can be realy annoying. Let's change this behavior!
 
 ![Banner Image](banner.png)
 
