@@ -100,14 +100,17 @@ export default function RootLayout({
           src="https://afarkas.github.io/lazysizes/lazysizes.min.js"
           async
         ></script>
-        <script
-          defer
-          data-domain="miguelovila.pt"
-          src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.tagged-events.js"
-        ></script>
       </head>
       <body>
-        <PlausibleProvider domain="miguelovila.pt" trackOutboundLinks={true}>
+        <PlausibleProvider
+          domain="miguelovila.pt"
+          scriptProps={{
+            src: "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js",
+            //@ts-ignore
+            "data-api":
+              "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js/mov/event",
+          }}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
