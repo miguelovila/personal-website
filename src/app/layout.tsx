@@ -106,7 +106,7 @@ export default function RootLayout({
           domain="miguelovila.pt"
           scriptProps={{
             src: "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js",
-            //@ts-ignore
+            //@ts-expect-error
             "data-api":
               "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js/mov/event",
           }}
