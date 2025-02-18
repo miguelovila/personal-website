@@ -106,7 +106,7 @@ export default function RootLayout({
           domain="miguelovila.pt"
           scriptProps={{
             src: "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js",
-            //@ts-expect-error
+            //@ts-expect-error data-api is not a valid attribute but exists in the PlausibleProvider
             "data-api":
               "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js/mov/event",
           }}
