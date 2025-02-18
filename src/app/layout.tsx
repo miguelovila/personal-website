@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import PlausibleProvider from "next-plausible";
 import type { Metadata, Viewport } from "next";
 import { BASE_URL, OPEN_GRAPH_IMAGE } from "@/config";
 import "@/styles/globals.css";
@@ -100,26 +99,22 @@ export default function RootLayout({
           src="https://afarkas.github.io/lazysizes/lazysizes.min.js"
           async
         ></script>
+        <script
+          defer
+          data-domain="miguelovila.pt"
+          data-api="https://patient-sound-4b4a.miguel-vila.workers.dev/mov/event"
+          src="https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js"
+        ></script>
       </head>
       <body>
-        <PlausibleProvider
-          domain="miguelovila.pt"
-          scriptProps={{
-            src: "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js",
-            //@ts-expect-error data-api is not a valid attribute but exists in the PlausibleProvider
-            "data-api":
-              "https://patient-sound-4b4a.miguel-vila.workers.dev/mov/script.hash.outbound-links.js/mov/event",
-          }}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </PlausibleProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
