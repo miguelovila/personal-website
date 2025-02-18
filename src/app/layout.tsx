@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import PlausibleProvider from "next-plausible";
 import type { Metadata, Viewport } from "next";
 import { BASE_URL, OPEN_GRAPH_IMAGE } from "@/config";
 import "@/styles/globals.css";
@@ -99,16 +100,23 @@ export default function RootLayout({
           src="https://afarkas.github.io/lazysizes/lazysizes.min.js"
           async
         ></script>
+        <script
+          defer
+          data-domain="miguelovila.pt"
+          src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.tagged-events.js"
+        ></script>
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <PlausibleProvider domain="miguelovila.pt" trackOutboundLinks={true}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </PlausibleProvider>
       </body>
     </html>
   );
