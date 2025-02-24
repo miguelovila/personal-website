@@ -1,6 +1,13 @@
+import { IconType } from "react-icons";
 import { LuMail, LuGithub, LuLinkedin } from "react-icons/lu";
 
-export const contact = [
+type Contact = {
+  icon: IconType;
+  label: string;
+  link: string;
+};
+
+export const contacts: Contact[] = [
   {
     icon: LuMail,
     label: "E-Mail",

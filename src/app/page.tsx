@@ -3,7 +3,7 @@ import { Typography } from "@/components/typography";
 import NextLink from "next/link";
 import Image from "next/image";
 
-import { contact } from "@/data";
+import { contacts } from "@/data";
 
 export default function Home() {
   return (
@@ -25,7 +25,7 @@ export default function Home() {
           </p>
           <div className="flex space-x-4">
             <div className="flex space-x-4">
-              {contact.map((item) => (
+              {contacts.map((item) => (
                 <NextLink
                   key={item.link}
                   href={item.link}

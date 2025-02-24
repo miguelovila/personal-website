@@ -1,1 +1,2 @@
-export * from "@/data/contact";
+export * from "@/data/contacts";
+export * from "@/data/routes";
