@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const DesktopNavigationMenu = () => (
-  <NavigationMenu className="hidden md:flex">
+  <NavigationMenu>
     <NavigationMenuList>
       {routes.map((route) => (
         <NavigationMenuItem key={route.path}>
