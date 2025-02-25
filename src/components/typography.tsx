@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from "react";
 
-interface TypographyProps extends HTMLAttributes<HTMLHeadingElement> {
+export interface TypographyProps extends HTMLAttributes<HTMLHeadingElement> {
   variant: "h0" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   underline?: boolean;
   classes?: string;
