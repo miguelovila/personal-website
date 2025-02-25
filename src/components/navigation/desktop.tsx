@@ -11,7 +11,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  navigationMobileMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 const DesktopNavigationMenu = () => (
