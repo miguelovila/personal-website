@@ -8,7 +8,7 @@ interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Layout = ({ children, className: className }: LayoutProps) => {
   return (
-    <div className="flex h-screen max-w-[100vw] flex-col items-center overflow-x-hidden">
+    <div className="flex h-screen max-w-[100vw] flex-col overflow-x-hidden">
       <Header />
       <main className={`container flex-1 border-l border-r ${className}`}>
         {children}
