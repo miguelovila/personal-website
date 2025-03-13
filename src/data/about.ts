@@ -1,4 +1,5 @@
-import { start } from "repl";
+export const about =
+  "I'm a Computer and Informatics Engineering student from Aveiro, Portugal, recently beginning my master's in Computer and Telematics Engineering after completing my bachelor's degree. I'm passionate about technology, particularly networking, communications, and IoT. Outside of academics, I play accordion and am actively involved with GLUA, my university's Linux group. My interests include open source software and digital rights advocacy.";
 
 export const education = [
   {

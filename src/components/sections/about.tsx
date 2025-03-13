@@ -1,5 +1,5 @@
 import { Typography } from "@/components/typography";
-import { education } from "@/data";
+import { about, education } from "@/data";
 
 export const About = () => {
   return (
@@ -8,15 +8,7 @@ export const About = () => {
         📝 About Me
       </Typography>
       <div className="flex flex-col space-y-6">
-        <p className="text-md text-justify text-foreground">
-          I'm a Computer and Informatics Engineering student from Aveiro,
-          Portugal, recently beginning my master's in Computer and Telematics
-          Engineering after completing my bachelor's degree. I'm passionate
-          about technology, particularly networking, communications, and IoT.
-          Outside of academics, I play accordion and am actively involved with
-          GLUA, my university's Linux group. My interests include open source
-          software and digital rights advocacy.
-        </p>
+        <p className="text-md text-justify text-foreground">{about}</p>
       </div>
       <div className="flex flex-col space-y-6">
         <Typography variant="h2">Education</Typography>
