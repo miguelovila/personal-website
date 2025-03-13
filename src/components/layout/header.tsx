@@ -14,7 +14,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 flex w-full flex-row justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex flex-1 items-center gap-2 border-l border-r p-2 lg:justify-between">
-        <div className="flex-grow basis-0">
+        <div className="flex flex-grow basis-0">
           <Logo />
         </div>
         <div className="hidden md:flex">
