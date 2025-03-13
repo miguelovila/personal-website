@@ -9,7 +9,7 @@ import About from "@/components/sections/about";
 
 export default function Home() {
   return (
-    <Layout className="flex flex-col space-y-8">
+    <Layout className="flex flex-col">
       <Hero />
       <About />
     </Layout>
