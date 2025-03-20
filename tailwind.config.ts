@@ -21,6 +21,9 @@ export default {
       },
     },
     extend: {
+      zIndex: {
+        n1: "-1",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

@@ -5,9 +5,9 @@ import { contacts } from "@/data";
 
 export const Hero = ({ className = "" }) => {
   return (
-    <div className={`relative w-full py-12 ${className}`}>
+    <div className={`relative w-full py-36 ${className}`}>
       <div className="container mx-auto flex items-center justify-center">
-        <div className="z-10 flex max-w-[350px] flex-col-reverse items-center gap-4 md:max-w-[450px] lg:max-w-[600px] lg:flex-row">
+        <div className="flex max-w-[350px] flex-col-reverse items-center gap-4 md:max-w-[450px] lg:max-w-[600px] lg:flex-row">
           <div className="flex h-full flex-col items-center justify-between gap-4 text-center lg:items-start lg:text-left">
             <div className="flex items-baseline space-x-1 space-y-6 lg:flex-col lg:space-x-0">
               <Typography
@@ -52,7 +52,7 @@ export const Hero = ({ className = "" }) => {
         </div>
       </div>
       <div
-        className="absolute left-1/2 top-1/2 z-0 h-[120%] max-h-[400px] min-h-[350px] w-[120%] min-w-[400px] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-15 blur-3xl dark:bg-secondary dark:opacity-100"
+        className="z-n1 absolute left-1/2 top-1/2 h-[120%] max-h-[400px] min-h-[350px] w-[120%] min-w-[400px] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-15 blur-3xl dark:bg-secondary dark:opacity-100"
         aria-hidden="true"
       />
     </div>
