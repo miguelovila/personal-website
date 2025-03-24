@@ -1,5 +1,4 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
 import { Typography } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +23,7 @@ export interface CredentialItemProps
 }
 
 const CredentialItem = React.forwardRef<HTMLDivElement, CredentialItemProps>(
-  ({ title, subtitle, description, className, ...props }, ref) => {
+  ({ title, subtitle, description }) => {
     return (
       <div
         key={title}
