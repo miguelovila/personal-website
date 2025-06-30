@@ -23,11 +23,11 @@ export interface CredentialItemProps
 }
 
 const CredentialItem = React.forwardRef<HTMLDivElement, CredentialItemProps>(
-  ({ title, subtitle, description }) => {
+  ({ className, title, subtitle, description }) => {
     return (
       <div
         key={title}
-        className="flex flex-col space-y-3 rounded-md border-l-4 border-primary py-1 pl-4 transition-colors hover:border-secondary-foreground"
+        className={cn("flex flex-col space-y-3 rounded-md border-l-4 border-primary py-1 pl-4 transition-colors hover:border-secondary-foreground", className)}
       >
         <div className="flex flex-col space-y-2">
           <Typography variant="h3">{title}</Typography>
