@@ -1,9 +1,11 @@
 import { Typography } from "@/components/typography";
 import { about, education, experience } from "@/data";
+// import { Button } from "@/components/ui/button";
 import {
   CredentialList,
   CredentialItem,
 } from "@/components/ui/credential-list";
+// import { LuDownload } from "react-icons/lu";
 
 export const About = () => {
   return (
@@ -11,6 +13,9 @@ export const About = () => {
       <Typography variant="h1" underline>
         📝 About Me
       </Typography>
+      {/* <Button icon={LuDownload} iconPlacement="right">
+        Icon right
+      </Button> */}
       <div className="flex flex-col space-y-6">
         <p className="text-md text-foreground">{about}</p>
       </div>
@@ -36,6 +41,9 @@ export const About = () => {
           ))}
         </CredentialList>
       </div>
+      {/* <Typography variant="h1" underline>
+        🛠️ Skillset
+      </Typography> */}
     </section>
   );
 };

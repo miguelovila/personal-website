@@ -8,7 +8,7 @@ export const Hero = ({ className = "" }) => {
     <div className={`relative w-full py-36 ${className}`}>
       <div className="container mx-auto flex items-center justify-center">
         <div className="flex max-w-[350px] flex-col-reverse items-center gap-4 md:max-w-[450px] lg:max-w-[600px] lg:flex-row">
-          <div className="flex h-full flex-col items-center justify-between gap-4 text-center lg:items-start lg:text-left">
+          <div className="flex h-full flex-col items-center justify-between gap-4 text-center lg:items-start lg:text-left motion-preset-slide-right">
             <div className="flex items-baseline space-x-1 space-y-6 lg:flex-col lg:space-x-0">
               <Typography
                 variant="h1"
@@ -46,15 +46,18 @@ export const Hero = ({ className = "" }) => {
             alt="Profile"
             width={200}
             height={200}
-            className="size-[128px] rounded-lg md:size-[150px] lg:size-[190px]"
+            className="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] motion-rotate-out-[8deg] motion-ease-spring-bounciest"
             priority
           />
         </div>
+        <div className="absolute inset-0 flex justify-center items-center z-n1">
+          <div
+            className="h-[80%] w-[80%] blur-3xl rounded-full bg-primary opacity-15 dark:bg-secondary dark:opacity-100 motion-preset-pulse motion-duration-[4s]"
+            aria-hidden="true"
+          />
+        </div>
       </div>
-      <div
-        className="z-n1 absolute left-1/2 top-1/2 h-[120%] max-h-[400px] min-h-[350px] w-[120%] min-w-[400px] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary opacity-15 blur-3xl dark:bg-secondary dark:opacity-100"
-        aria-hidden="true"
-      />
+
     </div>
   );
 };
