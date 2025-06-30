@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata, Viewport } from "next";
 import { BASE_URL, OPEN_GRAPH_IMAGE } from "@/config";
 import "@/styles/globals.css";
+import ObserverProvider from "@/components/observer-provider";
 
 const title = "Miguel Vila";
 const description =
@@ -107,14 +108,16 @@ export default function RootLayout({
         ></script>
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <ObserverProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </ObserverProvider>
       </body>
     </html>
   );
