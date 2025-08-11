@@ -15,15 +15,15 @@ export const routes: Route[] = [
     title: "About",
   },
   {
-    path: "/projects",
+    path: "/comming-soon?source=projects",
     title: "Projects",
   },
   {
-    path: "/blog",
+    path: "/comming-soon?source=blog",
     title: "Blog",
   },
   {
-    path: "/contact",
+    path: "/comming-soon?source=contact",
     title: "Contact",
   },
 ];
