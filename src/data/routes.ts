@@ -15,7 +15,7 @@ export const routes: Route[] = [
     title: "About",
   },
   {
-    path: "/comming-soon?source=projects",
+    path: "/coming-soon?source=projects",
     title: "Projects",
   },
   {
@@ -23,7 +23,7 @@ export const routes: Route[] = [
     title: "Blog",
   },
   {
-    path: "/comming-soon?source=contact",
+    path: "/coming-soon?source=contact",
     title: "Contact",
   },
 ];
