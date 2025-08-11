@@ -19,7 +19,7 @@ export const routes: Route[] = [
     title: "Projects",
   },
   {
-    path: "/comming-soon?source=blog",
+    path: "/coming-soon?source=blog",
     title: "Blog",
   },
   {
