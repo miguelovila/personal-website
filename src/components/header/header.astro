@@ -1,0 +1,15 @@
+---
+import Logo from "@components/header/logo.astro";
+import { ModeToggle } from "@components/ui/theme-switcher";
+import DesktopNavigation from "@/components/header/desktop-navigation";
+---
+
+<header
+  class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="container flex gap-6 p-3 border-l border-r">
+    <Logo class="flex-1" />
+    <DesktopNavigation />
+    <ModeToggle client:load />
+  </div>
+</header>
