@@ -1,19 +1,10 @@
 ---
-import '@styles/global.css';
+import MainLayout from "@layouts/main-layout.astro";
 ---
 
-<html lang="en">
-	<head> 
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-		<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-		<meta name="generator" content={Astro.generator} />
-		<title></title>
-	</head>
-	<body>
-		<main>
-			<h1 class="text-4xl font-bold">Welcome to My Website</h1>
-			<p class="mt-4">This is a simple website built with Astro and Tailwind CSS.</p>
-		</main>
-</html>
+<MainLayout title="Home">
+	<h1 class="mt-20 text-4xl font-bold">Welcome to my personal website!</h1>
+	<p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+		This is a simple Astro project with Tailwind CSS and Shadcn components.
+	</p>
+</MainLayout>
