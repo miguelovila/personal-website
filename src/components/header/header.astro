@@ -2,14 +2,16 @@
 import Logo from "@components/header/logo.astro";
 import { ModeToggle } from "@components/ui/theme-switcher";
 import DesktopNavigation from "@/components/header/desktop-navigation";
+import { Separator } from "../ui/separator";
 ---
 
 <header
   class="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
-  <div class="container flex gap-6 p-3 border-l border-r">
-    <Logo class="flex-1" />
+  <div class="container flex gap-2 p-3 border-l border-r h-full">
+    <Logo class="flex-1 mt-1" />
     <DesktopNavigation />
+    <Separator orientation="vertical" className="mr-3" />
     <ModeToggle client:load />
   </div>
 </header>
