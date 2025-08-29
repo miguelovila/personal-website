@@ -1,22 +1,38 @@
 // @ts-check
 
-import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, fontProviders } from "astro/config";
 
-import react from '@astrojs/react';
-import sitemap from '@astrojs/sitemap';
+import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   vite: {
-      plugins: [tailwindcss()],
-    },
+    plugins: [tailwindcss()],
+  },
 
-  site: 'https://miguelovila.pt',
+  site: "https://miguelovila.pt",
   integrations: [
     react(),
     sitemap({
-      changefreq: 'weekly',
+      changefreq: "weekly",
       priority: 0.7,
-      lastmod: new Date()
-    })],
+      lastmod: new Date(),
+    }),
+  ],
+
+  experimental: {
+    fonts: [
+      {
+        provider: fontProviders.fontsource(),
+        name: "Fira Code",
+        cssVariable: "--font-sans",
+      },
+      {
+        provider: fontProviders.fontsource(),
+        name: "Fira Code",
+        cssVariable: "--font-mono",
+      },
+    ],
+  },
 });
