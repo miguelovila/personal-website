@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const DesktopNavigationMenu = () => (
-  <NavigationMenu>
+  <NavigationMenu className="hidden md:block">
     <NavigationMenuList>
       {routes.map((route) => (
         <NavigationMenuItem key={route.path}>
