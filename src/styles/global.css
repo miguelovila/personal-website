@@ -238,10 +238,6 @@
       max-width: var(--container-lg);
     }
   }
-
-  .bg-gradient {
-    background: var(--background-gradient);
-  }
 }
 
 @theme {
@@ -269,5 +265,36 @@
     100% {
       transform: scale(0.8);
     }
+  }
+}
+
+@layer utilities {
+  .animated-gradient-bg {
+    position: relative;
+  }
+
+  .animated-gradient-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60vw;
+    height: 25vw;
+    min-width: 400px;
+    min-height: 350px;
+    max-width: 900px;
+    max-height: 400px;
+
+    margin: auto;
+    border-radius: 9999px;
+    filter: blur(64px);
+
+    background: var(--background-gradient);
+    animation: var(--animate-breath);
+    z-index: -1;
+    pointer-events: none;
   }
 }

@@ -27,9 +27,9 @@ export const contacts: Contact[] = [
 ];
 ---
 
-<div class="flex flex-col items-center justify-center pt-32 pb-32">
+<div class="flex flex-col items-center justify-center pt-32 pb-32 animated-gradient-bg">
   <div
-    class="flex flex-col gap-4 text-center items-center max-w-[350px] md:max-w-[450px] lg:max-w-[600px] lg:text-left lg:items-start lg:flex-row-reverse"
+    class="flex flex-col gap-4 text-center items-center max-w-[350px] md:max-w-[450px] lg:max-w-[600px] lg:text-left lg:flex-row-reverse lg:items-stretch"
   >
     <Image
       class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] rotate-[8deg]"
@@ -39,14 +39,17 @@ export const contacts: Contact[] = [
       height="200"
       width="200"
     />
-    <div class="flex flex-col gap-4">
-      <h1 class="text-2xl font-semibold leading-none tracking-tight">
-        Hi, I&apos;m <span class="text-primary">Miguel Vila</span>
-      </h1>
-      <p class="text-md text-muted-foreground flex-1">
-        I&apos;m a computer engineer with a passion for Linux, Open Source and
-        Trail Running converting caffeine into low quality code since 2003!
-      </p>
+    <div class="flex flex-col gap-4 lg:justify-between">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-semibold leading-none tracking-tight">
+          Hi, I&apos;m <span class="text-primary">Miguel Vila</span>
+        </h1>
+        <p class="text-md text-muted-foreground">
+          I&apos;m a computer engineer with a passion for Linux, Open Source and
+          Trail Running converting caffeine into low quality code since 2003!
+        </p>
+      </div>
+
       <div class="flex space-x-4 justify-center lg:justify-start">
         {
           contacts.map((item) => (
@@ -66,7 +69,4 @@ export const contacts: Contact[] = [
       </div>
     </div>
   </div>
-  <div
-    class="z-[-1] absolute left-1/2 top-1/2 h-[25vw] max-h-[400px] min-h-[350px] w-[60vw] min-w-[400px] max-w-[900px] -translate-x-2/4 -translate-y-8/9 rounded-full blur-3xl bg-gradient animate-breath"
-  />
 </div>
