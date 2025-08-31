@@ -3,17 +3,16 @@ import MainLayout from "@layouts/main-layout.astro";
 import { Button } from "@/components/ui/button";
 ---
 
-<MainLayout title="404 - Page Not Found" mainClasses="flex flex-col items-center justify-center text-center">
+<MainLayout title="404 - Page Not Found" mainClasses="flex flex-col  gap-4 items-center justify-center text-center animated-gradient-bg">
   <h1 class="text-7xl font-bold leading-none tracking-tight">
     Error <span class="text-primary">404</span>
   </h1>
+  <p class="max-w-[350px] md:max-w-[450px] lg:max-w-[600px]">
+    Oops! The page you're looking for doesn't exist. It might have been moved or deleted.
+  </p>
   <a href="/" aria-label="Back to home">
     <Button size="lg" className="mt-4 uppercase" aria-label="Back to home">
       Take me back
     </Button>
   </a>
-  <div
-    class="z-[-1] absolute left-1/2 top-1/2 h-[25vw] max-h-[400px] min-h-[350px] w-[60vw] min-w-[400px] max-w-[900px] -translate-x-2/4 -translate-y-5/9 rounded-full blur-3xl bg-gradient animate-breath"
-  >
-  </div>
 </MainLayout>
