@@ -1,0 +1,18 @@
+---
+import MainLayout from "@layouts/main-layout.astro";
+import { Button } from "@/components/ui/button";
+---
+
+<MainLayout title="Coming Soon" mainClasses="flex flex-col gap-4 items-center justify-center text-center animated-gradient-bg">
+  <h1 class="text-7xl font-bold leading-none tracking-tight">
+    Coming <span class="text-primary">Soon</span>
+  </h1>
+  <p class="max-w-[350px] md:max-w-[450px] lg:max-w-[600px]">
+    I'm working hard to bring you this feature. Stay tuned!
+  </p>
+  <a href="/" aria-label="Back to home">
+    <Button size="lg" className="mt-4 uppercase" aria-label="Back to home">
+      Take me back
+    </Button>
+  </a>
+</MainLayout>
