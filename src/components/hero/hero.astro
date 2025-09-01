@@ -32,14 +32,14 @@ export const contacts: Contact[] = [
     class="flex flex-col gap-4 text-center items-center max-w-[350px] md:max-w-[450px] lg:max-w-[600px] lg:text-left lg:flex-row-reverse lg:items-stretch"
   >
     <Image
-      class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] rotate-[8deg]"
+      class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] motion-rotate-out-[8deg] motion-ease-spring-bounciest "
       src="/images/profile-picture-pixelated.png"
       alt="A pixelart of Miguel Vila's face"
       loading="eager"
       height="200"
       width="200"
     />
-    <div class="flex flex-col gap-4 lg:justify-between">
+    <div class="flex flex-col gap-4 lg:justify-between motion-preset-slide-right">
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-semibold leading-none tracking-tight">
           Hi, I&apos;m <span class="text-primary">Miguel Vila</span>

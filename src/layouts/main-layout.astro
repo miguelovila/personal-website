@@ -37,6 +37,11 @@ const { title, mainClasses } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
+    <script>
+      import { Observer } from 'tailwindcss-intersect';
+      Observer.start();
+    </script>
+
     <Font cssVariable='--font-sans' preload />
     <Font cssVariable='--font-mono' preload />
 

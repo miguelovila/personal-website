@@ -33,6 +33,8 @@
     "tailwindcss": "^4.1.3"
   },
   "devDependencies": {
+    "tailwindcss-intersect": "^2.2.0",
+    "tailwindcss-motion": "^1.1.1",
     "tw-animate-css": "^1.3.7"
   }
 }
