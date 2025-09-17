@@ -53,6 +53,7 @@ export const contacts: Contact[] = [
       <div class="flex space-x-4 justify-center lg:justify-start">
         {
           contacts.map((item) => (
+            <address>
             <a
               href={item.link}
               target="_blank"
@@ -64,6 +65,7 @@ export const contacts: Contact[] = [
                 class="w-6 h-6 hover:text-primary transition-colors hover:scale-110"
               />
             </a>
+          </address>
           ))
         }
       </div>

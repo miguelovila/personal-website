@@ -1,0 +1,132 @@
+---
+import MainLayout from "@layouts/main-layout.astro";
+import ArticleCard from "@components/article-card/article-card.astro";
+
+// images should be randomly chosen from the images present in boilerplate folder
+const projects = [
+  {
+    title: "Idea Hub",
+    description: "A central place for brainstorming and capturing ideas.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 3,
+    link: "/idea-hub"
+  },
+  {
+    title: "Workflow Automation",
+    description: "Automate repetitive tasks and streamline your daily operations with customizable workflows that adapt to your needs.",
+    image: [
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`
+    ],
+    read_duration: 7,
+    link: "/workflow-automation"
+  },
+  {
+    title: "AI Insights",
+    description: "Leverage AI to discover hidden trends and opportunities in your data.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 4,
+    link: "/ai-insights"
+  },
+  {
+    title: "Knowledge Base",
+    description: "Build a searchable library of documentation and best practices so your team never loses track of important information.",
+    image: [
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`
+    ],
+    read_duration: 6,
+    link: "/knowledge-base"
+  },
+  {
+    title: "Realtime Chat",
+    description: "Communicate instantly with your team using built-in chat and messaging tools.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 2,
+    link: "/chat"
+  },
+  {
+    title: "Analytics Dashboard",
+    description: "Visualize performance metrics with interactive charts, KPIs, and real-time updates.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 5,
+    link: "/analytics-dashboard"
+  },
+  {
+    title: "Micro Projects",
+    description: "Break down large initiatives into smaller, manageable tasks for faster delivery.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 3,
+    link: "/micro-projects"
+  },
+  {
+    title: "Presentation Mode",
+    description: "Turn your project boards into beautiful slideshows and present them directly in meetings without switching tools.",
+    image: [
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`
+    ],
+    read_duration: 8,
+    link: "/presentation-mode"
+  },
+  {
+    title: "Smart Reminders",
+    description: "Never miss a deadline with automatic notifications and reminders.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 2,
+    link: "/smart-reminders"
+  },
+  {
+    title: "Long Form Documentation Tool",
+    description: "Write, structure, and publish long form content directly inside the platform, whether it’s product guides, user manuals, or knowledge articles. Supports rich media like embedded videos, images, and code snippets.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 10,
+    link: "/documentation-tool"
+  },
+  {
+    title: "Feedback Loop",
+    description: "Collect, analyze, and respond to feedback from multiple sources in one place.",
+    image: [
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+      `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`
+    ],
+    read_duration: 4,
+    link: "/feedback-loop"
+  },
+  {
+    title: "Quick Notes",
+    description: "Jot down thoughts quickly with a lightweight notes tool.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 1,
+    link: "/quick-notes"
+  },
+  {
+    title: "Gamification Layer",
+    description: "Engage your team by introducing badges, leaderboards, and achievement tracking into daily workflows. Turn productivity into a fun, rewarding challenge.",
+    image: `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`,
+    read_duration: 7,
+    link: "/gamification"
+  }
+];
+
+
+---
+
+<MainLayout title="Home">
+	<!--- Card 3 col grid  -->
+  <h1 class="text-3xl font-bold pb-4 mb-6 border-b ">Featured Projects</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {projects.map((project) => (
+      <ArticleCard
+        title={project.title}
+        description={project.description}
+        image={project.image}
+        read_duration={project.read_duration}
+        link={project.link}
+      />
+    ))}
+
+  </div>
+</MainLayout>

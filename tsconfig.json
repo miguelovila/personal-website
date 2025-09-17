@@ -8,7 +8,9 @@
     "dist"
   ],
   "compilerOptions": {
+    "allowJs": true,
     "jsx": "react-jsx",
+    "strictNullChecks": true,
     "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
