@@ -1,6 +1,6 @@
 ---
-import Slideshow from "@components/article-card/card-slideshow.tsx";
-import Image from "astro/components/Image.astro";
+import Slideshow from "@components/article-card/card-slideshow.astro";
+import { Image } from "astro:assets";
 
 interface CardProps {
   title: string;
@@ -8,10 +8,17 @@ interface CardProps {
   image: string | string[];
   read_duration?: number;
   link: string;
+  loading?: "eager" | "lazy";
 }
 
-const { title, description, image, read_duration, link } =
-  Astro.props as CardProps;
+const {
+  title,
+  description,
+  image,
+  read_duration,
+  link,
+  loading = "lazy",
+} = Astro.props as CardProps;
 ---
 
 <a href={link}>
@@ -21,7 +28,7 @@ const { title, description, image, read_duration, link } =
     <div class="mb-2 h-1/2">
       {
         Array.isArray(image) ? (
-          <Slideshow images={image} alt={title} client:load />
+          <Slideshow images={image} alt={title} loading={loading} />
         ) : (
           <Image
             src={image}
@@ -29,7 +36,7 @@ const { title, description, image, read_duration, link } =
             class="border-b h-[200px] w-full object-cover"
             width={400}
             height={200}
-            loading="eager"
+            loading={loading}
           />
         )
       }

@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@layouts/main-layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={project.data.title}>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <article class="space-y-8">
+      <header class="space-y-4">
+        <h1 class="text-4xl font-bold text-foreground">{project.data.title}</h1>
+        <p class="text-xl text-muted-foreground">{project.data.description}</p>
+
+        <div class="flex flex-wrap gap-4 items-center text-sm">
+          <time class="text-muted-foreground">
+            Published: {project.data.publishedDate.toLocaleDateString()}
+          </time>
+          <span class={`px-2 py-1 rounded-full text-xs font-medium ${
+            project.data.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+            project.data.status === 'in-progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+            'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+          }`}>
+            {project.data.status}
+          </span>
+          {project.data.difficulty && (
+            <span class="px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+              {project.data.difficulty}
+            </span>
+          )}
+        </div>
+
+        {project.data.technologies && (
+          <div class="flex flex-wrap gap-2">
+            {project.data.technologies.map(tech => (
+              <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div class="flex gap-4">
+          {project.data.repositoryUrl && (
+            <a href={project.data.repositoryUrl}
+               class="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+              GitHub
+            </a>
+          )}
+          {project.data.liveUrl && (
+            <a href={project.data.liveUrl}
+               class="inline-flex items-center px-4 py-2 border border-primary text-primary rounded-md hover:bg-primary/10 transition-colors">
+              Live Demo
+            </a>
+          )}
+        </div>
+      </header>
+
+      <div class="prose max-w-none">
+        <Content />
+      </div>
+    </article>
+  </div>
+</Layout>

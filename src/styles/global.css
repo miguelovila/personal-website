@@ -299,4 +299,85 @@
     z-index: -1;
     pointer-events: none;
   }
+
+  /* Typography styles for markdown content */
+  .prose {
+    @apply text-foreground;
+  }
+
+  .prose h1 {
+    @apply text-3xl font-bold mb-6 mt-8 text-foreground;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-semibold mb-4 mt-6 text-foreground;
+  }
+
+  .prose h3 {
+    @apply text-xl font-medium mb-3 mt-4 text-foreground;
+  }
+
+  .prose h4 {
+    @apply text-lg font-medium mb-2 mt-3 text-foreground;
+  }
+
+  .prose p {
+    @apply mb-4 text-foreground leading-relaxed;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside mb-4 space-y-2;
+  }
+
+  .prose ol {
+    @apply list-decimal list-inside mb-4 space-y-2;
+  }
+
+  .prose li {
+    @apply text-foreground;
+  }
+
+  .prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .prose em {
+    @apply italic;
+  }
+
+  .prose code {
+    @apply bg-muted px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary pl-4 italic text-muted-foreground mb-4;
+  }
+
+  .prose a {
+    @apply text-primary hover:underline;
+  }
+
+  .prose hr {
+    @apply border-border my-8;
+  }
+
+  .prose table {
+    @apply w-full border-collapse border border-border mb-4;
+  }
+
+  .prose th {
+    @apply border border-border bg-muted px-4 py-2 text-left font-semibold;
+  }
+
+  .prose td {
+    @apply border border-border px-4 py-2;
+  }
 }

@@ -1,0 +1,122 @@
+---
+  import { getCollection } from 'astro:content';
+  import MainLayout from '@layouts/main-layout.astro';
+  import ArticleCard from '@components/article-card/article-card.astro';
+
+  const projects = await getCollection('projects');
+  const sortedProjects = projects.sort((a, b) =>
+    b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+  );
+
+  const featuredProjects = sortedProjects.filter(p => p.data.featured);
+
+  // Get all unique technologies for filtering
+  const allTechnologies = [...new Set(
+    projects.flatMap(p => p.data.technologies || [])
+  )].sort();
+
+  const transformProjectForCard = (project: any) => {
+    // Use gallery array for slideshow if it has multiple images, otherwise use coverImage or fallback
+    let cardImage;
+    if (project.data.gallery && project.data.gallery.length > 1) {
+      // Use gallery as slideshow
+      cardImage = project.data.gallery;
+    } else if (project.data.coverImage) {
+      // Use single cover image
+      cardImage = project.data.coverImage;
+    } else if (project.data.gallery && project.data.gallery.length === 1) {
+      // Use single gallery image
+      cardImage = project.data.gallery[0];
+    } else {
+      // Fallback to random boilerplate image
+      cardImage = `/images/boilerplate/${Math.floor(Math.random() * 13)}.jpg`;
+    }
+
+    return {
+      title: project.data.title,
+      description: project.data.description,
+      image: cardImage,
+      read_duration: Math.max(3, Math.min(10, project.data.technologies?.length * 2 || 5)),
+      link: `/projects/${project.slug}`
+    };
+  };
+  ---
+
+  <MainLayout title="Projects">
+    <main class="space-y-12">
+      <!-- Featured Projects -->
+      {featuredProjects.length > 0 && (
+        <section>
+          <h1 class="text-3xl font-bold pb-4 mb-6 border-b">Featured Projects</h1>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredProjects.map((project, index) => (
+              <ArticleCard {...transformProjectForCard(project)} loading={index < 3 ? "eager" : "lazy"} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- All Projects -->
+      <section>
+        <h2 class="text-3xl font-bold pb-4 mb-6 border-b">
+          {featuredProjects.length > 0 ? 'All Projects' : 'My Projects'}
+        </h2>
+        
+        <!-- Technology Filter Pills -->
+        <div class="flex flex-wrap gap-2 mb-6" id="tech-filters">
+          <button class="filter-btn active px-3 py-1 bg-primary text-primary-foreground rounded-full text-sm transition-colors" data-tech="all">
+            All
+          </button>
+          {allTechnologies.map(tech => (
+            <button class="filter-btn px-3 py-1 bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground rounded-full text-sm transition-colors" data-tech={tech}>
+              {tech}
+            </button>
+          ))}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+          {sortedProjects.map((project, index) => {
+            // Calculate the total number of featured projects to determine starting index for "All Projects"
+            const effectiveIndex = featuredProjects.length > 0 ? featuredProjects.length + index : index;
+            return (
+              <div class="project-card" data-technologies={JSON.stringify(project.data.technologies || [])}>
+                <ArticleCard {...transformProjectForCard(project)} loading={effectiveIndex < 6 ? "eager" : "lazy"} />
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Simple client-side filtering
+      document.addEventListener('DOMContentLoaded', () => {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const selectedTech = button.getAttribute('data-tech');
+
+            // Update active button
+            filterButtons.forEach(btn => {
+              btn.classList.remove('active', 'bg-primary', 'text-primary-foreground');
+              btn.classList.add('bg-muted', 'text-muted-foreground');
+            });
+            button.classList.add('active', 'bg-primary', 'text-primary-foreground');
+            button.classList.remove('bg-muted', 'text-muted-foreground');
+
+            // Filter projects
+            projectCards.forEach(card => {
+              const htmlCard = card as HTMLElement;
+              const technologiesAttr = htmlCard.getAttribute('data-technologies') || '[]';
+              const cardTechnologies = JSON.parse(technologiesAttr);
+              const shouldShow = selectedTech === 'all' || cardTechnologies.includes(selectedTech);
+
+              htmlCard.style.display = shouldShow ? 'block' : 'none';
+            });
+          });
+        });
+      });
+    </script>
+  </MainLayout>
