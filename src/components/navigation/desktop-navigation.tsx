@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from "@/components/navigation/navigation-menu";
 
 const DesktopNavigationMenu = () => (
   <NavigationMenu className="hidden md:block">
