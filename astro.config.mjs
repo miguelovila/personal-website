@@ -5,6 +5,7 @@ import { defineConfig, fontProviders } from "astro/config";
 
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import mdx from "@astrojs/mdx";
 
 import icon from "astro-icon";
 
@@ -14,7 +15,7 @@ export default defineConfig({
   },
 
   site: "https://miguelovila.pt",
-  integrations: [react(), sitemap({
+  integrations: [react(), mdx(), sitemap({
     changefreq: "weekly",
     priority: 0.7,
     lastmod: new Date(),
