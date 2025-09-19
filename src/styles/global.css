@@ -300,84 +300,85 @@
     pointer-events: none;
   }
 
-  /* Typography styles for markdown content */
-  .prose {
-    @apply text-foreground;
-  }
-
-  .prose h1 {
+  /* Global Typography Styles */
+  h1 {
     @apply text-3xl font-bold mb-6 mt-8 text-foreground;
   }
 
-  .prose h2 {
+  h2 {
     @apply text-2xl font-semibold mb-4 mt-6 text-foreground;
   }
 
-  .prose h3 {
+  h3 {
     @apply text-xl font-medium mb-3 mt-4 text-foreground;
   }
 
-  .prose h4 {
+  h4 {
     @apply text-lg font-medium mb-2 mt-3 text-foreground;
   }
 
-  .prose p {
+  h5 {
+    @apply text-base font-medium mb-2 mt-2 text-foreground;
+  }
+
+  h6 {
+    @apply text-sm font-medium mb-1 mt-2 text-foreground;
+  }
+
+  p {
     @apply mb-4 text-foreground leading-relaxed;
   }
 
-  .prose ul {
+  ul:not([data-slot="navigation-menu-list"]) {
     @apply list-disc list-inside mb-4 space-y-2;
   }
 
-  .prose ol {
+  ol {
     @apply list-decimal list-inside mb-4 space-y-2;
   }
 
-  .prose li {
+  li {
     @apply text-foreground;
   }
 
-  .prose strong {
+  strong {
     @apply font-semibold text-foreground;
   }
 
-  .prose em {
+  em {
     @apply italic;
   }
 
-  .prose code {
+  code {
     @apply bg-muted px-1 py-0.5 rounded text-sm font-mono;
   }
 
-  .prose pre {
+  pre {
     @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
   }
 
-  .prose pre code {
+  pre code {
     @apply bg-transparent p-0;
   }
 
-  .prose blockquote {
+  blockquote {
     @apply border-l-4 border-primary pl-4 italic text-muted-foreground mb-4;
   }
 
-  .prose a {
-    @apply text-primary hover:underline;
-  }
 
-  .prose hr {
+  hr {
     @apply border-border my-8;
   }
 
-  .prose table {
+  table {
     @apply w-full border-collapse border border-border mb-4;
   }
 
-  .prose th {
+  th {
     @apply border border-border bg-muted px-4 py-2 text-left font-semibold;
   }
 
-  .prose td {
+  td {
     @apply border border-border px-4 py-2;
   }
 }

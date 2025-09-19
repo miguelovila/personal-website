@@ -35,16 +35,14 @@ const DesktopNavigationMenu = () => (
               </NavigationMenuContent>
             </>
           ) : (
-            <>
-              <a
-                href={route.path}
-                rel="noopener noreferrer"
-                aria-label={route.title}
-                className={navigationMenuTriggerStyle()}
-              >
-                {route.title}
-              </a>
-            </>
+            <a
+              href={route.path}
+              rel="noopener noreferrer"
+              aria-label={route.title}
+              className={navigationMenuTriggerStyle()}
+            >
+              {route.title}
+            </a>
           )}
         </NavigationMenuItem>
       ))}
