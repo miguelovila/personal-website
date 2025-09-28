@@ -2,8 +2,12 @@
 import MainLayout from "@layouts/main-layout.astro";
 
 import Hero from "@/components/hero/hero.astro";
+import TitleSeparator from "@/components/title-separator.astro";
 ---
 
 <MainLayout title="Home">
 	<Hero />
+	<TitleSeparator>
+		<h1 class="text-4xl font-bold pl-4 mt-10 mb-10">Welcome to My Personal Website</h1>
+	</TitleSeparator>
 </MainLayout>

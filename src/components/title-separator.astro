@@ -1,8 +1,16 @@
 ---
-
+// No props needed - content comes from slot
 ---
 
-<div class="title-separator w-full overflow-hidden" id="title-separator">
+<div class="title-separator w-full overflow-hidden relative" id="title-separator">
+  <!-- Hidden content to measure natural height - positioned absolutely so it doesn't affect layout -->
+  <div class="absolute invisible" id="content-measure">
+    <slot />
+  </div>
+  <!-- Visible content positioned absolutely over the grid -->
+  <div class="absolute inset-0 z-10 flex items-center" id="content-text">
+    <slot />
+  </div>
 </div>
 
 <script>
@@ -10,13 +18,23 @@
     const container = document.getElementById('title-separator');
     if (!container) return;
 
+    const contentMeasure = document.getElementById('content-measure');
+    if (!contentMeasure) return;
+
     const containerWidth = container.offsetWidth;
-    const containerHeight = Math.max(160, Math.floor(containerWidth * 0.1));
+
+    // Measure the actual height needed for the content using the invisible measuring element
+    const contentHeight = contentMeasure.offsetHeight;
+    const containerHeight = Math.max(contentHeight, 64); // Minimum 64px height
+
     const squareSize = 32; // 2rem = 32px
     const squaresPerRow = Math.ceil(containerWidth / squareSize);
     const rows = Math.ceil(containerHeight / squareSize);
 
-    container.innerHTML = '';
+    // Clear only the grid elements (preserve content elements)
+    const gridElements = container.querySelectorAll('div:not([id^="content"])');
+    gridElements.forEach(el => el.remove());
+
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.width = '100%';
@@ -71,7 +89,7 @@
       const squares = row.children;
 
       for (let squareIndex = 0; squareIndex < squares.length; squareIndex++) {
-        const square = squares[squareIndex];
+        const square = squares[squareIndex] as HTMLElement;
 
         // Randomly remove square (50% chance)
         if (Math.random() > 0.5) {
