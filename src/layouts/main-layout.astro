@@ -6,7 +6,7 @@ import Footer from "@components/footer/footer.astro";
 
 import { Font } from 'astro:assets';
 
-const { title, mainClasses } = Astro.props;
+const { title, mainClasses = '' } = Astro.props;
 ---
 
 <script is:inline>
@@ -49,7 +49,7 @@ const { title, mainClasses } = Astro.props;
   </head>
   <body class="h-screen max-w-[100vw] flex flex-col overflow-x-hidden">
     <Header />
-    <main class={`container flex-1 border-l border-r p-3 ${mainClasses}`}>
+    <main class={`container flex-1 border-l border-r ${mainClasses}`}>
       <slot />
     </main>
     <Footer />

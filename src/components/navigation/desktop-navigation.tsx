@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { routes } from "@data/routes";
+import { routes } from "./routes";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
