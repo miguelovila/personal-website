@@ -1,0 +1,59 @@
+---
+
+---
+
+<div class="title-separator w-full overflow-hidden" id="title-separator">
+</div>
+
+<script>
+  function createGrid() {
+    const container = document.getElementById('title-separator');
+    if (!container) return;
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = Math.max(160, Math.floor(containerWidth * 0.1));
+    const squareSize = 32; // 2rem = 32px
+    const squaresPerRow = Math.ceil(containerWidth / squareSize);
+    const rows = Math.ceil(containerHeight / squareSize);
+    const totalSquares = squaresPerRow * rows;
+
+    container.innerHTML = '';
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = `repeat(${squaresPerRow}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${rows}, ${squareSize}px)`;
+    container.style.width = '100%';
+    container.style.height = `${rows * squareSize}px`;
+
+    for (let i = 0; i < totalSquares; i++) {
+      const square = document.createElement('div');
+      square.style.width = '100%';
+      square.style.height = `${squareSize}px`;
+      square.style.borderColor = 'var(--border)';
+      square.style.borderStyle = 'solid';
+      square.style.boxSizing = 'border-box';
+
+      const row = Math.floor(i / squaresPerRow);
+      const col = i % squaresPerRow;
+      const isFirstRow = row === 0;
+      const isFirstCol = col === 0;
+      const isLastCol = col === squaresPerRow - 1;
+
+      square.style.borderTopWidth = isFirstRow ? '1px' : '0';
+      square.style.borderBottomWidth = '1px';
+      square.style.borderLeftWidth = '0';
+      square.style.borderRightWidth = isLastCol ? '0' : '1px';
+
+      container.appendChild(square);
+    }
+  }
+
+  // Create initial grid
+  createGrid();
+
+  // Recreate grid on window resize
+  let resizeTimeout: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(createGrid, 1);
+  });
+</script>
