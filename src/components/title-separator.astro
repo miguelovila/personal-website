@@ -15,35 +15,46 @@
     const squareSize = 32; // 2rem = 32px
     const squaresPerRow = Math.ceil(containerWidth / squareSize);
     const rows = Math.ceil(containerHeight / squareSize);
-    const totalSquares = squaresPerRow * rows;
 
     container.innerHTML = '';
-    container.style.display = 'grid';
-    container.style.gridTemplateColumns = `repeat(${squaresPerRow}, 1fr)`;
-    container.style.gridTemplateRows = `repeat(${rows}, ${squareSize}px)`;
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
     container.style.width = '100%';
     container.style.height = `${rows * squareSize}px`;
 
-    for (let i = 0; i < totalSquares; i++) {
-      const square = document.createElement('div');
-      square.style.width = '100%';
-      square.style.height = `${squareSize}px`;
-      square.style.borderColor = 'var(--border)';
-      square.style.borderStyle = 'solid';
-      square.style.boxSizing = 'border-box';
+    for (let row = 0; row < rows; row++) {
+      const rowDiv = document.createElement('div');
+      rowDiv.style.display = 'flex';
+      rowDiv.style.height = `${squareSize}px`;
 
-      const row = Math.floor(i / squaresPerRow);
-      const col = i % squaresPerRow;
-      const isFirstRow = row === 0;
-      const isFirstCol = col === 0;
-      const isLastCol = col === squaresPerRow - 1;
 
-      square.style.borderTopWidth = isFirstRow ? '1px' : '0';
-      square.style.borderBottomWidth = '1px';
-      square.style.borderLeftWidth = '0';
-      square.style.borderRightWidth = isLastCol ? '0' : '1px';
+      for (let col = 0; col < squaresPerRow; col++) {
+        const square = document.createElement('div');
+        square.style.flex = '1';
+        square.style.height = `${squareSize}px`;
+        square.style.boxSizing = 'border-box';
+        square.style.minWidth = '0';
+        square.style.borderColor = 'var(--border)';
+        square.style.borderStyle = 'solid';
 
-      container.appendChild(square);
+        const isFirstCol = col === 0;
+        const isLastCol = col === squaresPerRow - 1;
+
+        // Add outer borders for first/last rows, internal borders for others
+        square.style.borderTopWidth = row === 0 ? '1px' : '0';
+        square.style.borderBottomWidth = '1px';
+        square.style.borderLeftWidth = isFirstCol ? '0' : '1px';
+        square.style.borderRightWidth = '0';
+
+        // Use negative margin to overlap with next square's left border
+        if (!isLastCol) {
+          square.style.marginRight = '-1px';
+        }
+
+        rowDiv.appendChild(square);
+      }
+
+      container.appendChild(rowDiv);
     }
   }
 
