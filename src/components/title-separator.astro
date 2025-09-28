@@ -61,13 +61,37 @@
     }
   }
 
+  function removeSquares() {
+    const container = document.getElementById('title-separator');
+    if (!container) return;
+
+    const rows = container.children;
+    for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+      const row = rows[rowIndex];
+      const squares = row.children;
+
+      for (let squareIndex = 0; squareIndex < squares.length; squareIndex++) {
+        const square = squares[squareIndex];
+
+        // Randomly remove square (50% chance)
+        if (Math.random() > 0.5) {
+          square.style.borderColor = 'transparent';
+        }
+      }
+    }
+  }
+
   // Create initial grid
   createGrid();
+  removeSquares();
 
   // Recreate grid on window resize
   let resizeTimeout: ReturnType<typeof setTimeout>;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(createGrid, 1);
+    resizeTimeout = setTimeout(() => {
+      createGrid();
+      removeSquares();
+    }, 1);
   });
 </script>
