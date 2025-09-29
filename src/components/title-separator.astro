@@ -23,7 +23,7 @@
 </style>
 
 <div
-  class="title-separator w-full overflow-hidden relative"
+  class="title-separator w-full overflow-hidden relative h-min[64px] mb-4"
 >
   <!-- Hidden content to measure natural height - positioned absolutely so it doesn't affect layout -->
   <div class="absolute invisible content-measure">
@@ -119,19 +119,21 @@
           square.style.borderColor = "transparent";
         } else {
           // For squares that remain, randomly set is background color (60% chance)
+
+          // Initial fade-in animation
+          const fadeDelay = Math.random() * 6;
+          square.style.opacity = "0";
+          square.style.animation = `fadeIn 0.6s ease-out forwards ${fadeDelay}s`;
+
           if (Math.random() > 0.4) {
             const delay = Math.random() * 2;
-            const fadeDelay = Math.random() * 0.5;
 
-            // Initial fade-in animation
-            square.style.opacity = "0";
-            square.style.animation = `fadeIn 0.6s ease-out forwards ${fadeDelay}s`;
             square.style.backgroundColor = available_border_colors[Math.floor(Math.random() * available_border_colors.length)];
 
             // After fade-in completes, switch to pulse animation
             setTimeout(() => {
               square.style.animation = `pulse ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.6, 1) infinite ${delay}s`;
-            }, (fadeDelay + 0.6) * 1000);
+            }, (fadeDelay + 1) * 1000);
           }
         }
       }
