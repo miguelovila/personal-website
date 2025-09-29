@@ -2,7 +2,10 @@
 // No props needed - content comes from slot
 ---
 
-<div class="title-separator w-full overflow-hidden relative" id="title-separator">
+<div
+  class="title-separator w-full overflow-hidden relative"
+  id="title-separator"
+>
   <!-- Hidden content to measure natural height - positioned absolutely so it doesn't affect layout -->
   <div class="absolute invisible" id="content-measure">
     <slot />
@@ -15,61 +18,59 @@
 
 <script>
   function createGrid() {
-    const container = document.getElementById('title-separator');
+    const container = document.getElementById("title-separator");
     if (!container) return;
 
-    const contentMeasure = document.getElementById('content-measure');
+    const contentMeasure = document.getElementById("content-measure");
     if (!contentMeasure) return;
 
     const containerWidth = container.offsetWidth;
 
-    // Measure the actual height needed for the content using the invisible measuring element
     const contentHeight = contentMeasure.offsetHeight;
-    const containerHeight = Math.max(contentHeight, 64); // Minimum 64px height
+    const containerHeight = Math.max(contentHeight, 64);
 
     const squareSize = 32; // 2rem = 32px
     const squaresPerRow = Math.ceil(containerWidth / squareSize);
     const rows = Math.ceil(containerHeight / squareSize);
 
-    // Clear only the grid elements (preserve content elements)
     const gridElements = container.querySelectorAll('div:not([id^="content"])');
-    gridElements.forEach(el => el.remove());
+    gridElements.forEach((el) => el.remove());
 
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.width = '100%';
+    container.style.display = "flex";
+    container.style.flexDirection = "column";
+    container.style.width = "100%";
     container.style.height = `${rows * squareSize}px`;
 
     for (let row = 0; row < rows; row++) {
-      const rowDiv = document.createElement('div');
-      rowDiv.style.display = 'flex';
+      const rowDiv = document.createElement("div");
+      rowDiv.style.display = "flex";
       rowDiv.style.height = `${squareSize}px`;
 
       if (row > 0) {
-        rowDiv.style.marginTop = '-1px';
+        rowDiv.style.marginTop = "-1px";
       }
 
       for (let col = 0; col < squaresPerRow; col++) {
-        const square = document.createElement('div');
-        square.style.flex = '1';
+        const square = document.createElement("bk-square");
+        square.style.flex = "1";
         square.style.height = `${squareSize}px`;
-        square.style.border = '1px solid var(--border)';
-        square.style.boxSizing = 'border-box';
-        square.style.minWidth = '0';
+        square.style.border = "1px solid var(--border)";
+        square.style.boxSizing = "border-box";
+        square.style.minWidth = "0";
 
         const isFirstCol = col === 0;
         const isLastCol = col === squaresPerRow - 1;
 
         // Remove unnecessary borders
         if (isFirstCol) {
-          square.style.borderLeftWidth = '0';
+          square.style.borderLeftWidth = "0";
         }
         if (isLastCol) {
-          square.style.borderRightWidth = '0';
+          square.style.borderRightWidth = "0";
         }
 
         if (col > 0) {
-          square.style.marginLeft = '-1px';
+          square.style.marginLeft = "-1px";
         }
 
         rowDiv.appendChild(square);
@@ -80,8 +81,15 @@
   }
 
   function removeSquares() {
-    const container = document.getElementById('title-separator');
+    const container = document.getElementById("title-separator");
     if (!container) return;
+
+    const available_border_colors = [
+      "var(--border-10pc)",
+      "var(--border-20pc)",
+      "var(--border-30pc)",
+      "var(--border-40pc)",
+    ];
 
     const rows = container.children;
     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
@@ -91,9 +99,16 @@
       for (let squareIndex = 0; squareIndex < squares.length; squareIndex++) {
         const square = squares[squareIndex] as HTMLElement;
 
-        // Randomly remove square (50% chance)
-        if (Math.random() > 0.5) {
-          square.style.borderColor = 'transparent';
+        if (square.tagName.toLowerCase() !== "bk-square") continue;
+
+        // Randomly remove square (40% chance)
+        if (Math.random() > 0.6 && !(squareIndex === 0 || squareIndex === squares.length - 1)) {
+          square.style.borderColor = "transparent";
+        } else {
+          // For squares that remain, randomly set is background color (60% chance)
+          if (Math.random() > 0.4) {
+            square.style.backgroundColor = available_border_colors[Math.floor(Math.random() * available_border_colors.length)];
+          }
         }
       }
     }
@@ -105,7 +120,7 @@
 
   // Recreate grid on window resize
   let resizeTimeout: ReturnType<typeof setTimeout>;
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       createGrid();

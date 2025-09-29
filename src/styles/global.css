@@ -23,6 +23,10 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-10pc: var(--border-10pc);
+  --color-border-20pc: var(--border-20pc);
+  --color-border-30pc: var(--border-30pc);
+  --color-border-40pc: var(--border-40pc);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
@@ -87,6 +91,10 @@
   --destructive: oklch(0.6368 0.2078 25.3313);
   --destructive-foreground: oklch(0.9851 0 0);
   --border: oklch(0.8666 0.024 63.73);
+  --border-10pc: oklch(0.8666 0.024 63.73 / 10%);
+  --border-20pc: oklch(0.8666 0.024 63.73 / 20%);
+  --border-30pc: oklch(0.8666 0.024 63.73 / 30%);
+  --border-40pc: oklch(0.8666 0.024 63.73 / 40%);
   --input: oklch(0.8607 0 0);
   --ring: oklch(0.7353 0.1825 52.7591);
   --chart-1: oklch(0.7353 0.1825 52.7591);
@@ -103,11 +111,6 @@
   --sidebar-border: oklch(0.8607 0 0);
   --sidebar-ring: oklch(0.7353 0.1825 52.7591);
   --font-serif: serif;
-  /*
-   * These fonts are now handled by Astro
-   * --font-sans: Fira Code;
-   * --font-mono: Fira Code;
-   */
   --radius: 0.45rem;
   --shadow-2xs: 0px 2px 8px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0px 2px 8px 0px hsl(0 0% 0% / 0.05);
@@ -145,6 +148,10 @@
   --destructive: oklch(0.6786 0.2095 24.6583);
   --destructive-foreground: oklch(0.1448 0 0);
   --border: oklch(0.3093 0.0287 62.64);
+  --border-10pc: oklch(0.3093 0.0287 62.64 / 10%);
+  --border-20pc: oklch(0.3093 0.0287 62.64 / 20%);
+  --border-30pc: oklch(0.3093 0.0287 62.64 / 30%);
+  --border-40pc: oklch(0.3093 0.0287 62.64 / 40%);
   --input: oklch(0.2686 0 0);
   --ring: oklch(0.7353 0.1825 52.7591);
   --chart-1: oklch(0.7353 0.1825 52.7591);
@@ -161,11 +168,6 @@
   --sidebar-border: oklch(0.2686 0 0);
   --sidebar-ring: oklch(0.7353 0.1825 52.7591);
   --font-serif: serif;
-  /*
-   * These fonts are now handled by Astro
-   * --font-sans: Fira Code;
-   * --font-mono: Fira Code;
-   */
   --radius: 0.45rem;
   --shadow-2xs: 0px 2px 8px 0px hsl(0 0% 0% / 0.1);
   --shadow-xs: 0px 2px 8px 0px hsl(0 0% 0% / 0.1);
