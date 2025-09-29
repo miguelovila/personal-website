@@ -2,26 +2,42 @@
 // No props needed - content comes from slot
 ---
 
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
 <div
   class="title-separator w-full overflow-hidden relative"
-  id="title-separator"
 >
   <!-- Hidden content to measure natural height - positioned absolutely so it doesn't affect layout -->
-  <div class="absolute invisible" id="content-measure">
+  <div class="absolute invisible content-measure">
     <slot />
   </div>
   <!-- Visible content positioned absolutely over the grid -->
-  <div class="absolute inset-0 z-10 flex items-center" id="content-text">
+  <div class="absolute inset-0 z-10 flex items-center content-text">
     <slot />
   </div>
 </div>
 
 <script>
-  function createGrid() {
-    const container = document.getElementById("title-separator");
-    if (!container) return;
-
-    const contentMeasure = document.getElementById("content-measure");
+  function createGrid(container: HTMLElement) {
+    const contentMeasure = container.querySelector(".content-measure") as HTMLElement;
     if (!contentMeasure) return;
 
     const containerWidth = container.offsetWidth;
@@ -33,7 +49,7 @@
     const squaresPerRow = Math.ceil(containerWidth / squareSize);
     const rows = Math.ceil(containerHeight / squareSize);
 
-    const gridElements = container.querySelectorAll('div:not([id^="content"])');
+    const gridElements = container.querySelectorAll('div:not(.content-measure):not(.content-text)');
     gridElements.forEach((el) => el.remove());
 
     container.style.display = "flex";
@@ -80,10 +96,7 @@
     }
   }
 
-  function removeSquares() {
-    const container = document.getElementById("title-separator");
-    if (!container) return;
-
+  function removeSquares(container: HTMLElement) {
     const available_border_colors = [
       "var(--border-10pc)",
       "var(--border-20pc)",
@@ -107,24 +120,39 @@
         } else {
           // For squares that remain, randomly set is background color (60% chance)
           if (Math.random() > 0.4) {
+            const delay = Math.random() * 2;
+            const fadeDelay = Math.random() * 0.5;
+
+            // Initial fade-in animation
+            square.style.opacity = "0";
+            square.style.animation = `fadeIn 0.6s ease-out forwards ${fadeDelay}s`;
             square.style.backgroundColor = available_border_colors[Math.floor(Math.random() * available_border_colors.length)];
+
+            // After fade-in completes, switch to pulse animation
+            setTimeout(() => {
+              square.style.animation = `pulse ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.6, 1) infinite ${delay}s`;
+            }, (fadeDelay + 0.6) * 1000);
           }
         }
       }
     }
   }
 
-  // Create initial grid
-  createGrid();
-  removeSquares();
+  // Initialize all instances
+  document.querySelectorAll<HTMLElement>(".title-separator").forEach((container) => {
+    createGrid(container);
+    removeSquares(container);
+  });
 
-  // Recreate grid on window resize
+  // Recreate grid on window resize for all instances
   let resizeTimeout: ReturnType<typeof setTimeout>;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      createGrid();
-      removeSquares();
+      document.querySelectorAll<HTMLElement>(".title-separator").forEach((container) => {
+        createGrid(container);
+        removeSquares(container);
+      });
     }, 1);
   });
 </script>
