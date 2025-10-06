@@ -9,12 +9,17 @@ import { transformProjectToCard, sortRandom } from "@/utils";
 <MainLayout title="Home">
   <Hero />
   <Section title="Featured Projects" showSeparator showTitle class="p-4">
-    <Grid
-      collectionName="projects"
-      transformFn={transformProjectToCard}
-      onlyFeatured
-      sortFn={sortRandom}
-      limit={3}
-    />
+    {
+      (
+        //@ts-ignore}
+        <Grid
+          collectionName="projects"
+          transformFn={transformProjectToCard}
+          onlyFeatured
+          sortFn={sortRandom}
+          limit={3}
+        />
+      )
+    }
   </Section>
 </MainLayout>
