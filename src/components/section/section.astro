@@ -1,0 +1,26 @@
+---
+import type { SectionProps } from "@/types";
+import TitleSeparator from "./title-separator.astro";
+
+interface Props extends SectionProps {}
+
+const {
+  title,
+  showSeparator = true,
+  showTitle = true,
+  class: className = "",
+} = Astro.props;
+---
+
+{
+  showSeparator && (
+    <TitleSeparator>
+      {showTitle && title && (
+        <h1 class="text-4xl font-bold pl-4 mt-10 mb-10">{title}</h1>
+      )}
+    </TitleSeparator>
+  )
+}
+<section class={className}>
+  <slot />
+</section>

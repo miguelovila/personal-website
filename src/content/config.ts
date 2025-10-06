@@ -23,6 +23,25 @@ const projectsCollection = defineCollection({
     })
 });
 
+const postsCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        publishedDate: z.date(),
+        updatedDate: z.date().optional(),
+        featured: z.boolean().default(false),
+
+        coverImage: z.string().optional(),
+        author: z.string().default('Miguel Vila'),
+        readingTime: z.number().optional(),
+
+        tags: z.array(z.string()).optional(),
+        category: z.string().optional(),
+    })
+});
+
 export const collections = {
     projects: projectsCollection,
+    posts: postsCollection,
 };

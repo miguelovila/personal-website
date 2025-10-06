@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import type { ArticleGridProps } from "./types";
+import ArticleCard from "@components/article-card/index.astro";
+
+type Props = ArticleGridProps<"projects" | "posts">;
+
+const {
+  collection_name,
+  transformation_function,
+  only_featured = false,
+  order_function,
+  number_of_items = null,
+  grid_classes = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+  eager_load_count = 6,
+} = Astro.props;
+
+// Fetch collection entries
+let content = await getCollection(collection_name);
+
+// Filter by featured if requested
+if (only_featured) {
+  content = content.filter((entry) =>
+    "featured" in entry.data && entry.data.featured === true
+  );
+}
+
+// Apply custom sorting if provided
+if (order_function) {
+  content.sort(order_function);
+}
+
+// Limit number of items if specified
+if (number_of_items !== null && number_of_items > 0) {
+  content = content.slice(0, number_of_items);
+}
+---
+
+<div class={grid_classes}>
+  {
+    content.map((entry, index) => (
+      <ArticleCard
+        {...transformation_function(entry)}
+        loading={index < eager_load_count ? "eager" : "lazy"}
+      />
+    ))
+  }
+</div>

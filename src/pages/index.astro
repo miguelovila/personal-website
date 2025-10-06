@@ -1,35 +1,20 @@
 ---
-import MainLayout from "@layouts/main-layout.astro";
-
+import MainLayout from "@/layouts/main-layout.astro";
 import Hero from "@/components/hero/hero.astro";
-import TitleSeparator from "@/components/title-separator.astro";
+import Section from "@/components/section/section.astro";
+import Grid from "@/components/grid/grid.astro";
+import { transformProjectToCard, sortRandom } from "@/utils";
 ---
 
 <MainLayout title="Home">
-	<Hero />
-	<TitleSeparator>
-		<h1 class="text-4xl font-bold pl-4 mt-10 mb-10">Featured Projects</h1>
-	</TitleSeparator>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
-	<TitleSeparator>
-		<h1 class="text-4xl font-bold pl-4 mt-10 mb-10">Recent Blog Posts</h1>
-	</TitleSeparator>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus fugiat fuga aut nobis ex
-		aliquid exercitationem quos, animi sit, molestiae corrupti soluta voluptates. Sapiente distinctio corporis ipsa autem eos quas.
-	</p>
+  <Hero />
+  <Section title="Featured Projects" showSeparator showTitle class="p-4">
+    <Grid
+      collectionName="projects"
+      transformFn={transformProjectToCard}
+      onlyFeatured
+      sortFn={sortRandom}
+      limit={3}
+    />
+  </Section>
 </MainLayout>

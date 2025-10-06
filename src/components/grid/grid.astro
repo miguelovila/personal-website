@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import type { GridProps } from "@/types";
+import Card from "@/components/card/card.astro";
+
+type Props = GridProps<"projects" | "posts">;
+
+const {
+  collectionName,
+  transformFn,
+  onlyFeatured = false,
+  sortFn,
+  limit = null,
+  gridClasses = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+  eagerLoadCount = 6,
+} = Astro.props;
+
+let content = await getCollection(collectionName);
+
+if (onlyFeatured) {
+  content = content.filter(
+    (entry) => "featured" in entry.data && entry.data.featured === true
+  );
+}
+
+if (sortFn) {
+  content.sort(sortFn);
+}
+
+if (limit !== null && limit > 0) {
+  content = content.slice(0, limit);
+}
+---
+
+<div class={gridClasses}>
+  {
+    content.map((entry, index) => (
+      <Card
+        {...transformFn(entry)}
+        loading={index < eagerLoadCount ? "eager" : "lazy"}
+      />
+    ))
+  }
+</div>

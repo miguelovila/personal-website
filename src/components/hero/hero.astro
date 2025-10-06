@@ -1,44 +1,24 @@
 ---
 import { Icon } from "astro-icon/components";
-import Image from "astro/components/Image.astro";
-
-type Contact = {
-  icon: string;
-  label: string;
-  link: string;
-};
-
-export const contacts: Contact[] = [
-  {
-    icon: "lucide:mail",
-    label: "E-Mail",
-    link: "mailto:contact@miguelovila.pt",
-  },
-  {
-    icon: "lucide:github",
-    label: "GitHub",
-    link: "https://www.github.com/miguelovila",
-  },
-  {
-    icon: "lucide:linkedin",
-    label: "LinkedIn",
-    link: "https://www.linkedin.com/in/miguelovila",
-  },
-];
+import { Image } from "astro:assets";
+import { contacts } from "@/config/contacts";
 ---
 
-<div class="flex flex-col items-center justify-center pt-32 pb-32 animated-gradient-bg">
+<div
+  class="flex flex-col items-center justify-center pt-32 pb-32 animated-gradient-bg"
+>
   <div
     class="flex flex-col gap-4 text-center items-center max-w-[350px] md:max-w-[450px] lg:max-w-[600px] lg:text-left lg:flex-row-reverse lg:items-stretch"
   >
     <Image
-      class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] motion-rotate-out-[8deg] motion-ease-spring-bounciest "
+      class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] motion-rotate-out-[8deg] motion-ease-spring-bounciest"
       src="/images/profile-picture-pixelated.png"
       alt="A pixelart of Miguel Vila's face"
       loading="eager"
       height="200"
       width="200"
     />
+
     <div class="flex flex-col gap-4 lg:justify-between motion-preset-slide-right">
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-semibold leading-none tracking-tight m-0">
@@ -52,20 +32,20 @@ export const contacts: Contact[] = [
 
       <div class="flex space-x-4 justify-center lg:justify-start">
         {
-          contacts.map((item) => (
+          contacts.map((contact) => (
             <address>
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={item.label}
-            >
-              <Icon
-                name={item.icon}
-                class="w-6 h-6 text-foreground hover:text-primary transition-colors hover:scale-110"
-              />
-            </a>
-          </address>
+              <a
+                href={contact.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={contact.label}
+              >
+                <Icon
+                  name={contact.icon}
+                  class="w-6 h-6 text-foreground hover:text-primary transition-colors hover:scale-110"
+                />
+              </a>
+            </address>
           ))
         }
       </div>
