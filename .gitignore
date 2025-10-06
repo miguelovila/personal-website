@@ -24,4 +24,6 @@ pnpm-debug.log*
 .idea/
 
 # Ignore images used for prototyping
-public/images/boilerplate/*
+public/images/placeholder*
+src/content/posts/*
+src/content/projects/*
