@@ -50,6 +50,23 @@ const {
                 />
               ))}
             </div>
+
+            <div class="absolute left-1/2 -translate-x-1/2 flex gap-2 justify-between w-[150%] px-4 top-1/2 -translate-y-1/2 group-hover:w-full transition-all">
+                <button
+                  class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
+                  aria-label={`Go to previous image`}
+                  data-action="prev"
+                >
+                  &#10094;
+                </button>
+                <button
+                  class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
+                  aria-label={`Go to next image`}
+                  data-action="next"
+                >
+                  &#10095;
+                </button>
+            </div>
           </div>
         ) : (
           <Image
@@ -87,6 +104,8 @@ const {
     slideshows.forEach((slideshow) => {
       const images = slideshow.querySelectorAll(".slideshow-image");
       const dots = slideshow.querySelectorAll(".slideshow-dot");
+      const prevButton = slideshow.querySelector('button[data-action="prev"]');
+      const nextButton = slideshow.querySelector('button[data-action="next"]');
       let currentIndex = 0;
       let interval: ReturnType<typeof setInterval> | null = null;
       let isHovered = false;
@@ -129,12 +148,12 @@ const {
       if (card) {
         card.addEventListener("mouseenter", () => {
           isHovered = true;
-          startSlideshow();
+          stopSlideshow();
         });
 
         card.addEventListener("mouseleave", () => {
           isHovered = false;
-          stopSlideshow();
+          startSlideshow();
         });
       }
 
@@ -143,11 +162,29 @@ const {
           e.preventDefault();
           showImage(index);
           if (isHovered) {
-            stopSlideshow();
             startSlideshow();
+            stopSlideshow();
           }
         });
       });
+
+      prevButton?.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+        startSlideshow();
+        stopSlideshow();
+      });
+
+      nextButton?.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+        startSlideshow();
+        stopSlideshow();
+      });
+
+      startSlideshow();
     });
   });
 </script>
