@@ -34,7 +34,6 @@ const postsCollection = defineCollection({
 
         coverImage: z.string().optional(),
         author: z.string().default('Miguel Vila'),
-        readingTime: z.number().optional(),
 
         tags: z.array(z.string()).optional(),
         category: z.string().optional(),
