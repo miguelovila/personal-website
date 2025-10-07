@@ -3,20 +3,23 @@ import MainLayout from "@/layouts/main-layout.astro";
 import Hero from "@/components/hero/hero.astro";
 import Section from "@/components/section/section.astro";
 import Grid from "@/components/grid/grid.astro";
-import { transformProjectToCard, sortRandom } from "@/utils";
+import { transformPostToCard, sortByDateDesc } from "@/utils";
 ---
 
 <MainLayout title="Home">
   <Hero />
   <Section title="Featured Projects" showSeparator showTitle class="p-4">
+    
+  </Section>
+  <Section title="Recent Blog Posts" showSeparator showTitle class="p-4">
     {
       (
         //@ts-ignore}
         <Grid
-          collectionName="projects"
-          transformFn={transformProjectToCard}
+          collectionName="posts"
+          transformFn={transformPostToCard}
           onlyFeatured
-          sortFn={sortRandom}
+          sortFn={sortByDateDesc}
           limit={3}
         />
       )
