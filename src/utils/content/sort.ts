@@ -7,9 +7,7 @@ export function sortByDateDesc<T extends "projects" | "posts">(
   a: CollectionEntry<T>,
   b: CollectionEntry<T>
 ): number {
-  return (
-    b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
-  );
+  return b.data.publishedDate.getTime() - a.data.publishedDate.getTime();
 }
 
 /**
@@ -19,9 +17,7 @@ export function sortByDateAsc<T extends "projects" | "posts">(
   a: CollectionEntry<T>,
   b: CollectionEntry<T>
 ): number {
-  return (
-    a.data.publishedDate.getTime() - b.data.publishedDate.getTime()
-  );
+  return a.data.publishedDate.getTime() - b.data.publishedDate.getTime();
 }
 
 /**

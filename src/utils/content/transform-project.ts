@@ -6,9 +6,7 @@ import { estimateReadingTime } from "./estimate-reading-time";
 /**
  * Transforms a project collection entry into props for a card component
  */
-export function transformProjectToCard(
-  project: CollectionEntry<"projects">
-): CardProps {
+export function transformProjectToCard(project: CollectionEntry<"projects">): CardProps {
   const images =
     project.data.gallery && project.data.gallery.length > 0
       ? project.data.gallery

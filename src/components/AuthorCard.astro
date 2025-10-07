@@ -28,10 +28,7 @@ const { name, email, image, role } = Astro.props;
   <p class="text-sm text-muted-foreground mb-2">{role}</p>
   {
     email && (
-      <a
-        href={`mailto:${email}`}
-        class="text-xs text-primary hover:underline transition-all"
-      >
+      <a href={`mailto:${email}`} class="text-xs text-primary hover:underline transition-all">
         {email}
       </a>
     )

@@ -8,9 +8,7 @@ const projects = await getCollection("projects");
 const sortedProjects = [...projects].sort(sortByDateDesc);
 const featuredProjects = sortedProjects.filter((p) => p.data.featured);
 
-const allTechnologies = [
-  ...new Set(projects.flatMap((p) => p.data.technologies || [])),
-].sort();
+const allTechnologies = [...new Set(projects.flatMap((p) => p.data.technologies || []))].sort();
 ---
 
 <MainLayout title="Projects">
@@ -18,15 +16,10 @@ const allTechnologies = [
     {
       featuredProjects.length > 0 && (
         <section>
-          <h1 class="text-3xl font-bold pb-4 mb-6 border-b">
-            Featured Projects
-          </h1>
+          <h1 class="text-3xl font-bold pb-4 mb-6 border-b">Featured Projects</h1>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProjects.map((project, index) => (
-              <Card
-                {...transformProjectToCard(project)}
-                loading={index < 3 ? "eager" : "lazy"}
-              />
+              <Card {...transformProjectToCard(project)} loading={index < 3 ? "eager" : "lazy"} />
             ))}
           </div>
         </section>
@@ -61,15 +54,11 @@ const allTechnologies = [
         {
           sortedProjects.map((project, index) => {
             const effectiveIndex =
-              featuredProjects.length > 0
-                ? featuredProjects.length + index
-                : index;
+              featuredProjects.length > 0 ? featuredProjects.length + index : index;
             return (
               <div
                 class="project-card"
-                data-technologies={JSON.stringify(
-                  project.data.technologies || []
-                )}
+                data-technologies={JSON.stringify(project.data.technologies || [])}
               >
                 <Card
                   {...transformProjectToCard(project)}
@@ -93,11 +82,7 @@ const allTechnologies = [
           const selectedTech = button.getAttribute("data-tech");
 
           filterButtons.forEach((btn) => {
-            btn.classList.remove(
-              "active",
-              "bg-primary",
-              "text-primary-foreground"
-            );
+            btn.classList.remove("active", "bg-primary", "text-primary-foreground");
             btn.classList.add("bg-muted", "text-muted-foreground");
           });
           button.classList.add("active", "bg-primary", "text-primary-foreground");
@@ -105,12 +90,9 @@ const allTechnologies = [
 
           projectCards.forEach((card) => {
             const htmlCard = card as HTMLElement;
-            const technologiesAttr =
-              htmlCard.getAttribute("data-technologies") || "[]";
+            const technologiesAttr = htmlCard.getAttribute("data-technologies") || "[]";
             const cardTechnologies = JSON.parse(technologiesAttr);
-            const shouldShow =
-              selectedTech === "all" ||
-              cardTechnologies.includes(selectedTech);
+            const shouldShow = selectedTech === "all" || cardTechnologies.includes(selectedTech);
 
             htmlCard.style.display = shouldShow ? "block" : "none";
           });

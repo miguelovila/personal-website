@@ -1,23 +1,16 @@
 ---
 import TitleSeparator from "@/components/site-section/title-separator.astro";
 
-const {
-    title,
-    show_separator = true,
-    show_title = true,
-    classes = "",
-} = Astro.props;
+const { title, show_separator = true, show_title = true, classes = "" } = Astro.props;
 ---
 
 {
-    show_separator && (
-        <TitleSeparator>
-            {show_title && (
-                <h1 class="text-4xl font-bold pl-4 mt-10 mb-10">{title}</h1>
-            )}
-        </TitleSeparator>
-    )
+  show_separator && (
+    <TitleSeparator>
+      {show_title && <h1 class="text-4xl font-bold pl-4 mt-10 mb-10">{title}</h1>}
+    </TitleSeparator>
+  )
 }
 <section class={classes}>
-    <slot />
+  <slot />
 </section>

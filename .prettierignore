@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.astro/
+
+# Config files that shouldn't be auto-formatted
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

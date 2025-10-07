@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 const { class: className, ...props } = Astro.props;
 ---
 
-<div class={className}>
+<div class={className} {...props}>
   <a class="w-fit flex items-center gap-2" href="/">
     <Image
       loading="eager"

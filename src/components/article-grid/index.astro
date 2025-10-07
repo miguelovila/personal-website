@@ -20,9 +20,7 @@ let content = await getCollection(collection_name);
 
 // Filter by featured if requested
 if (only_featured) {
-  content = content.filter((entry) =>
-    "featured" in entry.data && entry.data.featured === true
-  );
+  content = content.filter((entry) => "featured" in entry.data && entry.data.featured === true);
 }
 
 // Apply custom sorting if provided

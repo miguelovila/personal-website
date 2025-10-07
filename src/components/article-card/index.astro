@@ -19,8 +19,11 @@ const {
     <div class="mb-2 h-1/2">
       {
         Array.isArray(image) ? (
-          <div class="slideshow-container relative w-full h-[200px] overflow-hidden" data-images={JSON.stringify(image)}>
-            <!-- Images -->
+          <div
+            class="slideshow-container relative w-full h-[200px] overflow-hidden"
+            data-images={JSON.stringify(image)}
+          >
+            {/* Images */}
             {image.map((src, i) => (
               <Image
                 src={src}
@@ -35,7 +38,7 @@ const {
               />
             ))}
 
-            <!-- Dots -->
+            {/* Dots */}
             <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
               {image.map((_, i) => (
                 <button
@@ -65,13 +68,7 @@ const {
         {description}
       </p>
       <footer class="flex justify-between mt-2 pt-2 pb-2">
-        {
-          read_duration && (
-            <p class="text-sm text-muted-foreground">
-              {read_duration} min read
-            </p>
-          )
-        }
+        {read_duration && <p class="text-sm text-muted-foreground">{read_duration} min read</p>}
         <p class="text-sm text-primary">Learn More</p>
       </footer>
     </div>
@@ -79,29 +76,29 @@ const {
 </a>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const slideshows = document.querySelectorAll('.slideshow-container');
+  document.addEventListener("DOMContentLoaded", () => {
+    const slideshows = document.querySelectorAll(".slideshow-container");
 
-    slideshows.forEach(slideshow => {
-      const images = slideshow.querySelectorAll('.slideshow-image');
-      const dots = slideshow.querySelectorAll('.slideshow-dot');
+    slideshows.forEach((slideshow) => {
+      const images = slideshow.querySelectorAll(".slideshow-image");
+      const dots = slideshow.querySelectorAll(".slideshow-dot");
       let currentIndex = 0;
       let interval: ReturnType<typeof setInterval> | null = null;
       let isHovered = false;
 
       const showImage = (index: number) => {
         images.forEach((img, i) => {
-          img.classList.toggle('opacity-100', i === index);
-          img.classList.toggle('opacity-0', i !== index);
+          img.classList.toggle("opacity-100", i === index);
+          img.classList.toggle("opacity-0", i !== index);
         });
 
         dots.forEach((dot, i) => {
           if (i === index) {
-            dot.classList.remove('bg-muted-foreground');
-            dot.classList.add('bg-primary');
+            dot.classList.remove("bg-muted-foreground");
+            dot.classList.add("bg-primary");
           } else {
-            dot.classList.remove('bg-primary');
-            dot.classList.add('bg-muted-foreground');
+            dot.classList.remove("bg-primary");
+            dot.classList.add("bg-muted-foreground");
           }
         });
 
@@ -124,14 +121,14 @@ const {
       };
 
       // Find the parent article element
-      const card = slideshow.closest('article');
+      const card = slideshow.closest("article");
       if (card) {
-        card.addEventListener('mouseenter', () => {
+        card.addEventListener("mouseenter", () => {
           isHovered = true;
           startSlideshow();
         });
 
-        card.addEventListener('mouseleave', () => {
+        card.addEventListener("mouseleave", () => {
           isHovered = false;
           stopSlideshow();
         });
@@ -139,7 +136,7 @@ const {
 
       // Dot click handlers
       dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
+        dot.addEventListener("click", () => {
           showImage(index);
           if (isHovered) {
             stopSlideshow();

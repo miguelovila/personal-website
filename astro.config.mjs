@@ -15,11 +15,16 @@ export default defineConfig({
   },
 
   site: "https://miguelovila.pt",
-  integrations: [react(), mdx(), sitemap({
-    changefreq: "weekly",
-    priority: 0.7,
-    lastmod: new Date(),
-  }), icon()],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      changefreq: "weekly",
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
+    icon(),
+  ],
 
   experimental: {
     fonts: [

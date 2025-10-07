@@ -18,9 +18,7 @@ const {
 let content = await getCollection(collectionName);
 
 if (onlyFeatured) {
-  content = content.filter(
-    (entry) => "featured" in entry.data && entry.data.featured === true
-  );
+  content = content.filter((entry) => "featured" in entry.data && entry.data.featured === true);
 }
 
 if (sortFn) {
@@ -35,10 +33,7 @@ if (limit !== null && limit > 0) {
 <div class={gridClasses}>
   {
     content.map((entry, index) => (
-      <Card
-        {...transformFn(entry)}
-        loading={index < eagerLoadCount ? "eager" : "lazy"}
-      />
+      <Card {...transformFn(entry)} loading={index < eagerLoadCount ? "eager" : "lazy"} />
     ))
   }
 </div>

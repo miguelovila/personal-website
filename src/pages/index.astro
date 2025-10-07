@@ -8,13 +8,11 @@ import { transformPostToCard, sortByDateDesc } from "@/utils";
 
 <MainLayout title="Home">
   <Hero />
-  <Section title="Featured Projects" showSeparator showTitle class="p-4">
-    
-  </Section>
+  <Section title="Featured Projects" showSeparator showTitle class="p-4" />
   <Section title="Recent Blog Posts" showSeparator showTitle class="p-4">
     {
       (
-        //@ts-ignore}
+        //@ts-expect-error astro issue}
         <Grid
           collectionName="posts"
           transformFn={transformPostToCard}

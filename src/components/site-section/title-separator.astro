@@ -4,7 +4,8 @@
 
 <style>
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -22,9 +23,7 @@
   }
 </style>
 
-<div
-  class="title-separator w-full overflow-hidden relative h-min[64px] mb-4"
->
+<div class="title-separator w-full overflow-hidden relative h-min[64px] mb-4">
   <!-- Hidden content to measure natural height - positioned absolutely so it doesn't affect layout -->
   <div class="absolute invisible content-measure">
     <slot />
@@ -49,7 +48,7 @@
     const squaresPerRow = Math.ceil(containerWidth / squareSize);
     const rows = Math.ceil(containerHeight / squareSize);
 
-    const gridElements = container.querySelectorAll('div:not(.content-measure):not(.content-text)');
+    const gridElements = container.querySelectorAll("div:not(.content-measure):not(.content-text)");
     gridElements.forEach((el) => el.remove());
 
     container.style.display = "flex";
@@ -128,12 +127,16 @@
           if (Math.random() > 0.4) {
             const delay = Math.random() * 2;
 
-            square.style.backgroundColor = available_border_colors[Math.floor(Math.random() * available_border_colors.length)];
+            square.style.backgroundColor =
+              available_border_colors[Math.floor(Math.random() * available_border_colors.length)];
 
             // After fade-in completes, switch to pulse animation
-            setTimeout(() => {
-              square.style.animation = `pulse ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.6, 1) infinite ${delay}s`;
-            }, (fadeDelay + 1) * 1000);
+            setTimeout(
+              () => {
+                square.style.animation = `pulse ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.6, 1) infinite ${delay}s`;
+              },
+              (fadeDelay + 1) * 1000
+            );
           }
         }
       }

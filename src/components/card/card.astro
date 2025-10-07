@@ -2,16 +2,9 @@
 import { Image } from "astro:assets";
 import type { CardProps } from "@/types";
 
-interface Props extends CardProps {}
+type Props = CardProps;
 
-const {
-  title,
-  description,
-  image,
-  readDuration,
-  link,
-  loading = "lazy",
-} = Astro.props;
+const { title, description, image, readDuration, link, loading = "lazy" } = Astro.props;
 ---
 
 <a href={link}>
@@ -52,20 +45,20 @@ const {
             </div>
 
             <div class="absolute left-1/2 -translate-x-1/2 flex gap-2 justify-between w-[150%] px-4 top-1/2 -translate-y-1/2 group-hover:w-full transition-all">
-                <button
-                  class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
-                  aria-label={`Go to previous image`}
-                  data-action="prev"
-                >
-                  &#10094;
-                </button>
-                <button
-                  class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
-                  aria-label={`Go to next image`}
-                  data-action="next"
-                >
-                  &#10095;
-                </button>
+              <button
+                class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
+                aria-label={`Go to previous image`}
+                data-action="prev"
+              >
+                &#10094;
+              </button>
+              <button
+                class="slideshow-button rounded-full w-7 h-7 bg-border cursor-pointer hover:scale-105 transition-transform"
+                aria-label={`Go to next image`}
+                data-action="next"
+              >
+                &#10095;
+              </button>
             </div>
           </div>
         ) : (
@@ -86,11 +79,7 @@ const {
         <p class="text-md line-clamp-3">{description}</p>
       </div>
       <footer class="flex justify-between pl-4 pr-4">
-        {
-          readDuration && (
-            <p class="text-sm text-muted-foreground">{readDuration} min read</p>
-          )
-        }
+        {readDuration && <p class="text-sm text-muted-foreground">{readDuration} min read</p>}
         <p class="text-sm text-primary">Learn More</p>
       </footer>
     </div>
