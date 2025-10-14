@@ -3,12 +3,27 @@ import MainLayout from "@/layouts/main-layout.astro";
 import Hero from "@/components/hero/hero.astro";
 import Section from "@/components/section/section.astro";
 import Grid from "@/components/grid/grid.astro";
-import { transformPostToCard, sortByDateDesc } from "@/utils";
+import { transformPostToCard, sortByDateDesc, transformProjectToCard, sortRandom } from "@/utils";
 ---
 
 <MainLayout title="Home">
   <Hero />
-  <Section title="Featured Projects" showSeparator showTitle class="p-4" />
+
+  <Section title="Featured Projects" showSeparator showTitle class="p-4">
+    {
+      (
+        //@ts-expect-error astro issue}
+        <Grid
+          collectionName="projects"
+          transformFn={transformProjectToCard}
+          onlyFeatured
+          sortFn={sortRandom}
+          limit={6}
+        />
+      )
+    }
+  </Section>
+
   <Section title="Recent Blog Posts" showSeparator showTitle class="p-4">
     {
       (
