@@ -33,6 +33,7 @@ const postsCollection = defineCollection({
     featured: z.boolean().default(false),
 
     coverImage: z.string().optional(),
+    gallery: z.array(z.string()).optional(),
     author: z.string().default("Miguel Vila"),
 
     tags: z.array(z.string()).optional(),
