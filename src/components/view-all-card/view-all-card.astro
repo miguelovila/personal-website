@@ -1,0 +1,55 @@
+---
+interface Props {
+  title: string;
+  link: string;
+  description?: string;
+  spanColumns?: number;
+}
+
+const { title, link, description = "Explore more content", spanColumns = 1 } = Astro.props;
+
+// Generate column span classes based on spanColumns prop
+// spanColumns represents the number of items in the grid before this card
+// Based on that, we determine optimal spanning:
+// - If 2 items: card takes 3rd spot on lg (no span), spans 2 on md
+// - If 3 items: card spans full width on lg, stays normal on md (fills 2nd col)
+const getColSpanClass = (span: number) => {
+  switch (span) {
+    case 2:
+      return "md:col-span-2 lg:col-span-1";
+    case 3:
+      return "lg:col-span-3"; // span 3 on lg (full width), normal on md
+    default:
+      return "";
+  }
+};
+
+const colSpanClass = getColSpanClass(spanColumns);
+---
+
+<a href={link} class={`view-all-card-link ${colSpanClass}`}>
+  <article
+    class="flex flex-col flex-1 bg-gradient-to-br from-primary/10 to-primary/5 h-full rounded-md relative shadow-sm overflow-clip hover:scale-101 transition-all border-1 border-primary/20 hover:border-primary/40 break-inside-avoid group"
+  >
+    <div class="flex flex-col items-center justify-center gap-4 text-center flex-1 p-4">
+      <div
+        class="w-13 h-13 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-8 h-8 text-primary group-hover:translate-x-1 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-2 text-primary">{title}</h3>
+        <p class="text-md text-muted-foreground">{description}</p>
+      </div>
+    </div>
+  </article>
+</a>

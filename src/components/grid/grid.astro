@@ -30,8 +30,8 @@ if (limit !== null && limit > 0) {
 }
 ---
 
-<div class={gridClasses}>
-  {
+{
+  gridClasses === "" ? (
     content.length === 0 ? (
       <div class="col-span-full h-32 flex items-center justify-center">
         <p class="text-center">No items found.</p>
@@ -41,5 +41,17 @@ if (limit !== null && limit > 0) {
         <Card {...transformFn(entry)} loading={index < eagerLoadCount ? "eager" : "lazy"} />
       ))
     )
-  }
-</div>
+  ) : (
+    <div class={gridClasses}>
+      {content.length === 0 ? (
+        <div class="col-span-full h-32 flex items-center justify-center">
+          <p class="text-center">No items found.</p>
+        </div>
+      ) : (
+        content.map((entry, index) => (
+          <Card {...transformFn(entry)} loading={index < eagerLoadCount ? "eager" : "lazy"} />
+        ))
+      )}
+    </div>
+  )
+}

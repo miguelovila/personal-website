@@ -3,6 +3,7 @@ import MainLayout from "@/layouts/main-layout.astro";
 import Hero from "@/components/hero/hero.astro";
 import Section from "@/components/section/section.astro";
 import Grid from "@/components/grid/grid.astro";
+import ViewAllCard from "@/components/view-all-card/view-all-card.astro";
 import { transformPostToCard, sortByDateDesc, transformProjectToCard, sortRandom } from "@/utils";
 ---
 
@@ -10,32 +11,50 @@ import { transformPostToCard, sortByDateDesc, transformProjectToCard, sortRandom
   <Hero />
 
   <Section title="Featured Projects" showSeparator showTitle class="p-4">
-    {
-      (
-        //@ts-expect-error astro issue}
-        <Grid
-          collectionName="projects"
-          transformFn={transformProjectToCard}
-          onlyFeatured
-          sortFn={sortRandom}
-          limit={6}
-        />
-      )
-    }
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      {
+        (
+          //@ts-expect-error astro issue}
+          <Grid
+            collectionName="projects"
+            transformFn={transformProjectToCard}
+            onlyFeatured
+            sortFn={sortRandom}
+            limit={5}
+            gridClasses=""
+          />
+        )
+      }
+      <ViewAllCard
+        title="Explore All Projects"
+        link="/projects"
+        description="View all amazing projects"
+        spanColumns={1}
+      />
+    </div>
   </Section>
 
   <Section title="Recent Blog Posts" showSeparator showTitle class="p-4">
-    {
-      (
-        //@ts-expect-error astro issue}
-        <Grid
-          collectionName="posts"
-          transformFn={transformPostToCard}
-          onlyFeatured
-          sortFn={sortByDateDesc}
-          limit={3}
-        />
-      )
-    }
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      {
+        (
+          //@ts-expect-error astro issue}
+          <Grid
+            collectionName="posts"
+            transformFn={transformPostToCard}
+            onlyFeatured
+            sortFn={sortByDateDesc}
+            limit={3}
+            gridClasses=""
+          />
+        )
+      }
+      <ViewAllCard
+        title="View All Posts"
+        link="/posts"
+        description="Discover more insights and articles"
+        spanColumns={3}
+      />
+    </div>
   </Section>
 </MainLayout>
