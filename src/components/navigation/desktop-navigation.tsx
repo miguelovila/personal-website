@@ -12,39 +12,62 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/navigation/navigation-menu";
 
-const DesktopNavigationMenu = () => (
-  <NavigationMenu className="hidden md:block">
-    <NavigationMenuList>
-      {routes.map((route) => (
-        <NavigationMenuItem key={route.path}>
-          {route.children ? (
-            <>
-              <NavigationMenuTrigger>{route.title}</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {route.children.map((subroute) => (
-                    <ListItem key={subroute.path} title={subroute.title} href={subroute.path}>
-                      {subroute.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </>
-          ) : (
-            <a
-              href={route.path}
-              rel="noopener noreferrer"
-              aria-label={route.title}
-              className={navigationMenuTriggerStyle()}
-            >
-              {route.title}
-            </a>
-          )}
-        </NavigationMenuItem>
-      ))}
-    </NavigationMenuList>
-  </NavigationMenu>
-);
+interface DesktopNavigationMenuProps {
+  currentPath?: string;
+}
+
+const DesktopNavigationMenu = ({ currentPath: initialPath }: DesktopNavigationMenuProps) => {
+  const [currentPath, setCurrentPath] = React.useState(initialPath || "");
+
+  React.useEffect(() => {
+    // Update path on client-side navigation
+    setCurrentPath(window.location.pathname);
+  }, []);
+
+  const isActiveRoute = (routePath: string) => {
+    if (routePath === "/") {
+      return currentPath === "/";
+    }
+    return currentPath.startsWith(routePath);
+  };
+
+  return (
+    <NavigationMenu className="hidden md:block">
+      <NavigationMenuList>
+        {routes.map((route) => (
+          <NavigationMenuItem key={route.path}>
+            {route.children ? (
+              <>
+                <NavigationMenuTrigger>{route.title}</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {route.children.map((subroute) => (
+                      <ListItem key={subroute.path} title={subroute.title} href={subroute.path}>
+                        {subroute.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </>
+            ) : (
+              <a
+                href={route.path}
+                rel="noopener noreferrer"
+                aria-label={route.title}
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  isActiveRoute(route.path) && "bg-accent text-accent-foreground"
+                )}
+              >
+                {route.title}
+              </a>
+            )}
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+};
 
 const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
   ({ className, title, children, ...props }, ref) => {
