@@ -11,19 +11,15 @@ export const routes: Route[] = [
     title: "Home",
   },
   {
-    path: "/coming-soon?source=about",
-    title: "About",
+    path: "/posts",
+    title: "Blog",
   },
   {
     path: "/projects",
     title: "Projects",
   },
   {
-    path: "/posts",
-    title: "Blog",
-  },
-  {
-    path: "/coming-soon?source=contact",
-    title: "Contact",
+    path: "/coming-soon?source=about",
+    title: "About",
   },
 ];

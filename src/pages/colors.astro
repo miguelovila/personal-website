@@ -1,105 +1,226 @@
 ---
-const lightColors = [
-  { name: "background", var: "--background", value: "oklch(0.9781 0.0041 64.04)" },
-  { name: "foreground", var: "--foreground", value: "oklch(0.1448 0 0)" },
-  { name: "card", var: "--card", value: "oklch(1 0 0)" },
-  { name: "card-foreground", var: "--card-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "popover", var: "--popover", value: "oklch(1 0 0)" },
-  { name: "popover-foreground", var: "--popover-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "primary", var: "--primary", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "primary-foreground", var: "--primary-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "secondary", var: "--secondary", value: "oklch(0.9067 0 0)" },
-  { name: "secondary-foreground", var: "--secondary-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "muted", var: "--muted", value: "oklch(0.9067 0 0)" },
-  { name: "muted-foreground", var: "--muted-foreground", value: "oklch(0.4386 0 0)" },
-  { name: "accent", var: "--accent", value: "oklch(0.8607 0 0)" },
-  { name: "accent-foreground", var: "--accent-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "destructive", var: "--destructive", value: "oklch(0.6368 0.2078 25.3313)" },
-  { name: "destructive-foreground", var: "--destructive-foreground", value: "oklch(0.9851 0 0)" },
-  { name: "border", var: "--border", value: "oklch(0.8666 0.024 63.73)" },
-  { name: "border-10pc", var: "--border-10pc", value: "oklch(0.8666 0.024 63.73 / 10%)" },
-  { name: "border-20pc", var: "--border-20pc", value: "oklch(0.8666 0.024 63.73 / 20%)" },
-  { name: "border-30pc", var: "--border-30pc", value: "oklch(0.8666 0.024 63.73 / 30%)" },
-  { name: "border-40pc", var: "--border-40pc", value: "oklch(0.8666 0.024 63.73 / 40%)" },
-  { name: "input", var: "--input", value: "oklch(0.8607 0 0)" },
-  { name: "ring", var: "--ring", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "chart-1", var: "--chart-1", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "chart-2", var: "--chart-2", value: "oklch(0.7049 0.1867 47.6044)" },
-  { name: "chart-3", var: "--chart-3", value: "oklch(0.6461 0.1943 41.1158)" },
-  { name: "chart-4", var: "--chart-4", value: "oklch(0.5534 0.1739 38.4022)" },
-  { name: "chart-5", var: "--chart-5", value: "oklch(0.4698 0.143 37.3035)" },
-  { name: "sidebar", var: "--sidebar", value: "oklch(0.9551 0 0)" },
-  { name: "sidebar-foreground", var: "--sidebar-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "sidebar-primary", var: "--sidebar-primary", value: "oklch(0.7353 0.1825 52.7591)" },
+const colors = [
+  {
+    name: "background",
+    var: "--background",
+    light: "oklch(0.9781 0.0041 64.04)",
+    dark: "oklch(0.1604 0.0095 63.43)",
+  },
+  {
+    name: "foreground",
+    var: "--foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "card",
+    var: "--card",
+    light: "oklch(1 0 0)",
+    dark: "oklch(0.1913 0 0)",
+  },
+  {
+    name: "card-foreground",
+    var: "--card-foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "popover",
+    var: "--popover",
+    light: "oklch(1 0 0)",
+    dark: "oklch(0.1448 0 0)",
+  },
+  {
+    name: "popover-foreground",
+    var: "--popover-foreground",
+    light: "oklch(0.9551 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "primary",
+    var: "--primary",
+    light: "oklch(0.7353 0.1825 52.7591)",
+    dark: "oklch(0.7353 0.1825 52.7591)",
+  },
+  {
+    name: "primary-foreground",
+    var: "--primary-foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.1448 0 0)",
+  },
+  {
+    name: "secondary",
+    var: "--secondary",
+    light: "oklch(0.9067 0 0)",
+    dark: "oklch(0.2686 0 0)",
+  },
+  {
+    name: "secondary-foreground",
+    var: "--secondary-foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "muted",
+    var: "--muted",
+    light: "oklch(0.9067 0 0)",
+    dark: "oklch(0.2686 0 0)",
+  },
+  {
+    name: "muted-foreground",
+    var: "--muted-foreground",
+    light: "oklch(0.4386 0 0)",
+    dark: "oklch(0.7155 0 0)",
+  },
+  {
+    name: "accent",
+    var: "--accent",
+    light: "oklch(0.8607 0 0)",
+    dark: "oklch(0.3407 0 0)",
+  },
+  {
+    name: "accent-foreground",
+    var: "--accent-foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "destructive",
+    var: "--destructive",
+    light: "oklch(0.6368 0.2078 25.3313)",
+    dark: "oklch(0.6786 0.2095 24.6583)",
+  },
+  {
+    name: "destructive-foreground",
+    var: "--destructive-foreground",
+    light: "oklch(0.9851 0 0)",
+    dark: "oklch(0.1448 0 0)",
+  },
+  {
+    name: "border",
+    var: "--border",
+    light: "oklch(0.8666 0.024 63.73)",
+    dark: "oklch(0.3093 0.0287 62.64)",
+  },
+  {
+    name: "border-10pc",
+    var: "--border-10pc",
+    light: "oklch(0.8666 0.024 63.73 / 10%)",
+    dark: "oklch(0.3093 0.0287 62.64 / 10%)",
+  },
+  {
+    name: "border-20pc",
+    var: "--border-20pc",
+    light: "oklch(0.8666 0.024 63.73 / 20%)",
+    dark: "oklch(0.3093 0.0287 62.64 / 20%)",
+  },
+  {
+    name: "border-30pc",
+    var: "--border-30pc",
+    light: "oklch(0.8666 0.024 63.73 / 30%)",
+    dark: "oklch(0.3093 0.0287 62.64 / 30%)",
+  },
+  {
+    name: "border-40pc",
+    var: "--border-40pc",
+    light: "oklch(0.8666 0.024 63.73 / 40%)",
+    dark: "oklch(0.3093 0.0287 62.64 / 40%)",
+  },
+  {
+    name: "input",
+    var: "--input",
+    light: "oklch(0.8607 0 0)",
+    dark: "oklch(0.2686 0 0)",
+  },
+  {
+    name: "ring",
+    var: "--ring",
+    light: "oklch(0.7353 0.1825 52.7591)",
+    dark: "oklch(0.7353 0.1825 52.7591)",
+  },
+  {
+    name: "chart-1",
+    var: "--chart-1",
+    light: "oklch(0.7353 0.1825 52.7591)",
+    dark: "oklch(0.7353 0.1825 52.7591)",
+  },
+  {
+    name: "chart-2",
+    var: "--chart-2",
+    light: "oklch(0.7049 0.1867 47.6044)",
+    dark: "oklch(0.7049 0.1867 47.6044)",
+  },
+  {
+    name: "chart-3",
+    var: "--chart-3",
+    light: "oklch(0.6461 0.1943 41.1158)",
+    dark: "oklch(0.6461 0.1943 41.1158)",
+  },
+  {
+    name: "chart-4",
+    var: "--chart-4",
+    light: "oklch(0.5534 0.1739 38.4022)",
+    dark: "oklch(0.5534 0.1739 38.4022)",
+  },
+  {
+    name: "chart-5",
+    var: "--chart-5",
+    light: "oklch(0.4698 0.143 37.3035)",
+    dark: "oklch(0.4698 0.143 37.3035)",
+  },
+  {
+    name: "sidebar",
+    var: "--sidebar",
+    light: "oklch(0.9551 0 0)",
+    dark: "oklch(0.1448 0 0)",
+  },
+  {
+    name: "sidebar-foreground",
+    var: "--sidebar-foreground",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.9551 0 0)",
+  },
+  {
+    name: "sidebar-primary",
+    var: "--sidebar-primary",
+    light: "oklch(0.7353 0.1825 52.7591)",
+    dark: "oklch(0.7353 0.1825 52.7591)",
+  },
   {
     name: "sidebar-primary-foreground",
     var: "--sidebar-primary-foreground",
-    value: "oklch(0.1448 0 0)",
+    light: "oklch(0.1448 0 0)",
+    dark: "oklch(0.1448 0 0)",
   },
-  { name: "sidebar-accent", var: "--sidebar-accent", value: "oklch(0.8607 0 0)" },
+  {
+    name: "sidebar-accent",
+    var: "--sidebar-accent",
+    light: "oklch(0.8607 0 0)",
+    dark: "oklch(0.2686 0 0)",
+  },
   {
     name: "sidebar-accent-foreground",
     var: "--sidebar-accent-foreground",
-    value: "oklch(0.9551 0 0)",
+    light: "oklch(0.9551 0 0)",
+    dark: "oklch(0.9551 0 0)",
   },
-  { name: "sidebar-border", var: "--sidebar-border", value: "oklch(0.8607 0 0)" },
-  { name: "sidebar-ring", var: "--sidebar-ring", value: "oklch(0.7353 0.1825 52.7591)" },
+  {
+    name: "sidebar-border",
+    var: "--sidebar-border",
+    light: "oklch(0.8607 0 0)",
+    dark: "oklch(0.2686 0 0)",
+  },
+  {
+    name: "sidebar-ring",
+    var: "--sidebar-ring",
+    light: "oklch(0.7353 0.1825 52.7591)",
+    dark: "oklch(0.7353 0.1825 52.7591)",
+  },
   {
     name: "background-gradient",
     var: "--background-gradient",
-    value: "oklch(0.7352 0.1825 52.68 / 18%)",
-  },
-];
-
-const darkColors = [
-  { name: "background", var: "--background", value: "oklch(0.1604 0.0095 63.43)" },
-  { name: "foreground", var: "--foreground", value: "oklch(0.9551 0 0)" },
-  { name: "card", var: "--card", value: "oklch(0.1913 0 0)" },
-  { name: "card-foreground", var: "--card-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "popover", var: "--popover", value: "oklch(0.1448 0 0)" },
-  { name: "popover-foreground", var: "--popover-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "primary", var: "--primary", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "primary-foreground", var: "--primary-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "secondary", var: "--secondary", value: "oklch(0.2686 0 0)" },
-  { name: "secondary-foreground", var: "--secondary-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "muted", var: "--muted", value: "oklch(0.2686 0 0)" },
-  { name: "muted-foreground", var: "--muted-foreground", value: "oklch(0.7155 0 0)" },
-  { name: "accent", var: "--accent", value: "oklch(0.3407 0 0)" },
-  { name: "accent-foreground", var: "--accent-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "destructive", var: "--destructive", value: "oklch(0.6786 0.2095 24.6583)" },
-  { name: "destructive-foreground", var: "--destructive-foreground", value: "oklch(0.1448 0 0)" },
-  { name: "border", var: "--border", value: "oklch(0.3093 0.0287 62.64)" },
-  { name: "border-10pc", var: "--border-10pc", value: "oklch(0.3093 0.0287 62.64 / 10%)" },
-  { name: "border-20pc", var: "--border-20pc", value: "oklch(0.3093 0.0287 62.64 / 20%)" },
-  { name: "border-30pc", var: "--border-30pc", value: "oklch(0.3093 0.0287 62.64 / 30%)" },
-  { name: "border-40pc", var: "--border-40pc", value: "oklch(0.3093 0.0287 62.64 / 40%)" },
-  { name: "input", var: "--input", value: "oklch(0.2686 0 0)" },
-  { name: "ring", var: "--ring", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "chart-1", var: "--chart-1", value: "oklch(0.7353 0.1825 52.7591)" },
-  { name: "chart-2", var: "--chart-2", value: "oklch(0.7049 0.1867 47.6044)" },
-  { name: "chart-3", var: "--chart-3", value: "oklch(0.6461 0.1943 41.1158)" },
-  { name: "chart-4", var: "--chart-4", value: "oklch(0.5534 0.1739 38.4022)" },
-  { name: "chart-5", var: "--chart-5", value: "oklch(0.4698 0.143 37.3035)" },
-  { name: "sidebar", var: "--sidebar", value: "oklch(0.1448 0 0)" },
-  { name: "sidebar-foreground", var: "--sidebar-foreground", value: "oklch(0.9551 0 0)" },
-  { name: "sidebar-primary", var: "--sidebar-primary", value: "oklch(0.7353 0.1825 52.7591)" },
-  {
-    name: "sidebar-primary-foreground",
-    var: "--sidebar-primary-foreground",
-    value: "oklch(0.1448 0 0)",
-  },
-  { name: "sidebar-accent", var: "--sidebar-accent", value: "oklch(0.2686 0 0)" },
-  {
-    name: "sidebar-accent-foreground",
-    var: "--sidebar-accent-foreground",
-    value: "oklch(0.9551 0 0)",
-  },
-  { name: "sidebar-border", var: "--sidebar-border", value: "oklch(0.2686 0 0)" },
-  { name: "sidebar-ring", var: "--sidebar-ring", value: "oklch(0.7353 0.1825 52.7591)" },
-  {
-    name: "background-gradient",
-    var: "--background-gradient",
-    value: "oklch(0.2205 0.0174 62.92)",
+    light: "oklch(0.7352 0.1825 52.68 / 18%)",
+    dark: "oklch(0.2205 0.0174 62.92)",
   },
 ];
 ---
@@ -268,34 +389,21 @@ const darkColors = [
       </div>
 
       <section>
-        <h2>Light Mode Colors</h2>
-        <div class="grid" id="light-grid">
+        <h2>Color Palette</h2>
+        <div class="grid" id="color-grid">
           {
-            lightColors.map((color) => (
-              <div class="color-card" data-color-name={color.var}>
-                <div class="color-preview" style={`background-color: ${color.value};`} />
+            colors.map((color) => (
+              <div
+                class="color-card"
+                data-color-name={color.var}
+                data-light={color.light}
+                data-dark={color.dark}
+              >
+                <div class="color-preview" style={`background-color: ${color.light};`} />
                 <div class="color-info">
                   <p class="color-name">{color.name}</p>
                   <p class="color-var">{color.var}</p>
-                  <p class="color-value">{color.value}</p>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </section>
-
-      <section>
-        <h2>Dark Mode Colors</h2>
-        <div class="grid" id="dark-grid">
-          {
-            darkColors.map((color) => (
-              <div class="color-card" data-color-name={color.var}>
-                <div class="color-preview" style={`background-color: ${color.value};`} />
-                <div class="color-info">
-                  <p class="color-name">{color.name}</p>
-                  <p class="color-var">{color.var}</p>
-                  <p class="color-value">{color.value}</p>
+                  <p class="color-value">{color.light}</p>
                 </div>
               </div>
             ))
@@ -313,12 +421,31 @@ const darkColors = [
         const themeToggle = document.getElementById("theme-toggle");
         const body = document.body;
 
+        // Function to update color values based on theme
+        function updateColors(isDark: boolean) {
+          colorCards.forEach((card) => {
+            const lightValue = card.getAttribute("data-light");
+            const darkValue = card.getAttribute("data-dark");
+            const currentValue = isDark ? darkValue : lightValue;
+
+            const preview = card.querySelector(".color-preview") as HTMLElement;
+            const valueText = card.querySelector(".color-value");
+
+            if (preview && currentValue) {
+              preview.style.backgroundColor = currentValue;
+            }
+
+            if (valueText && currentValue) {
+              valueText.textContent = currentValue;
+            }
+          });
+        }
+
         // Theme toggle
         themeToggle?.addEventListener("click", () => {
-          body.classList.toggle("dark");
-          themeToggle.textContent = body.classList.contains("dark")
-            ? "Toggle Light Mode"
-            : "Toggle Dark Mode";
+          const isDark = body.classList.toggle("dark");
+          themeToggle.textContent = isDark ? "Toggle Light Mode" : "Toggle Dark Mode";
+          updateColors(isDark);
         });
 
         // Copy to clipboard
