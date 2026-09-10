@@ -1,43 +1,31 @@
 // @ts-check
 
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import react from "@astrojs/react";
-import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 
 import icon from "astro-icon";
+import rehypeSlug from "rehype-slug";
+import rehypePermalinks from "./scripts/rehype-permalinks.mjs";
+
+const isTestContent = process.env.SITE_TEST_CONTENT === "1";
+const testOutDir = process.env.SITE_TEST_OUT_DIR ?? "./.test-dist";
 
 export default defineConfig({
+  outDir: isTestContent ? testOutDir : "./dist",
+  cacheDir: isTestContent ? "./.astro-test" : "./node_modules/.astro",
+  trailingSlash: "always",
   vite: {
     plugins: [tailwindcss()],
   },
 
   site: "https://miguelovila.pt",
-  integrations: [
-    react(),
-    mdx(),
-    sitemap({
-      changefreq: "weekly",
-      priority: 0.7,
-      lastmod: new Date(),
-    }),
-    icon(),
-  ],
+  integrations: [react(), mdx(), icon()],
 
-  experimental: {
-    fonts: [
-      {
-        provider: fontProviders.fontsource(),
-        name: "Fira Code",
-        cssVariable: "--font-sans",
-      },
-      {
-        provider: fontProviders.fontsource(),
-        name: "Fira Code",
-        cssVariable: "--font-mono",
-      },
-    ],
+  markdown: {
+    shikiConfig: { themes: { light: "github-light", dark: "github-dark" } },
+    rehypePlugins: [rehypeSlug, rehypePermalinks],
   },
 });

@@ -10,7 +10,11 @@ export default [
   ...eslintPluginAstro.configs.recommended,
 
   // JSX accessibility
-  jsxA11y.flatConfigs.recommended,
+  { ...jsxA11y.flatConfigs.recommended, files: ["**/*.{jsx,tsx}"] },
+  ...eslintPluginAstro.configs["jsx-a11y-recommended"].map((config) => ({
+    ...config,
+    files: config.files ?? ["**/*.astro"],
+  })),
 
   {
     rules: {
@@ -24,6 +28,16 @@ export default [
   },
 
   {
-    ignores: ["dist/", ".astro/", "node_modules/", "*.config.js", "*.config.mjs", "*.config.ts"],
+    ignores: [
+      "dist/",
+      ".test-dist/",
+      ".test-dist-landing/",
+      ".astro-test/",
+      ".astro/",
+      "node_modules/",
+      "*.config.js",
+      "*.config.mjs",
+      "*.config.ts",
+    ],
   },
 ];

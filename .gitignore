@@ -25,5 +25,8 @@ pnpm-debug.log*
 
 # Ignore images used for prototyping
 public/images/placeholder*
-src/content/posts/*
-src/content/projects/*
+.test-dist/
+.test-dist-landing/
+.astro-test/
+.test-content/
+test-results/
