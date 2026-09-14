@@ -1,52 +1,50 @@
 ---
 import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
 import { contacts } from "@/config/contacts";
+import { copy } from "@/lib/i18n";
+import type { Language } from "@/lib/publishing";
+interface Props {
+  language: Language;
+}
+const { language } = Astro.props;
+const t = copy[language];
 ---
 
-<div class="flex flex-col items-center justify-center pt-32 pb-32 animated-gradient-bg">
-  <div
-    class="flex flex-col gap-4 text-center items-center max-w-[350px] md:max-w-[450px] lg:max-w-[600px] lg:text-left lg:flex-row-reverse lg:items-stretch"
-  >
-    <Image
-      class="size-[128px] mb-2 rounded-lg md:size-[150px] lg:mb-0 lg:size-[190px] motion-rotate-out-[8deg] motion-ease-spring-bounciest"
+<section class="hero animated-gradient-bg" aria-labelledby="intro-title">
+  <div class="hero-main">
+    <img
+      class="hero-portrait"
       src="/images/profile-picture-pixelated.png"
-      alt="A pixelart of Miguel Vila's face"
-      loading="eager"
-      height="200"
+      alt={language === "pt"
+        ? "Retrato de Miguel Vila em pixel art"
+        : "A pixelart of Miguel Vila's face"}
       width="200"
+      height="200"
+      loading="eager"
+      fetchpriority="high"
     />
-
-    <div class="flex flex-col gap-4 lg:justify-between motion-preset-slide-right">
-      <div class="flex flex-col gap-3">
-        <h1 class="text-2xl font-semibold leading-none tracking-tight m-0">
-          Hi, I&apos;m <span class="text-primary">Miguel Vila</span>
+    <div class="hero-copy">
+      <div>
+        <h1 id="intro-title">
+          {language === "pt" ? "Olá, sou o" : "Hi, I’m"}
+          <span>Miguel Vila</span>
         </h1>
-        <p class="text-muted-foreground">
-          I&apos;m a computer engineer with a passion for Linux, Open Source and Trail Running
-          converting caffeine into low quality code since 2003!
-        </p>
+        <p>{t.intro}</p>
       </div>
-
-      <div class="flex space-x-4 justify-center lg:justify-start">
+      <div class="hero-contacts">
         {
           contacts.map((contact) => (
-            <address>
-              <a
-                href={contact.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={contact.label}
-              >
-                <Icon
-                  name={contact.icon}
-                  class="w-6 h-6 text-foreground hover:text-primary transition-colors hover:scale-110"
-                />
-              </a>
-            </address>
+            <a
+              href={contact.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={contact.label}
+            >
+              <Icon name={contact.icon} width="24" height="24" />
+            </a>
           ))
         }
       </div>
     </div>
   </div>
-</div>
+</section>

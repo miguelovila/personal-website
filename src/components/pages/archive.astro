@@ -1,0 +1,156 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath } from "@/lib/publishing";
+import type { SitePage } from "@/lib/routes";
+import EmptyState from "../content/empty-state.astro";
+import ProjectPreview from "../content/project-preview.astro";
+import PostList from "../content/post-list.astro";
+import Pagination from "../content/pagination.astro";
+import ProjectFilter from "../content/project-filter";
+interface Props {
+  page: Extract<SitePage, { kind: "posts" | "projects" | "tags" | "tag" }>;
+}
+const { page } = Astro.props;
+const { language } = page;
+const t = copy[language];
+const title =
+  page.kind === "posts"
+    ? t.blog
+    : page.kind === "projects"
+      ? t.projects
+      : page.kind === "tag"
+        ? page.tag
+        : t.tags;
+const description =
+  page.kind === "posts"
+    ? t.blogDescription
+    : page.kind === "projects"
+      ? t.projectsDescription
+      : t.topicsDescription;
+---
+
+<div class="site-frame archive">
+  <header class="page-header">
+    <p class="eyebrow">
+      {
+        page.kind === "projects"
+          ? t.selectedDescription
+          : page.kind === "tag"
+            ? t.postsTagged
+            : t.introLabel
+      }
+    </p><h1>{title}</h1><p class="lead">{description}</p>
+  </header>
+  {
+    page.kind === "posts" && (
+      <>
+        <div class="archive-toolbar">
+          <>
+            <span class="meta">
+              {t.page} {page.page} {t.of} {page.totalPages}
+            </span>
+            <div class="archive-links">
+              <>
+                <a class="text-link" href={localePath(language, "tags")}>
+                  {t.tags}
+                </a>
+                <a class="text-link" href={localePath(language, "rss.xml")} data-astro-reload>
+                  {t.rssShort} ↗
+                </a>
+              </>
+            </div>
+          </>
+        </div>
+        {page.posts.length ? (
+          <PostList entries={page.posts} heading="h2" />
+        ) : (
+          <EmptyState {language} kind="posts" />
+        )}
+        <Pagination {language} page={page.page} totalPages={page.totalPages} base="posts" />
+      </>
+    )
+  }
+  {
+    page.kind === "projects" && (
+      <>
+        {page.projects.length > 0 && (
+          <div class="archive-toolbar">
+            <ProjectFilter
+              client:load
+              {language}
+              total={page.projects.length}
+              technologies={[
+                ...new Set(page.projects.flatMap((entry) => entry.data.technologies)),
+              ].sort()}
+            />
+          </div>
+        )}
+        {page.projects.length ? (
+          <>
+            <div class="project-grid">
+              {page.projects.map((entry) => (
+                <ProjectPreview {entry} heading="h2" />
+              ))}
+            </div>
+            <p data-project-empty class="search-message" hidden>
+              {t.noProjects}
+            </p>
+          </>
+        ) : (
+          <EmptyState {language} kind="projects" />
+        )}
+      </>
+    )
+  }
+  {
+    page.kind === "tags" &&
+      (page.groups.length ? (
+        <ul class="topic-list">
+          {page.groups.map((group) => (
+            <li>
+              <a href={localePath(language, `tags/${group.slug}`)}>
+                <span>{group.label}</span>
+                <span class="meta">
+                  {group.entries.length} {group.entries.length === 1 ? t.entryOne : t.entries} ↗
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="search-message">{t.noTags}</p>
+      ))
+  }
+  {
+    page.kind === "tag" && (
+      <>
+        <>
+          <div class="archive-toolbar">
+            <>
+              <a class="text-link" href={localePath(language, "tags")}>
+                ← {t.tags}
+              </a>
+              <span class="meta">
+                {t.page} {page.page} {t.of} {page.totalPages}
+              </span>
+            </>
+          </div>
+          <PostList entries={page.entries} heading="h2" showType />
+          <Pagination
+            {language}
+            page={page.page}
+            totalPages={page.totalPages}
+            base={`tags/${page.slug}`}
+          />
+        </>
+      </>
+    )
+  }
+</div>
+<noscript
+  ><style is:inline>
+    [data-project-filter-control] {
+      display: none !important;
+    }
+  </style></noscript
+>

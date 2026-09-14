@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/main-layout.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { copy } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+interface Props {
+  language: Language;
+}
+const { language } = Astro.props;
+const t = copy[language];
+---
+
+<Layout
+  title={`404 — ${t.notFoundTitle}`}
+  description={t.notFoundBody}
+  {language}
+  noindex
+  fallbackPath="/"
+  canonicalPath={language === "en" ? "/404.html" : "/pt/404/"}
+>
+  <section class="not-found animated-gradient-bg">
+    <h1>{t.errorLabel} <span>404</span></h1>
+    <p>{t.notFoundBody}</p>
+    <a
+      class={buttonVariants({ size: "lg", className: "mt-2 min-h-12 text-base uppercase" })}
+      href={localePath(language)}>{t.takeMeBack}</a
+    >
+  </section>
+</Layout>

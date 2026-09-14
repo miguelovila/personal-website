@@ -1,0 +1,38 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+interface Props {
+  language: Language;
+  page: number;
+  totalPages: number;
+  base: string;
+}
+const { language, page, totalPages, base } = Astro.props;
+const t = copy[language];
+const pageURL = (value: number) =>
+  localePath(language, `${base}${value > 1 ? `/page/${value}` : ""}`);
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pagination" aria-label={t.pagination}>
+      {page > 1 ? (
+        <a href={pageURL(page - 1)} rel="prev">
+          ← {t.previous}
+        </a>
+      ) : (
+        <span />
+      )}
+      <span>
+        {t.page} {page} {t.of} {totalPages}
+      </span>
+      {page < totalPages ? (
+        <a href={pageURL(page + 1)} rel="next">
+          {t.next} →
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  )
+}

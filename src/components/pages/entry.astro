@@ -1,0 +1,199 @@
+---
+import { render } from "astro:content";
+import { Image } from "astro:assets";
+import { copy, statusLabel } from "@/lib/i18n";
+import { dateLabel, isPublished, localePath, readingMinutes, tagSlug } from "@/lib/publishing";
+import type { SitePage } from "@/lib/routes";
+import PostList from "../content/post-list.astro";
+import ProjectPreview from "../content/project-preview.astro";
+interface Props {
+  page: Extract<SitePage, { kind: "entry" }>;
+}
+const { page } = Astro.props;
+const { entry, language, relatedPosts, relatedProjects } = page;
+const t = copy[language];
+const { Content, headings } = await render(entry);
+const sections = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const showContents = sections.length >= 3;
+const isProject = entry.collection === "projects";
+const author = entry.collection === "posts" ? entry.data.author : "Miguel Vila";
+---
+
+<div class="site-frame">
+  <article>
+    <div data-pagefind-body data-pagefind-filter={`kind:${entry.collection}`}>
+      <header class="article-header">
+        <a class="back-link" href={localePath(language, entry.collection)} data-pagefind-ignore
+          >← {isProject ? t.backProjects : t.backPosts}</a
+        >
+        <p class="eyebrow">{isProject ? t.project : t.post}</p>
+        {
+          !isPublished(entry.data) && (
+            <p class="preview-label" data-pagefind-ignore>
+              {entry.data.draft ? t.draft : t.scheduled}
+            </p>
+          )
+        }
+        <h1 data-pagefind-meta="title">{entry.data.title}</h1>
+        <p class="article-description" data-pagefind-meta="description">{entry.data.description}</p>
+        <div class="article-meta meta" data-pagefind-ignore>
+          <span
+            >{t.published}
+            <time datetime={entry.data.publishedDate.toISOString()}
+              >{dateLabel(entry.data.publishedDate, language)}</time
+            ></span
+          >
+          {
+            entry.data.updatedDate && (
+              <span>
+                {t.updated}{" "}
+                <time datetime={entry.data.updatedDate.toISOString()}>
+                  {dateLabel(entry.data.updatedDate, language)}
+                </time>
+              </span>
+            )
+          }
+          <span>{readingMinutes(entry.body)} {t.reading}</span>
+          <span
+            >{t.author}
+            {
+              author === "Miguel Vila" ? (
+                <a href={localePath(language, "about")}>{author}</a>
+              ) : (
+                author
+              )
+            }</span
+          >
+        </div>
+        {
+          entry.collection === "projects" && (
+            <>
+              <div class="article-meta">
+                <>
+                  <span class="status" data-status={entry.data.status}>
+                    {statusLabel(entry.data.status, language)}
+                  </span>
+                  <div class="technology-list">
+                    {entry.data.technologies.map((technology) => (
+                      <span>{technology}</span>
+                    ))}
+                  </div>
+                </>
+              </div>
+              <div class="article-actions" data-pagefind-ignore>
+                {entry.data.repositoryUrl && (
+                  <a class="text-link" href={entry.data.repositoryUrl}>
+                    {t.source} ↗
+                  </a>
+                )}
+                {entry.data.liveUrl && (
+                  <a class="text-link" href={entry.data.liveUrl}>
+                    {t.live} ↗
+                  </a>
+                )}
+              </div>
+            </>
+          )
+        }
+      </header>
+      {
+        entry.data.coverImage && (
+          <figure class="article-cover">
+            <Image
+              src={entry.data.coverImage}
+              alt={entry.data.coverImageAlt!}
+              widths={[480, 800, 1120, 1600]}
+              sizes="(max-width: 960px) 100vw, 960px"
+              width={1120}
+              loading="eager"
+            />
+          </figure>
+        )
+      }
+      <div class:list={["article-grid", { "without-toc": !showContents }]}>
+        <div class="prose"><Content /></div>
+        {
+          showContents && (
+            <nav class="table-of-contents" aria-label={t.contents} data-pagefind-ignore>
+              <>
+                <h2>{t.contents}</h2>
+                <ol>
+                  {sections.map((section) => (
+                    <li data-depth={section.depth}>
+                      <a href={`#${section.slug}`}>{section.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            </nav>
+          )
+        }
+      </div>
+      {
+        entry.collection === "projects" && entry.data.gallery.length > 0 && (
+          <section class="gallery" aria-labelledby="project-gallery">
+            <>
+              <h2 id="project-gallery">{t.gallery}</h2>
+              <div class="gallery-grid">
+                {entry.data.gallery.map((item) => (
+                  <figure>
+                    <a
+                      href={item.image.src}
+                      aria-label={`${t.imageOpen}: ${item.alt}`}
+                      data-astro-reload
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.alt}
+                        widths={[480, 800, 1120]}
+                        sizes="(max-width: 639px) 100vw, 50vw"
+                        width={800}
+                        loading="lazy"
+                      />
+                    </a>
+                    {item.caption && <figcaption>{item.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </>
+          </section>
+        )
+      }
+    </div>
+    <div class="article-end" data-pagefind-ignore>
+      <div class="tag-links meta">
+        {
+          entry.data.tags.map((tag) => (
+            <a href={localePath(language, `tags/${tagSlug(tag)}`)}>{tag}</a>
+          ))
+        }
+      </div><a class="text-link" href={localePath(language, "rss.xml")} data-astro-reload
+        >{t.rss} ↗</a
+      >
+    </div>
+  </article>
+  {
+    relatedProjects.length > 0 && (
+      <section class="related-section" aria-labelledby="related-projects">
+        <>
+          <h2 id="related-projects">{t.relatedProjects}</h2>
+          <div class="project-grid">
+            {relatedProjects.map((project) => (
+              <ProjectPreview entry={project} />
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  {
+    relatedPosts.length > 0 && (
+      <section class="related-section" aria-labelledby="related-posts">
+        <>
+          <h2 id="related-posts">{isProject ? t.projectWriting : t.related}</h2>
+          <PostList entries={relatedPosts} />
+        </>
+      </section>
+    )
+  }
+</div>

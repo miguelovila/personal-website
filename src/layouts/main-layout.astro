@@ -1,57 +1,353 @@
 ---
-import "@styles/global.css";
-
-import Header from "@components/header/header.astro";
-import Footer from "@components/footer/footer.astro";
-
-import { Font } from "astro:assets";
-
-const { title, mainClasses = "" } = Astro.props;
+import "@fontsource/source-sans-3/latin-400.css";
+import "@fontsource/source-sans-3/latin-600.css";
+import "@fontsource/source-sans-3/latin-700.css";
+import "@fontsource/source-sans-3/latin-400-italic.css";
+import "@fontsource/fira-code/latin-400.css";
+import "@fontsource/fira-code/latin-600.css";
+import { ClientRouter } from "astro:transitions";
+import monoRegularFont from "@fontsource/fira-code/files/fira-code-latin-400-normal.woff2?url";
+import sansRegularFont from "@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2?url";
+import sansSemiboldFont from "@fontsource/source-sans-3/files/source-sans-3-latin-600-normal.woff2?url";
+import "@/styles/global.css";
+import Header from "@/components/header/header.astro";
+import Footer from "@/components/footer/footer.astro";
+import { copy, htmlLanguage } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+import { siteURL, type Alternate } from "@/lib/content";
+import { getFeatureFlags, isHomeOnlySite } from "@/lib/feature-flags";
+interface Props {
+  title: string;
+  description?: string;
+  language?: Language;
+  canonicalPath?: string;
+  alternates?: Alternate[];
+  fallbackPath?: string;
+  image?: string;
+  noindex?: boolean;
+  article?: {
+    type: "BlogPosting" | "CreativeWork";
+    author: string;
+    published: Date;
+    updated?: Date;
+  };
+}
+const {
+  title,
+  language = "en",
+  description = copy[language].siteDescription,
+  canonicalPath = Astro.url.pathname,
+  alternates = [],
+  fallbackPath = "/",
+  image = "/images/social-card.png",
+  noindex = false,
+  article,
+} = Astro.props;
+const canonical = new URL(canonicalPath, siteURL).href;
+const shareImage = new URL(image, siteURL).href;
+const pageTitle = title.includes("Miguel Vila") ? title : `${title} — Miguel Vila`;
+const flags = getFeatureFlags();
+const hideFooter = isHomeOnlySite(flags);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteURL}/#person`,
+      name: "Miguel Vila",
+      url: new URL(flags.about ? "/about/" : "/", siteURL).href,
+      image: `${siteURL}/images/profile-picture-pixelated.png`,
+      sameAs: ["https://github.com/miguelovila", "https://www.linkedin.com/in/miguelovila"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteURL}/#website`,
+      name: "Miguel Vila",
+      url: `${siteURL}/`,
+      inLanguage: ["en", "pt-PT"],
+      author: { "@id": `${siteURL}/#person` },
+    },
+    ...(article
+      ? [
+          {
+            "@type": article.type,
+            "@id": `${canonical}#article`,
+            headline: title,
+            description,
+            url: canonical,
+            inLanguage: htmlLanguage(language),
+            image: shareImage,
+            datePublished: article.published.toISOString(),
+            dateModified: (article.updated ?? article.published).toISOString(),
+            author:
+              article.author === "Miguel Vila"
+                ? { "@id": `${siteURL}/#person` }
+                : { "@type": "Person", name: article.author },
+            mainEntityOfPage: canonical,
+          },
+        ]
+      : []),
+  ],
+};
 ---
 
-<script is:inline>
-  const getThemePreference = () => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
-    }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  };
-  const isDark = getThemePreference() === "dark";
-  document.documentElement.classList[isDark ? "add" : "remove"]("dark");
-
-  if (typeof localStorage !== "undefined") {
-    const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains("dark");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-  }
-</script>
-
-<html lang="en">
+<!doctype html>
+<html lang={htmlLanguage(language)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      (() => {
+        const themeValues = ["light", "dark", "system"];
+        const media = matchMedia("(prefers-color-scheme: dark)");
+        const storedPreference = () => {
+          try {
+            const saved = localStorage.getItem("theme");
+            return themeValues.includes(saved) ? saved : "system";
+          } catch {
+            return "system";
+          }
+        };
+        const applyTheme = (root = document.documentElement) => {
+          const preference = storedPreference();
+          const dark = preference === "dark" || (preference === "system" && media.matches);
+          root.dataset.themePreference = preference;
+          root.dataset.theme = dark ? "dark" : "light";
+        };
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-
-    <script>
-      import { Observer } from "tailwindcss-intersect";
-      Observer.start();
+        applyTheme();
+        if (!Reflect.get(window, "__siteThemeControllerReady")) {
+          Reflect.set(window, "__siteThemeControllerReady", true);
+          media.addEventListener("change", () => {
+            if (storedPreference() === "system") applyTheme();
+          });
+          window.addEventListener("storage", (event) => {
+            if (event.key === "theme" || event.key === null) applyTheme();
+          });
+          document.addEventListener("astro:before-swap", (event) => {
+            if (event.newDocument?.documentElement) applyTheme(event.newDocument.documentElement);
+          });
+          document.addEventListener("astro:after-swap", () => applyTheme());
+        }
+        if (!Reflect.get(window, "__siteLoaderHandled")) {
+          document.documentElement.dataset.siteLoading = "true";
+        }
+      })();
     </script>
-
-    <Font cssVariable="--font-sans" preload />
-    <Font cssVariable="--font-mono" preload />
-
-    <title>{title}</title>
+    <title>{pageTitle}</title><meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    {
+      alternates.map((alternate) => (
+        <link
+          rel="alternate"
+          hreflang={htmlLanguage(alternate.language)}
+          href={new URL(alternate.href, siteURL).href}
+        />
+      ))
+    }
+    {
+      alternates.some((alternate) => alternate.language === "en") && (
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={
+            new URL(alternates.find((alternate) => alternate.language === "en")!.href, siteURL).href
+          }
+        />
+      )
+    }
+    <link rel="icon" href="/favicon.ico" sizes="any" /><link
+      rel="apple-touch-icon"
+      href="/apple-touch-icon.png"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {
+      flags.blog && (
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`Miguel Vila — ${copy[language].blog}`}
+          href={localePath(language, "rss.xml")}
+        />
+      )
+    }
+    <link rel="preload" href={sansRegularFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansSemiboldFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoRegularFont} as="font" type="font/woff2" crossorigin />
+    <ClientRouter fallback="animate" />
+    <meta property="og:title" content={pageTitle} /><meta
+      property="og:description"
+      content={description}
+    />
+    <meta property="og:type" content={article?.type === "BlogPosting" ? "article" : "website"} />
+    <meta property="og:url" content={canonical} /><meta
+      property="og:site_name"
+      content="Miguel Vila"
+    />
+    <meta property="og:locale" content={language === "pt" ? "pt_PT" : "en_GB"} />
+    <meta property="og:image" content={shareImage} /><meta
+      property="og:image:alt"
+      content={title}
+    />
+    <meta name="twitter:card" content="summary_large_image" /><meta
+      name="twitter:title"
+      content={pageTitle}
+    />
+    <meta name="twitter:description" content={description} /><meta
+      name="twitter:image"
+      content={shareImage}
+    />
+    {
+      article && (
+        <>
+          <meta property="article:published_time" content={article.published.toISOString()} />
+          {article.updated && (
+            <meta property="article:modified_time" content={article.updated.toISOString()} />
+          )}
+        </>
+      )
+    }
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+    />
   </head>
-  <body class="h-screen max-w-[100vw] flex flex-col overflow-x-hidden">
-    <Header />
-    <main class={`container flex-1 border-l border-r ${mainClasses}`}>
+  <body>
+    <div class="site-loader" aria-hidden="true" data-pagefind-ignore>
+      <div class="site-loader-panel">
+        <span class="site-loader-mark">Miguel Vila<span>_</span></span>
+        <span class="site-loader-track"><span></span></span>
+      </div>
+    </div>
+    <a class="skip-link" href="#main-content">{copy[language].skip}</a>
+    <Header {language} {alternates} {fallbackPath} />
+    <main
+      id="main-content"
+      class:list={[{ "hero-only-main": hideFooter }]}
+      tabindex="-1"
+      transition:name="main-content"
+    >
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer {language} {alternates} {fallbackPath} />}
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const finish = () => {
+          root.dataset.siteReady = "true";
+          root.removeAttribute("data-site-loading");
+        };
+        if (Reflect.get(window, "__siteLoaderHandled")) {
+          finish();
+          return;
+        }
+        Reflect.set(window, "__siteLoaderHandled", true);
+        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const minDelay = new Promise((resolve) => setTimeout(resolve, reduced ? 0 : 280));
+        const fontReady = document.fonts?.ready?.catch(() => undefined) ?? Promise.resolve();
+        const maxDelay = new Promise((resolve) => setTimeout(resolve, 900));
+        Promise.race([Promise.all([fontReady, minDelay]), maxDelay]).then(() => {
+          requestAnimationFrame(finish);
+        });
+      })();
+    </script>
+    <script>
+      if (!Reflect.get(window, "__siteMotionControllerReady")) {
+        Reflect.set(window, "__siteMotionControllerReady", true);
+        let cleanups: Array<() => void> = [];
+
+        const runCleanups = () => {
+          cleanups.forEach((cleanup) => cleanup());
+          cleanups = [];
+        };
+
+        const hashId = (hash: string) => {
+          if (!hash.startsWith("#")) return "";
+          try {
+            return decodeURIComponent(hash.slice(1));
+          } catch {
+            return hash.slice(1);
+          }
+        };
+
+        const setupToc = () => {
+          const toc = document.querySelector<HTMLElement>(".table-of-contents");
+          if (!toc) return;
+
+          const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+          const sections = links
+            .map((link) => document.getElementById(hashId(link.hash)))
+            .filter((section): section is HTMLElement => Boolean(section));
+          if (!links.length || !sections.length) return;
+
+          let frame = 0;
+          const setCurrent = (id: string) => {
+            links.forEach((link) => {
+              const active = hashId(link.hash) === id;
+              if (active) link.setAttribute("aria-current", "location");
+              else link.removeAttribute("aria-current");
+              link.closest("li")?.toggleAttribute("data-active", active);
+            });
+          };
+          const updateCurrent = () => {
+            const headerHeight =
+              document.querySelector<HTMLElement>(".site-header")?.getBoundingClientRect().height ??
+              76;
+            const offset = headerHeight + 160;
+            const current = sections.reduce((active, section) => {
+              return section.getBoundingClientRect().top <= offset ? section : active;
+            }, sections[0]);
+            setCurrent(current.id);
+          };
+          const scheduleUpdate = () => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(updateCurrent);
+          };
+
+          const observer =
+            "IntersectionObserver" in window
+              ? new IntersectionObserver(scheduleUpdate, {
+                  rootMargin: "-96px 0px -70% 0px",
+                  threshold: [0, 0.35, 1],
+                })
+              : null;
+          sections.forEach((section) => observer?.observe(section));
+          window.addEventListener("scroll", scheduleUpdate, { passive: true });
+          window.addEventListener("hashchange", scheduleUpdate);
+          const linkCleanups = links.map((link) => {
+            const activateLink = () => {
+              const id = hashId(link.hash);
+              if (id) setCurrent(id);
+            };
+            link.addEventListener("click", activateLink);
+            return () => link.removeEventListener("click", activateLink);
+          });
+          const initialTimer = window.setTimeout(scheduleUpdate, 60);
+
+          cleanups.push(...linkCleanups, () => {
+            observer?.disconnect();
+            window.removeEventListener("scroll", scheduleUpdate);
+            window.removeEventListener("hashchange", scheduleUpdate);
+            cancelAnimationFrame(frame);
+            window.clearTimeout(initialTimer);
+          });
+        };
+
+        const setupMotion = () => {
+          runCleanups();
+          setupToc();
+        };
+
+        document.addEventListener("astro:before-swap", runCleanups);
+        document.addEventListener("astro:page-load", setupMotion);
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", setupMotion, { once: true });
+        } else {
+          setupMotion();
+        }
+      }
+    </script>
   </body>
 </html>

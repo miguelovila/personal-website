@@ -1,0 +1,39 @@
+---
+import { copy } from "@/lib/i18n";
+import type { Language } from "@/lib/publishing";
+import { getFeatureFlags } from "@/lib/feature-flags";
+interface Props {
+  language: Language;
+}
+const { language } = Astro.props;
+const t = copy[language];
+const flags = getFeatureFlags();
+const isLandingOnly = !flags.projects && !flags.blog;
+const aboutBody = isLandingOnly ? t.aboutLandingBody : t.aboutBody;
+const aboutSiteBody = isLandingOnly ? t.aboutSiteLandingBody : t.aboutSiteBody;
+---
+
+<div class="site-frame">
+  <header class="page-header">
+    <p class="eyebrow">{t.aboutLabel}</p><h1>{t.aboutTitle}</h1><p class="lead">{t.aboutLead}</p>
+  </header>
+  <div class="about-grid">
+    <div class="prose">
+      <p>{aboutBody}</p><h2>{t.aboutInterests}</h2><p>{t.aboutTrail}</p><h2>{t.aboutSite}</h2><p>
+        {aboutSiteBody}
+      </p><h2>{t.contact}</h2><p>{t.contactBody}</p><p>
+        <a href="mailto:contact@miguelovila.pt">contact@miguelovila.pt</a>
+      </p>
+    </div>
+    <aside class="about-aside" aria-label={t.elsewhere}>
+      <img
+        src="/images/profile-picture-pixelated.png"
+        alt={language === "pt" ? "Miguel Vila em pixel art" : "Miguel Vila in pixel art"}
+        width="160"
+        height="160"
+      /><p class="meta">Miguel Vila</p><a href="https://github.com/miguelovila">GitHub ↗</a><a
+        href="https://www.linkedin.com/in/miguelovila">LinkedIn ↗</a
+      ><a href="mailto:contact@miguelovila.pt">Email ↗</a>
+    </aside>
+  </div>
+</div>
