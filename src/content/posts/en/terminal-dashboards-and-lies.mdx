@@ -1,0 +1,43 @@
+---
+title: "Terminal Dashboards And Other Lies I Tell Myself"
+description: "A fake essay about small terminal dashboards, comforting numbers, and the danger of measuring the wrong thing beautifully."
+language: en
+draft: false
+publishedDate: 2026-04-16
+featured: false
+tags: [terminal, metrics, cli, writing]
+relatedProjects: [en/dotfiles-workbench, en/linux-battery-ledger]
+coverImage: ../../assets/seed-terminal-dashboard.png
+coverImageAlt: "A terminal dashboard mockup with build output and metrics."
+shareImage: ../../assets/seed-terminal-dashboard.png
+---
+
+import ReadingTimeEstimator from "@/components/demos/ReadingTimeEstimator";
+
+A terminal dashboard has the power to make any habit feel disciplined. That is both the appeal and the problem.
+
+## The dashboard
+
+```bash
+printf 'posts=%s projects=%s links=%s\n' 15 10 243
+```
+
+The numbers look official. The trick is remembering that official-looking numbers can still be nonsense.
+
+## The useful lie
+
+A dashboard can be useful when it makes the next action obvious. It becomes theater when it mainly proves that a dashboard exists.
+
+| Metric       | Useful question        | Bad habit                            |
+| ------------ | ---------------------- | ------------------------------------ |
+| Draft count  | What needs a decision? | Feeling productive by counting dust. |
+| Broken links | What needs fixing?     | Rechecking without fixing.           |
+| Build time   | Did something regress? | Optimizing a tiny site into sadness. |
+
+## The tiny embedded tool
+
+<ReadingTimeEstimator client:load />
+
+## The exit
+
+If a number does not change what I do next, it probably belongs in a log, not above the fold.

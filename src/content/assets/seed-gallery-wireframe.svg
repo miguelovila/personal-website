@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
+    <rect width="1200" height="750" fill="#15100d" />
+    <path d="M0 0 H1200 V750 H0 Z" fill="url(#noise)" opacity="0.08" />
+    <defs><pattern id="noise" width="36" height="36" patternUnits="userSpaceOnUse"><rect width="1" height="36" x="0" y="0" fill="#ff8214" /></pattern></defs>
+    <circle cx="1040" cy="122" r="84" fill="#ff8214" opacity="0.18" />
+    <circle cx="106" cy="636" r="128" fill="#ff8214" opacity="0.10" />
+    <text x="108" y="92" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="700" fill="#f7efe7">Gallery Wireframe</text>
+    <text x="108" y="136" font-family="Inter, Arial, sans-serif" font-size="22" fill="#b8aaa0">cover, details, captions</text>
+    
+      <rect x="116" y="170" width="174" height="96" rx="18" fill="#ff8214" stroke="#5f402b" opacity="0.95" /><rect x="336" y="170" width="174" height="96" rx="18" fill="#302219" stroke="#5f402b" opacity="1" /><rect x="556" y="170" width="174" height="96" rx="18" fill="#211812" stroke="#5f402b" opacity="1" /><rect x="776" y="170" width="174" height="96" rx="18" fill="#ff8214" stroke="#5f402b" opacity="0.95" /><rect x="116" y="312" width="174" height="96" rx="18" fill="#302219" stroke="#5f402b" opacity="1" /><rect x="336" y="312" width="174" height="96" rx="18" fill="#211812" stroke="#5f402b" opacity="1" /><rect x="556" y="312" width="174" height="96" rx="18" fill="#ff8214" stroke="#5f402b" opacity="0.95" /><rect x="776" y="312" width="174" height="96" rx="18" fill="#302219" stroke="#5f402b" opacity="1" /><rect x="116" y="454" width="174" height="96" rx="18" fill="#211812" stroke="#5f402b" opacity="1" /><rect x="336" y="454" width="174" height="96" rx="18" fill="#ff8214" stroke="#5f402b" opacity="0.95" /><rect x="556" y="454" width="174" height="96" rx="18" fill="#302219" stroke="#5f402b" opacity="1" /><rect x="776" y="454" width="174" height="96" rx="18" fill="#211812" stroke="#5f402b" opacity="1" />
+      <path d="M128 568 H966" stroke="#ff8214" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+  </svg>
