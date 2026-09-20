@@ -1,70 +1,67 @@
-# FROM oven/bun:alpine
+# syntax=docker/dockerfile:1.7
 
-# WORKDIR /app
+ARG BUN_VERSION=1.3.14
 
-# COPY package.json bun.lock ./
-
-# RUN bun install --frozen-lockfile
-
-# COPY . .
-
-# ENV PORT 3000
-# ENV HOSTNAME "0.0.0.0"
-# ENV NEXT_TELEMETRY_DISABLED 1
-# ENV NEXT_PUBLIC_BASE_URL localhost:3000
-
-# EXPOSE 3000
-
-# RUN bun run build
-# RUN bun run start
-
-
-FROM oven/bun:alpine AS base
-
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
+FROM oven/bun:${BUN_VERSION}-alpine AS deps
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+ENV HUSKY=0
+
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
-
-# Rebuild the source code only when needed
-FROM base AS builder
+FROM deps AS build
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+ARG FEATURE_FLAGS=all
+ARG FEATURE_BLOG
+ARG FEATURE_PROJECTS
+ARG FEATURE_ABOUT
+ARG FEATURE_SEARCH
+ARG FEATURE_FLAG_BLOG
+ARG FEATURE_FLAG_PROJECTS
+ARG FEATURE_FLAG_ABOUT
+ARG FEATURE_FLAG_SEARCH
+ARG PUBLIC_FEATURE_FLAGS
+ARG PUBLIC_FEATURE_BLOG
+ARG PUBLIC_FEATURE_PROJECTS
+ARG PUBLIC_FEATURE_ABOUT
+ARG PUBLIC_FEATURE_SEARCH
+ARG PUBLIC_FEATURE_FLAG_BLOG
+ARG PUBLIC_FEATURE_FLAG_PROJECTS
+ARG PUBLIC_FEATURE_FLAG_ABOUT
+ARG PUBLIC_FEATURE_FLAG_SEARCH
+
+ENV ASTRO_TELEMETRY_DISABLED=1 \
+    NODE_ENV=production \
+    FEATURE_FLAGS=${FEATURE_FLAGS} \
+    FEATURE_BLOG=${FEATURE_BLOG} \
+    FEATURE_PROJECTS=${FEATURE_PROJECTS} \
+    FEATURE_ABOUT=${FEATURE_ABOUT} \
+    FEATURE_SEARCH=${FEATURE_SEARCH} \
+    FEATURE_FLAG_BLOG=${FEATURE_FLAG_BLOG} \
+    FEATURE_FLAG_PROJECTS=${FEATURE_FLAG_PROJECTS} \
+    FEATURE_FLAG_ABOUT=${FEATURE_FLAG_ABOUT} \
+    FEATURE_FLAG_SEARCH=${FEATURE_FLAG_SEARCH} \
+    PUBLIC_FEATURE_FLAGS=${PUBLIC_FEATURE_FLAGS} \
+    PUBLIC_FEATURE_BLOG=${PUBLIC_FEATURE_BLOG} \
+    PUBLIC_FEATURE_PROJECTS=${PUBLIC_FEATURE_PROJECTS} \
+    PUBLIC_FEATURE_ABOUT=${PUBLIC_FEATURE_ABOUT} \
+    PUBLIC_FEATURE_SEARCH=${PUBLIC_FEATURE_SEARCH} \
+    PUBLIC_FEATURE_FLAG_BLOG=${PUBLIC_FEATURE_FLAG_BLOG} \
+    PUBLIC_FEATURE_FLAG_PROJECTS=${PUBLIC_FEATURE_FLAG_PROJECTS} \
+    PUBLIC_FEATURE_FLAG_ABOUT=${PUBLIC_FEATURE_FLAG_ABOUT} \
+    PUBLIC_FEATURE_FLAG_SEARCH=${PUBLIC_FEATURE_FLAG_SEARCH}
+
 COPY . .
-
-ENV NEXT_PUBLIC_BASE_URL=localhost:3000
-
 RUN bun run build
 
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
+FROM nginx:stable-alpine AS runtime
 
-ENV NODE_ENV=production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-ENV NEXT_TELEMETRY_DISABLED=1
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN addgroup --system --gid 1001 bunjs
-RUN adduser --system --uid 1001 bunjs
+EXPOSE 80
 
-COPY --from=builder /app/public ./public
-
-COPY --from=builder --chown=bunjs:bunjs /app/.next/standalone ./
-COPY --from=builder --chown=bunjs:bunjs /app/.next/static ./.next/static
-
-USER bunjs
-
-EXPOSE 3000
-
-ENV PORT=3000
-ENV NEXT_PUBLIC_BASE_URL=localhost:3000
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
-ENV HOSTNAME="0.0.0.0"
-CMD ["bun", "server.js"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1/ || exit 1

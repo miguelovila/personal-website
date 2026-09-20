@@ -1,0 +1,53 @@
+---
+import { copy } from "@/lib/i18n";
+import { dateLabel, isPublished, localePath, readingMinutes, tagSlug } from "@/lib/publishing";
+import { entryPath, type Entry } from "@/lib/content";
+interface Props {
+  entries: Entry[];
+  heading?: "h2" | "h3";
+  showType?: boolean;
+}
+const { entries, heading: Heading = "h3", showType = false } = Astro.props;
+---
+
+<ul class="post-list">
+  {
+    entries.map((entry) => {
+      const t = copy[entry.data.language];
+      return (
+        <li class="post-row">
+          <time class="meta" datetime={entry.data.publishedDate.toISOString()}>
+            {dateLabel(entry.data.publishedDate, entry.data.language)}
+          </time>
+          <>
+            <div>
+              <>
+                <Heading>
+                  <a href={entryPath(entry)}>{entry.data.title}</a>
+                </Heading>
+                <p>{entry.data.description}</p>
+              </>
+              <div class="post-meta meta">
+                {showType && <span>{entry.collection === "posts" ? t.post : t.project}</span>}
+                <span>
+                  {readingMinutes(entry.body)} {t.reading}
+                </span>
+                <span class="tag-links">
+                  {entry.data.tags.slice(0, 3).map((tag) => (
+                    <a href={localePath(entry.data.language, `tags/${tagSlug(tag)}`)}>{tag}</a>
+                  ))}
+                </span>
+                {!isPublished(entry.data) && (
+                  <span class="preview-label">{entry.data.draft ? t.draft : t.scheduled}</span>
+                )}
+              </div>
+            </div>
+            <span class="row-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </>
+        </li>
+      );
+    })
+  }
+</ul>

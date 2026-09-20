@@ -1,0 +1,91 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath } from "@/lib/publishing";
+import Hero from "../hero/hero.astro";
+import type { SitePage } from "@/lib/routes";
+import EmptyState from "../content/empty-state.astro";
+import ProjectPreview from "../content/project-preview.astro";
+import PostList from "../content/post-list.astro";
+import { getFeatureFlags, isHomeOnlySite } from "@/lib/feature-flags";
+interface Props {
+  page: Extract<SitePage, { kind: "home" }>;
+}
+const { page } = Astro.props;
+const { language, projects, posts } = page;
+const t = copy[language];
+
+const flags = getFeatureFlags();
+const showProjects = flags.projects;
+const showBlog = flags.blog;
+const isHeroOnly = isHomeOnlySite(flags);
+
+let sectionIndex = 1;
+const projectSectionNumber = showProjects ? String(sectionIndex++).padStart(2, "0") : "";
+const blogSectionNumber = showBlog ? String(sectionIndex++).padStart(2, "0") : "";
+---
+
+<div class:list={["site-frame", { "home-hero-only": isHeroOnly }]}>
+  <Hero {language} />
+  {
+    showProjects && (
+      <section class="home-section" aria-labelledby="selected-projects">
+        <div class="section-heading">
+          <>
+            <div>
+              <>
+                <div class="section-title">
+                  <>
+                    <span class="section-number" aria-hidden="true">
+                      {projectSectionNumber}
+                    </span>
+                    <h2 id="selected-projects">{t.selected}</h2>
+                  </>
+                </div>
+                <p class="section-description">{t.selectedDescription}</p>
+              </>
+            </div>
+            <a class="text-link" href={localePath(language, "projects")}>
+              {t.allProjects} <span aria-hidden="true">→</span>
+            </a>
+          </>
+        </div>
+        {projects.length ? (
+          <div class="project-grid">
+            {projects.map((entry) => (
+              <ProjectPreview {entry} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState {language} kind="projects" />
+        )}
+      </section>
+    )
+  }
+  {
+    showBlog && (
+      <section class="home-section" aria-labelledby="latest-posts">
+        <div class="section-heading">
+          <>
+            <div>
+              <>
+                <div class="section-title">
+                  <>
+                    <span class="section-number" aria-hidden="true">
+                      {blogSectionNumber}
+                    </span>
+                    <h2 id="latest-posts">{t.latest}</h2>
+                  </>
+                </div>
+                <p class="section-description">{t.latestDescription}</p>
+              </>
+            </div>
+            <a class="text-link" href={localePath(language, "posts")}>
+              {t.allPosts} <span aria-hidden="true">→</span>
+            </a>
+          </>
+        </div>
+        {posts.length ? <PostList entries={posts} /> : <EmptyState {language} kind="posts" />}
+      </section>
+    )
+  }
+</div>

@@ -1,0 +1,45 @@
+---
+title: "Dark Mode Is Easy Until The Select Menu Shows Up"
+description: "A fake field report about theme tokens, native controls, and the moment one dropdown ruins the illusion."
+language: en
+draft: false
+publishedDate: 2026-07-28
+updatedDate: 2026-07-29
+featured: true
+tags: [design systems, dark mode, shadcn, react]
+relatedProjects: [en/blog-engine-notes]
+coverImage: ../../assets/seed-theme-controls.png
+coverImageAlt: "A dashboard mockup showing light, dark, and system theme controls."
+shareImage: ../../assets/seed-theme-controls.png
+---
+
+import ThemeTokenPlayground from "@/components/demos/ThemeTokenPlayground";
+
+The fastest way to spot a fake design system is to open the one control nobody styled. Native select menus have a dramatic sense of timing.
+
+## The symptom
+
+The page is dark. The modal is dark. The input is dark. Then the dropdown opens and suddenly the operating system has joined the design review.
+
+## The playground
+
+<ThemeTokenPlayground client:load />
+
+## The fix pattern
+
+The implementation should make the boring path beautiful: input, select, button, dialog, sheet, dropdown. Those are not edge cases. They are the interface.
+
+```tsx
+<Select value={theme} onValueChange={setTheme}>
+  <SelectTrigger>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## The part I keep forgetting
+
+Focus states need to be visible in both themes. Pretty is not finished until keyboard users can see where they are.

@@ -1,0 +1,32 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+import type { Alternate } from "@/lib/content";
+interface Props {
+  language: Language;
+  alternates: Alternate[];
+  fallbackPath?: string;
+}
+const { language, alternates, fallbackPath = "/" } = Astro.props;
+const other = language === "en" ? "pt" : "en";
+const translation = alternates.find((item) => item.language === other);
+const href = translation?.href ?? localePath(other, fallbackPath);
+---
+
+<div class="language-links" role="group" aria-label={copy[language].language}>
+  <span aria-current="true">{language === "en" ? "EN" : "PT"}</span>
+  <span class="language-divider" aria-hidden="true">/</span>
+  <a
+    href={href}
+    lang={other === "pt" ? "pt-PT" : "en"}
+    hreflang={other === "pt" ? "pt-PT" : "en"}
+    aria-label={translation
+      ? other === "pt"
+        ? "Ler em português"
+        : "Read in English"
+      : copy[language].untranslated}
+    title={translation ? (other === "pt" ? "Português" : "English") : copy[language].untranslated}
+  >
+    {other === "pt" ? "PT" : "EN"}
+  </a>
+</div>

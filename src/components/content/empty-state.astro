@@ -1,0 +1,25 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+interface Props {
+  language: Language;
+  kind: "posts" | "projects";
+}
+const { language, kind } = Astro.props;
+const t = copy[language];
+---
+
+<div class="empty-state">
+  <span class="empty-icon" aria-hidden="true">{kind === "projects" ? "[ ]" : "¶"}</span>
+  <div>
+    <h3>{kind === "projects" ? t.emptyProjects : t.emptyPosts}</h3><p>
+      {kind === "projects" ? t.emptyProjectsBody : t.emptyPostsBody}
+    </p>
+  </div>
+  <a
+    class="text-link"
+    href={kind === "projects" ? "https://github.com/miguelovila" : localePath(language, "rss.xml")}
+    data-astro-reload={kind === "posts" ? true : undefined}
+    >{kind === "projects" ? t.github : t.rss}<span aria-hidden="true">↗</span></a
+  >
+</div>

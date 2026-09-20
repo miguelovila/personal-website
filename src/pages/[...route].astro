@@ -1,0 +1,128 @@
+---
+import { getImage } from "astro:assets";
+import { getPages, type SitePage } from "@/lib/routes";
+import { isPublished } from "@/lib/publishing";
+import { copy } from "@/lib/i18n";
+import { getFeatureFlags } from "@/lib/feature-flags";
+import Layout from "@/layouts/main-layout.astro";
+import HomePage from "@/components/pages/home.astro";
+import ArchivePage from "@/components/pages/archive.astro";
+import AboutPage from "@/components/pages/about.astro";
+import EntryPage from "@/components/pages/entry.astro";
+import SearchPage from "@/components/pages/search.astro";
+export async function getStaticPaths() {
+  return (await getPages()).map((page) => ({
+    params: { route: page.path.replace(/^\/|\/$/g, "") || undefined },
+    props: { page },
+  }));
+}
+interface Props {
+  page: SitePage;
+}
+const { page } = Astro.props as Props;
+const { language, alternates } = page;
+const t = copy[language];
+const flags = getFeatureFlags();
+const homeTitle =
+  flags.projects && flags.blog
+    ? language === "pt"
+      ? "Miguel Vila — Projetos e ideias"
+      : "Miguel Vila — Projects & ideas"
+    : flags.projects
+      ? language === "pt"
+        ? "Miguel Vila — Projetos"
+        : "Miguel Vila — Projects"
+      : flags.blog
+        ? language === "pt"
+          ? "Miguel Vila — Ideias"
+          : "Miguel Vila — Ideas"
+        : "Miguel Vila";
+const title =
+  page.kind === "home"
+    ? homeTitle
+    : page.kind === "entry"
+      ? page.entry.data.title
+      : page.kind === "tag"
+        ? `${page.tag} — ${t.tags}`
+        : page.kind === "posts"
+          ? t.blog
+          : page.kind === "projects"
+            ? t.projects
+            : page.kind === "about"
+              ? t.about
+              : page.kind === "tags"
+                ? t.tags
+                : t.search;
+const numberedTitle =
+  (page.kind === "posts" || page.kind === "tag") && page.page > 1
+    ? `${title} — ${t.page} ${page.page}`
+    : title;
+const homeDescription = !flags.projects && !flags.blog ? t.landingDescription : t.siteDescription;
+const searchDescription =
+  flags.blog && flags.projects
+    ? t.searchDescription
+    : flags.blog
+      ? t.searchDescriptionPosts
+      : t.searchDescriptionProjects;
+const description =
+  page.kind === "entry"
+    ? page.entry.data.description
+    : page.kind === "projects"
+      ? t.projectsDescription
+      : page.kind === "posts"
+        ? t.blogDescription
+        : page.kind === "about"
+          ? t.aboutLead
+          : page.kind === "search"
+            ? searchDescription
+            : homeDescription;
+const noindex =
+  import.meta.env.DEV ||
+  page.kind === "search" ||
+  (page.kind === "entry" && !isPublished(page.entry.data));
+const fallbackPath =
+  page.kind === "entry"
+    ? page.entry.collection
+    : page.kind === "tag"
+      ? "tags"
+      : page.kind === "home"
+        ? "/"
+        : page.kind;
+const entryImage = page.kind === "entry" ? page.entry.data.shareImage : undefined;
+const image = entryImage
+  ? (await getImage({ src: entryImage, width: 1200, format: "png" })).src
+  : undefined;
+const article =
+  page.kind === "entry"
+    ? {
+        type:
+          page.entry.collection === "posts" ? ("BlogPosting" as const) : ("CreativeWork" as const),
+        author: page.entry.collection === "posts" ? page.entry.data.author : "Miguel Vila",
+        published: page.entry.data.publishedDate,
+        updated: page.entry.data.updatedDate,
+      }
+    : undefined;
+---
+
+<Layout
+  title={numberedTitle}
+  {description}
+  {language}
+  {alternates}
+  {fallbackPath}
+  {image}
+  {article}
+  {noindex}
+  canonicalPath={page.path}
+>
+  {page.kind === "home" && <HomePage {page} />}
+  {
+    (page.kind === "posts" ||
+      page.kind === "projects" ||
+      page.kind === "tags" ||
+      page.kind === "tag") && <ArchivePage {page} />
+  }
+  {page.kind === "about" && <AboutPage {language} />}
+  {page.kind === "entry" && <EntryPage {page} />}
+  {page.kind === "search" && <SearchPage {language} hasContent={page.hasContent} />}
+</Layout>

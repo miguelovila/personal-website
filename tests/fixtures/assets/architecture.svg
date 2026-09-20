@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600">
+  <rect width="960" height="600" fill="#e9e6dc"/>
+  <path d="M0 100h960M0 200h960M0 300h960M0 400h960M0 500h960M120 0v600M240 0v600M360 0v600M480 0v600M600 0v600M720 0v600M840 0v600" stroke="#d8d5ca"/>
+  <g fill="#f8f6f1" stroke="#62675b"><rect x="80" y="230" width="210" height="130"/><rect x="375" y="230" width="210" height="130"/><rect x="670" y="230" width="210" height="130"/></g>
+  <g fill="#252820" font-family="monospace" font-size="26" text-anchor="middle"><text x="185" y="305">input</text><text x="480" y="305">transform</text><text x="775" y="305">output</text></g>
+  <path d="M290 295h85m210 0h85" stroke="#a44713" stroke-width="3"/>
+  <text x="80" y="490" font-family="monospace" font-size="19" fill="#62675b">TEST FIXTURE / NOT A PORTFOLIO PROJECT</text>
+</svg>

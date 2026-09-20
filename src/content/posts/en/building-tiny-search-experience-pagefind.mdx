@@ -1,0 +1,47 @@
+---
+title: "Building A Tiny Search Experience With Pagefind"
+description: "A seeded article about keeping local search fast, bilingual, and boring enough to trust."
+language: en
+draft: false
+publishedDate: 2026-08-16
+featured: true
+tags: [pagefind, search, astro, accessibility]
+relatedProjects: [en/pagefind-lab, en/tiny-deploy-checklist]
+coverImage: ../../assets/seed-pagefind-lab.png
+coverImageAlt: "A dashboard mockup for a local search index."
+shareImage: ../../assets/seed-pagefind-lab.png
+---
+
+import ReadingTimeEstimator from "@/components/demos/ReadingTimeEstimator";
+
+Search looks like one input. It is usually a dozen tiny promises: the right language, useful excerpts, a good empty state, and no surprise navigation.
+
+## The content boundary
+
+For this site, search should index the same things the site publishes. Drafts and future posts should not leak into results just because the search build found the files.
+
+```ts
+const searchable = entries.filter((entry) => {
+  return !entry.data.draft && entry.data.publishedDate <= new Date();
+});
+```
+
+## The language boundary
+
+Portuguese results should stay Portuguese. English results should stay English. That sounds obvious until a single global index returns everything.
+
+![A diagram showing content moving through route generation and search.](../../assets/seed-architecture-flow.svg)
+
+## A small writing calculator
+
+The island below has nothing to do with Pagefind directly. It is here to prove that a searchable article can still host a React app without breaking spacing or focus.
+
+<ReadingTimeEstimator client:load />
+
+## The failure state
+
+If the index fails to load, the modal should still feel owned by the site. A plain error and useful archive links are better than a spinner that has made a lifestyle choice.
+
+## The useful test
+
+The fake word to search is `coração`. The boring word to search is `Pagefind`. Both should return something without the interface changing languages behind my back.

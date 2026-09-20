@@ -1,0 +1,4 @@
+root_selector: "[data-pagefind-body]"
+exclude_selectors:
+  - "[data-pagefind-ignore]"
+  - ".heading-anchor"

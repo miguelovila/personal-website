@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import { copy, statusLabel } from "@/lib/i18n";
+import { entryPath, type Project } from "@/lib/content";
+import { isPublished } from "@/lib/publishing";
+interface Props {
+  entry: Project;
+  heading?: "h2" | "h3";
+}
+const { entry, heading: Heading = "h3" } = Astro.props;
+const t = copy[entry.data.language];
+---
+
+<article
+  class:list={["project-preview", { "text-only": !entry.data.coverImage }]}
+  data-project
+  data-technologies={JSON.stringify(entry.data.technologies)}
+>
+  {
+    entry.data.coverImage && (
+      <a class="project-image" href={entryPath(entry)} tabindex="-1" aria-hidden="true">
+        <Image
+          src={entry.data.coverImage}
+          alt={entry.data.coverImageAlt!}
+          widths={[360, 640, 900]}
+          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+          width={640}
+          height={400}
+          loading="lazy"
+        />
+      </a>
+    )
+  }
+  <div class="project-info">
+    <div class="project-topline">
+      <span class="status" data-status={entry.data.status}
+        >{statusLabel(entry.data.status, entry.data.language)}</span
+      >{
+        !isPublished(entry.data) && (
+          <span class="preview-label">{entry.data.draft ? t.draft : t.scheduled}</span>
+        )
+      }
+    </div>
+    <Heading
+      ><a href={entryPath(entry)}>{entry.data.title}<span aria-hidden="true">↗</span></a></Heading
+    >
+    <p>{entry.data.description}</p>
+    <div class="technology-list">
+      {entry.data.technologies.map((technology) => <span>{technology}</span>)}
+    </div>
+  </div>
+</article>

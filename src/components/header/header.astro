@@ -1,0 +1,89 @@
+---
+import { copy } from "@/lib/i18n";
+import { localePath, type Language } from "@/lib/publishing";
+import { getSiteContent, type Alternate } from "@/lib/content";
+import { activeRoute, navigationRoutes } from "../navigation/routes";
+import LanguageLinks from "../navigation/language-links.astro";
+import HeaderNavigation from "../navigation/header-navigation";
+import HeaderNavigationWithSearch from "../navigation/header-navigation-with-search";
+import { getFeatureFlags, shouldBuildSearch } from "@/lib/feature-flags";
+interface Props {
+  language: Language;
+  alternates: Alternate[];
+  fallbackPath?: string;
+}
+const { language, alternates, fallbackPath } = Astro.props;
+const t = copy[language];
+const flags = getFeatureFlags();
+const routes = navigationRoutes(language, flags);
+const showSearch = shouldBuildSearch(flags);
+const content = showSearch
+  ? await getSiteContent({ posts: flags.blog, projects: flags.projects })
+  : { posts: [], projects: [] };
+const hasContent =
+  content.posts.some((entry) => entry.data.language === language) ||
+  content.projects.some((entry) => entry.data.language === language);
+const contentKinds = { posts: flags.blog, projects: flags.projects };
+const showNoScriptMenu = routes.length > 1 || showSearch;
+---
+
+<header class="site-header" data-pagefind-ignore>
+  <div class="site-frame header-inner">
+    <a class="wordmark" href={localePath(language)} aria-label={`Miguel Vila — ${t.home}`}>
+      <img src="/images/profile-picture-pixelated.png" width="32" height="32" alt="" />
+      <span>Miguel Vila<span class="wordmark-cursor" aria-hidden="true">_</span></span>
+    </a>
+    {
+      showSearch ? (
+        <HeaderNavigationWithSearch
+          client:load
+          {language}
+          {alternates}
+          {fallbackPath}
+          {hasContent}
+          {routes}
+          {contentKinds}
+          current={Astro.url.pathname}
+        />
+      ) : (
+        <HeaderNavigation
+          client:load
+          {language}
+          {alternates}
+          {fallbackPath}
+          {routes}
+          current={Astro.url.pathname}
+        />
+      )
+    }
+    {
+      showNoScriptMenu && (
+        <noscript>
+          <details class="no-script-menu">
+            <>
+              <summary>{t.menu}</summary>
+              <div>
+                <>
+                  <nav aria-label={t.navigation}>
+                    {routes.map((route) => (
+                      <a
+                        href={route.path}
+                        aria-current={
+                          activeRoute(Astro.url.pathname, route.path, language) ? "page" : undefined
+                        }
+                      >
+                        {route.title}
+                      </a>
+                    ))}
+                    {showSearch && <a href={localePath(language, "search")}>{t.search}</a>}
+                  </nav>
+                  <LanguageLinks {language} {alternates} {fallbackPath} />
+                </>
+              </div>
+            </>
+          </details>
+        </noscript>
+      )
+    }
+  </div>
+</header>

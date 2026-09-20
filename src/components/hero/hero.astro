@@ -1,0 +1,50 @@
+---
+import { Icon } from "astro-icon/components";
+import { contacts } from "@/config/contacts";
+import { copy } from "@/lib/i18n";
+import type { Language } from "@/lib/publishing";
+interface Props {
+  language: Language;
+}
+const { language } = Astro.props;
+const t = copy[language];
+---
+
+<section class="hero animated-gradient-bg" aria-labelledby="intro-title">
+  <div class="hero-main">
+    <img
+      class="hero-portrait"
+      src="/images/profile-picture-pixelated.png"
+      alt={language === "pt"
+        ? "Retrato de Miguel Vila em pixel art"
+        : "A pixelart of Miguel Vila's face"}
+      width="200"
+      height="200"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero-copy">
+      <div>
+        <h1 id="intro-title">
+          {language === "pt" ? "Olá, sou o" : "Hi, I’m"}
+          <span>Miguel Vila</span>
+        </h1>
+        <p>{t.intro}</p>
+      </div>
+      <div class="hero-contacts">
+        {
+          contacts.map((contact) => (
+            <a
+              href={contact.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={contact.label}
+            >
+              <Icon name={contact.icon} width="24" height="24" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
