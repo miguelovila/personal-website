@@ -17,3 +17,42 @@ jobs:
           node-version: "22"
       - run: bun install --frozen-lockfile
       - run: bun run verify
+      - name: Build deployment image
+        run: >-
+          docker build
+          --build-arg PUBLIC_GOOGLE_SITE_VERIFICATION=ci-smoke-token
+          --tag personal-website:ci .
+      - name: Check nginx deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          container=$(docker run --detach --publish 127.0.0.1::80 --health-interval=2s personal-website:ci)
+          trap 'docker logs "$container"; docker rm --force "$container" >/dev/null' EXIT
+          origin="http://$(docker port "$container" 80/tcp)"
+
+          for attempt in {1..30}; do
+            health=$(docker inspect --format '{{.State.Health.Status}}' "$container")
+            if [ "$health" = healthy ]; then break; fi
+            sleep 1
+          done
+          test "$health" = healthy
+          docker exec "$container" nginx -t
+
+          for route in / /pt/ /about/ /pt/about/ /projects/ /pt/projects/ /robots.txt /sitemap-index.xml /pagefind/pagefind-entry.json; do
+            curl --fail --silent --show-error --output /dev/null "$origin$route"
+          done
+          curl --fail --silent --show-error "$origin/" --output "$RUNNER_TEMP/site-home.html"
+          grep -q 'name="google-site-verification" content="ci-smoke-token"' "$RUNNER_TEMP/site-home.html"
+
+          for route in /projects /pt/projects; do
+            curl --silent --show-error --dump-header "$RUNNER_TEMP/site-redirect.headers" --output /dev/null "$origin$route"
+            tr -d '\r' < "$RUNNER_TEMP/site-redirect.headers" | grep -q "^Location: $route/$"
+          done
+
+          for locale in en pt; do
+            prefix=""
+            if [ "$locale" = pt ]; then prefix="/pt"; fi
+            status=$(curl --silent --show-error --output "$RUNNER_TEMP/site-404.html" --write-out '%{http_code}' "$origin$prefix/missing-smoke-page/")
+            test "$status" = 404
+            grep -q "lang=\"$locale" "$RUNNER_TEMP/site-404.html"
+          done

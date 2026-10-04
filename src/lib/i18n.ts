@@ -35,6 +35,10 @@ const en = {
   emptyProjects: "A few things are taking shape.",
   emptyProjectsBody:
     "I’m putting together the stories behind my projects. In the meantime, you can find my code on GitHub.",
+  projectsOtherLanguage: "There’s more to read in Portuguese.",
+  projectsOtherLanguageBody:
+    "The project articles are currently available in Portuguese, with code, images and details of the work.",
+  readProjectsOtherLanguage: "Read the projects in Portuguese",
   emptyPosts: "A notebook, ready for its first page.",
   emptyPostsBody:
     "Project notes and longer thoughts will live here. Subscribe by RSS to catch the first one.",
@@ -42,7 +46,7 @@ const en = {
   rss: "Subscribe via RSS",
   rssShort: "RSS feed",
   projectsDescription:
-    "Experiments, useful tools, and the occasional rabbit hole. A look at the work and the thinking behind it.",
+    "Projects from my bachelor’s and master’s at the University of Aveiro. Hardware, embedded systems and software, with the code and the decisions behind each one.",
   blogDescription:
     "Notes from building things. Thoughts on software, open source, and everything around it.",
   all: "All",
@@ -70,6 +74,9 @@ const en = {
   live: "Visit project",
   gallery: "A closer look",
   imageOpen: "Open full-size image",
+  imagePreview: "Image preview",
+  diagramScroll: "Scroll horizontally to view the full diagram.",
+  watchYouTube: "Watch on YouTube",
   previous: "Previous",
   next: "Next",
   page: "Page",
@@ -83,24 +90,18 @@ const en = {
   draft: "Draft preview",
   scheduled: "Scheduled preview",
   untranslated: "Browse the Portuguese archive",
-  aboutLabel: "The person behind the pixels",
-  aboutTitle: "A little about me.",
+  aboutLabel: "Hello",
+  aboutTitle: "About me.",
   aboutLead:
-    "I’m Miguel Vila, a computer engineer with a soft spot for Linux, open source, and trail running.",
-  aboutBody:
-    "This website is a place to keep a record of my projects and the ideas around them. Some entries will be practical, some will be opinions, and some will be things I’m still figuring out.",
-  aboutLandingBody:
-    "This website is my personal corner of the web to share my background, interests, and how to get in touch.",
-  aboutInterests: "Away from the keyboard",
-  aboutTrail:
-    "I like getting out on the trails. There’s something to be said for a problem that can wait until after a run.",
-  aboutSite: "About this website",
-  aboutSiteBody:
-    "Built with Astro, written in Markdown, and made to be read. Available in English and Portuguese, with an RSS feed for each. Translations appear when they’re ready.",
-  aboutSiteLandingBody:
-    "Built with Astro and made to be clean and fast. Available in English and Portuguese.",
+    "I'm Miguel Vila, a computer engineer from Estarreja. I write code, build hardware and usually have a few other things on the go.",
+  aboutEducation: "Education",
+  aboutUniversity: "University of Aveiro",
+  aboutMaster: "Master's · Computer and Telematics Engineering",
+  aboutMasterDates: "2024–present",
+  aboutBachelor: "Bachelor's · Computer and Informatics Engineering",
   contact: "Say hello",
-  contactBody: "For a conversation about a project, open source, or a good trail, drop me a line.",
+  contactBody:
+    "If you'd like to talk about a project, a role or something you're building, email me.",
   footerLine: "Software, open source, and the occasional trail.",
   elsewhere: "Elsewhere",
   backHome: "Back to home",
@@ -175,6 +176,10 @@ const pt: typeof en = {
   emptyProjects: "Há algumas coisas a ganhar forma.",
   emptyProjectsBody:
     "Estou a preparar as histórias por trás dos meus projetos. Entretanto, podes encontrar o meu código no GitHub.",
+  projectsOtherLanguage: "Os projetos estão disponíveis em inglês.",
+  projectsOtherLanguageBody:
+    "Os artigos contam o trabalho por trás de cada projeto, com código, imagens e detalhes da implementação.",
+  readProjectsOtherLanguage: "Ler os projetos em inglês",
   emptyPosts: "Um caderno à espera da primeira página.",
   emptyPostsBody:
     "Este será o espaço para notas de projetos e reflexões mais demoradas. Subscreve o RSS para acompanhar o primeiro artigo.",
@@ -182,7 +187,7 @@ const pt: typeof en = {
   rss: "Subscrever por RSS",
   rssShort: "Feed RSS",
   projectsDescription:
-    "Experiências, ferramentas úteis e algumas explorações inesperadas. Um olhar sobre o trabalho e as ideias por trás dele.",
+    "Projetos da minha licenciatura e mestrado na Universidade de Aveiro. Hardware, sistemas embebidos e software, com o código e as decisões por trás de cada um.",
   blogDescription:
     "Notas de quem gosta de construir coisas. Reflexões sobre software, código aberto e tudo o que os rodeia.",
   all: "Todos",
@@ -209,7 +214,10 @@ const pt: typeof en = {
   source: "Código-fonte",
   live: "Visitar projeto",
   gallery: "Mais de perto",
-  imageOpen: "Abrir imagem em tamanho completo",
+  imageOpen: "Abrir imagem no tamanho original",
+  imagePreview: "Pré-visualização da imagem",
+  diagramScroll: "Desloca o diagrama na horizontal para o veres por completo.",
+  watchYouTube: "Ver no YouTube",
   previous: "Anterior",
   next: "Seguinte",
   page: "Página",
@@ -223,24 +231,18 @@ const pt: typeof en = {
   draft: "Pré-visualização de rascunho",
   scheduled: "Pré-visualização de publicação agendada",
   untranslated: "Explorar o arquivo em inglês",
-  aboutLabel: "A pessoa por trás dos píxeis",
-  aboutTitle: "Um pouco sobre mim.",
+  aboutLabel: "Olá",
+  aboutTitle: "Sobre mim.",
   aboutLead:
-    "Sou o Miguel Vila, engenheiro informático e entusiasta de Linux, código aberto e trail running.",
-  aboutBody:
-    "Este site é um lugar para guardar os meus projetos e as ideias que os acompanham. Haverá artigos práticos, opiniões e assuntos que ainda estou a explorar.",
-  aboutLandingBody:
-    "Este site é o meu espaço pessoal na internet para partilhar o meu percurso, interesses e formas de contacto.",
-  aboutInterests: "Longe do teclado",
-  aboutTrail:
-    "Gosto de sair para os trilhos. Há problemas que podem muito bem esperar pelo fim de uma corrida.",
-  aboutSite: "Sobre este site",
-  aboutSiteBody:
-    "Feito com Astro, escrito em Markdown e pensado para ser lido. Disponível em inglês e português, com um feed RSS para cada idioma. As traduções chegam quando estiverem prontas.",
-  aboutSiteLandingBody: "Feito com Astro, simples e rápido. Disponível em inglês e português.",
+    "Sou o Miguel Vila, engenheiro informático de Estarreja. Escrevo código, construo hardware e costumo ter mais umas quantas coisas entre mãos.",
+  aboutEducation: "Formação",
+  aboutUniversity: "Universidade de Aveiro",
+  aboutMaster: "Mestrado · Engenharia de Computadores e Telemática",
+  aboutMasterDates: "2024–presente",
+  aboutBachelor: "Licenciatura · Engenharia de Computadores e Informática",
   contact: "Diz olá",
   contactBody:
-    "Para conversar sobre um projeto, código aberto ou um bom trilho, envia-me uma mensagem.",
+    "Se quiseres conversar sobre um projeto, uma oportunidade de trabalho ou algo que estás a construir, escreve-me.",
   footerLine: "Software, código aberto e alguns trilhos pelo caminho.",
   elsewhere: "Noutros lugares",
   backHome: "Voltar ao início",

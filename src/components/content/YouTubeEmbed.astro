@@ -1,0 +1,33 @@
+---
+import { copy } from "@/lib/i18n";
+
+interface Props {
+  videoId: string;
+  title: string;
+  caption: string;
+  portrait?: boolean;
+}
+const { videoId, title, caption, portrait = true } = Astro.props;
+const t = copy[Astro.url.pathname.startsWith("/pt/") ? "pt" : "en"];
+if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) throw new Error("Invalid YouTube video ID.");
+---
+
+<figure class:list={["video-figure", { "video-figure-portrait": portrait }]}>
+  <div class="video-embed">
+    <iframe
+      src={`https://www.youtube-nocookie.com/embed/${videoId}?playsinline=1&rel=0`}
+      {title}
+      width={portrait ? 405 : 720}
+      height={portrait ? 720 : 405}
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+  <figcaption>
+    {caption}
+    <a class="video-direct-link" href={`https://www.youtube.com/watch?v=${videoId}`}>
+      {t.watchYouTube} ↗
+    </a>
+  </figcaption>
+</figure>

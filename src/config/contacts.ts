@@ -7,7 +7,7 @@ export const contacts: ContactLink[] = [
   {
     icon: "lucide:mail",
     label: "E-Mail",
-    link: "mailto:contact@miguelovila.pt",
+    link: "mailto:me@miguelovila.pt",
   },
   {
     icon: "lucide:github",

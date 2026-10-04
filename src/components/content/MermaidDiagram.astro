@@ -1,0 +1,55 @@
+---
+/* eslint-disable astro/jsx-a11y/no-noninteractive-tabindex -- The overflow region needs focus for native keyboard scrolling. */
+import { createHash } from "node:crypto";
+import { renderMermaidSVG } from "beautiful-mermaid";
+import { copy } from "@/lib/i18n";
+
+interface Props {
+  source: string;
+  label: string;
+  caption: string;
+}
+const { source, label, caption } = Astro.props;
+const t = copy[Astro.url.pathname.startsWith("/pt/") ? "pt" : "en"];
+const id = `diagram-${createHash("sha256")
+  .update(source + label)
+  .digest("hex")
+  .slice(0, 12)}`;
+
+function prepareSvg(svg: string, prefix: string) {
+  // Fonts are already hosted by the site. Scope renderer styles and marker IDs
+  // so multiple inline diagrams cannot change one another or surrounding SVGs.
+  return svg
+    .replace(/@import\s+url\([^)]*\)\s*;\s*/g, "")
+    .replace(/\sid="([^"]+)"/g, (_, value) => ` id="${prefix}-${value}"`)
+    .replace(/url\(#([^)]+)\)/g, (_, value) => `url(#${prefix}-${value})`)
+    .replace(/\btext \{/g, `#${prefix} text {`)
+    .replace(/\bsvg \{/g, `#${prefix} {`)
+    .replace("<svg ", `<svg id="${prefix}" `);
+}
+
+const svg = prepareSvg(
+  renderMermaidSVG(source, {
+    bg: "var(--paper)",
+    fg: "var(--ink)",
+    line: "var(--muted)",
+    font: "Source Sans 3",
+    transparent: true,
+  }),
+  id
+);
+const nativeWidth = Number(svg.match(/\bwidth="([\d.]+)"/)?.[1] ?? 640);
+---
+
+<figure class="mermaid-figure">
+  <div
+    class="diagram-viewport"
+    role="region"
+    aria-label={`${label}. ${t.diagramScroll}`}
+    tabindex="0"
+    style={`--diagram-width: ${Math.min(nativeWidth, 1000)}px`}
+  >
+    <div class="diagram-art" role="img" aria-label={label} set:html={svg} />
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>

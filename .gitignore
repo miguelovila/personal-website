@@ -27,6 +27,7 @@ pnpm-debug.log*
 public/images/placeholder*
 .test-dist/
 .test-dist-landing/
+.test-dist-projects-only/
 .astro-test/
 .test-content/
 test-results/

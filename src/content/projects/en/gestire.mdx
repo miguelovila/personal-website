@@ -1,0 +1,172 @@
+---
+title: "Gestire: from an equipment reservation to an open locker"
+description: "A university room-booking and equipment-borrowing system connecting a Flutter app, a Flask API and an ESP32 with eight locker relay outputs."
+language: en
+translationKey: gestire
+draft: false
+publishedDate: 2026-10-03
+status: completed
+featured: false
+technologies: [Flutter, Dart, Python, Flask, SQLite, "C++", ESP32, PlatformIO]
+tags: [embedded-systems, full-stack, hardware, university]
+repositoryUrl: https://github.com/miguelovila/gestire-smart-locker
+coverImage: ../../assets/gestire/locker-controller.png
+coverImageAlt: "Gestire's assembled controller with an ESP32, eight-channel relay board, LCD and a hand entering a code on the keypad."
+---
+
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
+import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
+import lockerConcept from "../../assets/gestire/locker-bank-concept.jpg";
+import logicalArchitecture from "../../assets/gestire/original-logical-architecture.png";
+import deployment from "../../assets/gestire/original-deployment-diagram.png";
+import rooms from "../../assets/gestire/room-browser-design.jpg";
+import reservation from "../../assets/gestire/reservation-design.jpg";
+import pickup from "../../assets/gestire/pickup-code-design.jpg";
+import records from "../../assets/gestire/reservation-records-design.jpg";
+import equipmentReturn from "../../assets/gestire/equipment-return-design.jpg";
+
+Reserve an FPGA board in an app, receive a code, and enter it at a locker to collect the board. That was the equipment-borrowing flow behind Gestire, a project I built with Diogo Silva, Ivo Delgado and Martim Carvalho in 2023 for Análise de Sistemas at the University of Aveiro.
+
+I handled most of the implementation: the Flutter app and API integration, backend authentication and reservation flows, database setup, locker hardware, ESP32 firmware and API tests. The finished prototype joins room booking and equipment borrowing in one application, with a physical controller for collecting and returning equipment.
+
+## From manual lockers to shared equipment
+
+The idea came from everyday use of rooms and equipment at DETI. Finding a study space meant checking capacity, sockets and facilities. Borrowing a development board also meant arranging access to it. FPGA kits assigned to small groups could sit in manual lockers while nobody in that group needed them.
+
+We wanted a shared catalogue where a student could find an available kit and collect it themselves. The original concept drawing shows how different types of equipment could occupy a bank of compartments around one keypad.
+
+<ProjectFigure
+  src={lockerConcept}
+  alt="Original concept drawing of a keypad and display beside a locker bank divided into FPGA, DETPIC, Arduino, Raspberry Pi and ESP32 equipment areas."
+  caption="The locker-bank concept from our presentation. The implemented controller has eight outputs; this larger cabinet layout was a design proposal."
+/>
+
+The hardware we built is visible in this demonstration. It has an ESP32, a matrix keypad, an I2C display and an eight-channel relay board, all mounted together.
+
+<YouTubeEmbed
+  videoId="Ew3Ff9O0Odw"
+  title="Gestire smart-locker hardware demonstration"
+  caption="The original hardware demo: keypad input, the controller's display and relay outputs responding to an equipment operation."
+/>
+
+## Splitting the application, API and controller
+
+Flutter handles browsing and forms. Flask owns account sessions, reservations, codes and equipment availability. SQLite stores the persistent records. The ESP32 only needs to collect a code and act on the server's response.
+
+The project reports capture the earlier architecture before every implementation choice was settled:
+
+<ProjectFigure
+  src={logicalArchitecture}
+  alt="Original logical architecture separating presentation, room and equipment reservations, data managers and SQLite."
+  caption="The original logical design separated room and equipment operations. University identity-provider integration remained a plan; the prototype uses local accounts."
+/>
+
+<ProjectFigure
+  src={deployment}
+  alt="Original deployment diagram linking a Flutter client, Python Flask application server, database and locker controller."
+  caption="The original deployment drawing. The final firmware uses C++/Arduino rather than the proposed MicroPython, and SQLite runs as an embedded database rather than a separate database server."
+/>
+
+The client and controller both initiate HTTP requests. There is no server-pushed command channel to the locker. Accepting a code returns the compartment and operation in that same request, keeping the firmware independent of the catalogue and reservation screens.
+
+## Finding a room and remembering the booking
+
+The app has Rooms, Equipment, Records and Account sections. Its `LayoutBuilder` chooses an extended navigation rail at widths of at least 1,000 pixels, a compact rail from 800, and bottom navigation below that. Catalogue cards adjust from one to three columns.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={rooms}
+    alt="Original room-browser mockup showing laboratories, classrooms and offices with seats, sockets and facilities."
+    caption="Room-browser design from the project presentation. The Flutter implementation evolved from these layouts."
+    portrait
+  />
+  <ProjectFigure
+    src={records}
+    alt="Original Records screen design combining equipment and room reservations with start and end times."
+    caption="The Records design puts both kinds of booking in one place. These interface images are original mockups, not final-build screenshots."
+    portrait
+  />
+</div>
+
+Text search runs in Flutter, while Flask applies structured filters for seats, sockets, room type and availability. Numeric filters mean “at least”: requesting twenty seats should also return a room with thirty. Room details include computers, oscilloscopes, signal generators, multimeters, projectors and whiteboards.
+
+A room reservation sends a Unix start timestamp, duration and optional reason. The app converts minutes into seconds; the API requires a minimum of fifteen minutes and checks for existing bookings before inserting the reservation. The archived overlap check has an edge case when a new booking entirely surrounds an existing one, described in the technical notes.
+
+The data model keeps catalogues and bookings separate. `rooms` describes facilities; `equipments` holds the compartment and current availability. `reservations` and `equipment_reservations` connect users to those items and store their start and end times. The Records endpoint returns up to one hundred of each user's bookings in each category, ordered by start time.
+
+## A reservation becomes a pickup code
+
+Equipment follows a different schedule: borrowing starts when the request is accepted. Flask checks the session, looks up the item, inserts an equipment reservation and marks the item unavailable. It then creates a six-digit PIN and keeps the pending operation in memory:
+
+```python
+codes[code] = {
+    "expires": time.time() + 120,
+    "equipment_id": equipment_id,
+    "user_id": user_id,
+    "type": "get"
+}
+```
+
+This excerpt from the reservation route captures the distinction between a booking and permission to open a compartment. The booking lives in SQLite. The code identifies one pending pickup, with its user, equipment and operation.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={reservation}
+    alt="Equipment reservation mockup with borrowing duration and a usage-location field for an FPGA kit."
+    caption="The reservation design collects how long the equipment is needed."
+    portrait
+  />
+  <ProjectFigure
+    src={pickup}
+    alt="Pickup-confirmation mockup displaying a six-digit locker code and a two-minute collection window."
+    caption="The next step gives the borrower something they can enter at the locker."
+    portrait
+  />
+</div>
+
+A scheduled callback runs after 120 seconds. If the code is still pending, it releases the equipment, annotates the reservation as uncollected and removes the code. Entering the PIN in time sends it to `/api/locker/{code}` with the locker's shared secret. The API consumes it and replies with an operation such as `get` and a compartment such as `1A`.
+
+<MermaidDiagram
+  label="Gestire equipment collection flow"
+  caption="The implemented request path. Consuming the code happens before the ESP32 activates the relay."
+  source={`sequenceDiagram
+    participant App as Flutter app
+    participant API as Flask API
+    participant DB as SQLite
+    participant Locker as ESP32
+    App->>API: Reserve equipment
+    API->>DB: Store booking and mark unavailable
+    API-->>App: Six-digit pickup code
+    Locker->>API: Keypad code and locker secret
+    API->>API: Consume pending code
+    API-->>Locker: get, compartment 1A
+    Locker->>Locker: Activate relay for 10 seconds`}
+/>
+
+The implementation has a client/API mismatch worth preserving in its documentation: the equipment form labels duration in minutes but sends the raw value, which Flask interprets as seconds. Unlike the room form, it needs that conversion corrected. The optional reason field is also displayed without being included in the request.
+
+## Eight states and eight relay outputs
+
+The firmware is C++ using the Arduino framework, built with PlatformIO. Its state machine has `S_IDLE`, `S_INPUT`, `S_ABORTED`, `S_PROCESSING`, `S_INVALID`, `S_GET`, `S_PUT` and `S_ERROR` states.
+
+Input uses a 3-by-4 keypad. `*` deletes the previous digit and `#` cancels; entering the sixth digit submits automatically. While processing, the ESP32 sends the HTTP request and parses the JSON response with ArduinoJson. A 400 response selects the invalid-code state, while network and other response failures select the error state.
+
+On success, the 20-by-4 LCD names the compartment and tells the borrower to collect or return the item. Compartments `1A`–`1D` and `2A`–`2D` map to eight GPIO outputs. Relays start HIGH and activate LOW. The selected output stays active for ten seconds before the controller returns to idle. This version uses blocking delays during that interval, so it handles one interaction at a time.
+
+## Returning the item and recovering from failure
+
+The Records screen requests a new code to return equipment. Flask checks the most recent borrower's user ID and the item's availability. A return code uses `put`; requesting it alone does not make the item available. That change happens when the locker endpoint accepts the code.
+
+<ProjectFigure
+  src={equipmentReturn}
+  alt="Original equipment-return mockup with an optional observations field over the reservation history."
+  caption="The proposed return screen included observations. The implemented return endpoint takes the session token and issues a code; it does not receive this observations field."
+  portrait
+/>
+
+There is still a gap between accepting a code and knowing what happened physically. The controller has no door-closure or item-presence sensor. The API can mark an item returned before anyone places it inside, and a lost response can consume a pickup code without the relay opening. A server restart also loses pending codes and timers while leaving reservations in SQLite.
+
+Persisting pending operations and adding physical feedback would be the next steps. I would also make the reservation, availability and code changes transactional: the current database helper opens and commits each query separately. The original HTTP tests cover the API surface, but depend on shared data and do not establish recovery behavior; their locker test never reaches its request because its code is reset in setup.
+
+The [repository](https://github.com/miguelovila/gestire-smart-locker) includes the Flutter client, firmware, reports and original Android, Linux and web builds. The former hosted application is retired. The [technical reference](https://github.com/miguelovila/gestire-smart-locker/blob/main/DOCUMENTATION.md) records setup changes and the remaining prototype issues, including return-code expiry.

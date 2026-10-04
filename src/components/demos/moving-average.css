@@ -1,0 +1,121 @@
+.filter-demo {
+  margin-block: 2rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 1rem;
+}
+.filter-demo-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: start;
+}
+.prose .filter-demo-label {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font: 0.72rem/1.7 var(--font-mono);
+}
+.prose .filter-demo-intro {
+  margin-bottom: 0;
+}
+.filter-demo-chart {
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  overflow: visible;
+}
+.filter-demo-chart text {
+  fill: var(--muted);
+  font: 12px var(--font-mono);
+}
+.filter-demo-grid {
+  stroke: var(--line);
+}
+.filter-demo-raw,
+.filter-demo-output {
+  fill: none;
+  stroke-linejoin: round;
+}
+.filter-demo-raw {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.filter-demo-output {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.filter-demo-cursor {
+  stroke: var(--ink);
+  stroke-dasharray: 3 4;
+}
+.filter-demo-sample {
+  fill: var(--surface);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.filter-demo-result {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+}
+.filter-demo-legend,
+.filter-demo-legend > span {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.filter-demo-legend {
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.filter-demo-legend i {
+  display: inline-block;
+  width: 1.5rem;
+}
+.filter-demo-key-raw {
+  border-top: 2px dashed var(--muted);
+}
+.filter-demo-key-output {
+  border-top: 3px solid var(--accent);
+}
+.filter-demo-control {
+  margin-block: 1.5rem;
+}
+.filter-demo input.filter-demo-slider {
+  accent-color: var(--accent);
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  margin-block: 0.75rem;
+}
+.filter-demo-jumps {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.filter-demo button {
+  min-height: 44px;
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+}
+.filter-demo-calculation {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+.prose .filter-demo-equation {
+  font: 0.9rem/1.8 var(--font-mono);
+  margin-bottom: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.prose .filter-demo-note {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}

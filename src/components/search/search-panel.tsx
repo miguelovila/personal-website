@@ -71,8 +71,10 @@ export default function SearchPanel({
   const [total, setTotal] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const handles = useRef<SearchResult[]>([]);
-  const client = useRef(createSearchClient());
+  const client = useMemo(() => createSearchClient(), [language]);
   const version = useRef(0);
+
+  useEffect(() => () => client.destroy(), [client]);
 
   useEffect(() => {
     if (!syncURL) return;
@@ -106,7 +108,8 @@ export default function SearchPanel({
       else url.searchParams.delete("q");
       if (kind !== "all") url.searchParams.set("kind", kind);
       else url.searchParams.delete("kind");
-      history.replaceState(null, "", url);
+      // Astro stores its navigation index and scroll restoration here.
+      history.replaceState(history.state, "", url);
     }
     if (!term || !hasContent) {
       setPhase("idle");
@@ -115,7 +118,7 @@ export default function SearchPanel({
     setPhase("loading");
     const timer = setTimeout(async () => {
       try {
-        const response = await client.current.search(term, kind);
+        const response = await client.search(term, kind);
         const data = await Promise.all(
           response.results.slice(0, 10).map((result) => result.data())
         );
@@ -126,7 +129,7 @@ export default function SearchPanel({
         setPhase("ready");
       } catch {
         if (version.current !== request) return;
-        client.current.reset();
+        client.reset();
         setPhase("error");
       }
     }, 180);
@@ -134,7 +137,7 @@ export default function SearchPanel({
       clearTimeout(timer);
       version.current++;
     };
-  }, [query, kind, attempt, ready, hasContent, syncURL, kindOptions]);
+  }, [query, kind, attempt, ready, hasContent, syncURL, kindOptions, client]);
 
   const showMore = async () => {
     const request = version.current;
@@ -146,7 +149,7 @@ export default function SearchPanel({
       if (version.current === request) setItems((current) => [...current, ...next]);
     } catch {
       if (version.current === request) {
-        client.current.reset();
+        client.reset();
         setPhase("error");
       }
     } finally {

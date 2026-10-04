@@ -32,6 +32,7 @@ export default [
       "dist/",
       ".test-dist/",
       ".test-dist-landing/",
+      ".test-dist-projects-only/",
       ".astro-test/",
       ".astro/",
       "node_modules/",

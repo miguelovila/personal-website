@@ -5,8 +5,7 @@
 .husky/
 .idea/
 .test-content/
-.test-dist/
-.test-dist-landing/
+.test-dist*/
 dist/
 node_modules/
 test-results/

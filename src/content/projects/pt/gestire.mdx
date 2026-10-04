@@ -1,0 +1,172 @@
+---
+title: "Gestire: da reserva de equipamento à abertura do cacifo"
+description: "Um sistema universitário de reserva de salas e requisição de equipamento que liga uma aplicação Flutter, uma API Flask e um ESP32 com oito saídas para relés de cacifos."
+language: pt
+translationKey: gestire
+draft: false
+publishedDate: 2026-10-03
+status: completed
+featured: false
+technologies: [Flutter, Dart, Python, Flask, SQLite, "C++", ESP32, PlatformIO]
+tags: [sistemas-embebidos, full-stack, hardware, universidade]
+repositoryUrl: https://github.com/miguelovila/gestire-smart-locker
+coverImage: ../../assets/gestire/locker-controller.png
+coverImageAlt: "O controlador Gestire montado, com um ESP32, uma placa de oito relés, um LCD e uma mão a introduzir um código no teclado."
+---
+
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
+import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
+import lockerConcept from "../../assets/gestire/locker-bank-concept.jpg";
+import logicalArchitecture from "../../assets/gestire/original-logical-architecture.png";
+import deployment from "../../assets/gestire/original-deployment-diagram.png";
+import rooms from "../../assets/gestire/room-browser-design.jpg";
+import reservation from "../../assets/gestire/reservation-design.jpg";
+import pickup from "../../assets/gestire/pickup-code-design.jpg";
+import records from "../../assets/gestire/reservation-records-design.jpg";
+import equipmentReturn from "../../assets/gestire/equipment-return-design.jpg";
+
+Reservar uma placa FPGA numa aplicação, receber um código e introduzi-lo num cacifo para levantar a placa. Era este o processo de requisição de equipamento por trás do Gestire, um projeto que desenvolvi com o Diogo Silva, o Ivo Delgado e o Martim Carvalho em 2023, para Análise de Sistemas na Universidade de Aveiro.
+
+Fiquei responsável pela maior parte da implementação: a aplicação Flutter e a integração com a API, a autenticação e os processos de reserva no backend, a configuração da base de dados, o hardware dos cacifos, o firmware do ESP32 e os testes da API. O protótipo reúne a reserva de salas e a requisição de equipamento numa só aplicação, com um controlador físico para levantar e devolver material.
+
+## Dos cacifos manuais ao equipamento partilhado
+
+A ideia surgiu da utilização diária das salas e do equipamento do DETI. Encontrar um espaço para estudar implicava verificar a lotação, as tomadas e os recursos disponíveis. Requisitar uma placa de desenvolvimento também exigia combinar uma forma de a levantar. Os kits FPGA atribuídos a pequenos grupos podiam ficar em cacifos manuais enquanto ninguém desse grupo precisava deles.
+
+Queríamos um catálogo partilhado onde um aluno pudesse encontrar um kit disponível e ir buscá-lo por si próprio. O desenho original mostra como diferentes tipos de equipamento poderiam ocupar um conjunto de compartimentos com um único teclado.
+
+<ProjectFigure
+  src={lockerConcept}
+  alt="Desenho original de um teclado e ecrã junto a um conjunto de cacifos dividido em zonas para FPGA, DETPIC, Arduino, Raspberry Pi e ESP32."
+  caption="O conceito de cacifos da nossa apresentação. O controlador implementado tem oito saídas; esta disposição com mais compartimentos fazia parte da proposta inicial."
+/>
+
+O hardware que construímos pode ser visto nesta demonstração. Tem um ESP32, um teclado matricial, um ecrã I2C e uma placa de oito relés, montados em conjunto.
+
+<YouTubeEmbed
+  videoId="Ew3Ff9O0Odw"
+  title="Demonstração do hardware dos cacifos inteligentes Gestire"
+  caption="A demonstração original do hardware: introdução do código, mensagens no ecrã e saídas dos relés a responder a uma operação sobre o equipamento."
+/>
+
+## Separar a aplicação, a API e o controlador
+
+O Flutter trata da navegação e dos formulários. O Flask gere as sessões das contas, as reservas, os códigos e a disponibilidade do equipamento. O SQLite guarda os registos persistentes. O ESP32 só precisa de recolher um código e agir de acordo com a resposta do servidor.
+
+Os relatórios do projeto mostram a arquitetura inicial, numa altura em que nem todas as escolhas de implementação estavam fechadas:
+
+<ProjectFigure
+  src={logicalArchitecture}
+  alt="Arquitetura lógica original que separa a apresentação, as reservas de salas e equipamento, os gestores de dados e o SQLite."
+  caption="O desenho lógico original separava as operações sobre salas e equipamento. A integração com o fornecedor de identidade da universidade ficou por concretizar; o protótipo usa contas locais."
+/>
+
+<ProjectFigure
+  src={deployment}
+  alt="Diagrama de instalação original que liga um cliente Flutter, um servidor de aplicação Python Flask, a base de dados e o controlador dos cacifos."
+  caption="O diagrama de instalação original. O firmware final usa C++/Arduino em vez do MicroPython previsto, e o SQLite funciona como base de dados embebida, sem um servidor de base de dados separado."
+/>
+
+Tanto o cliente como o controlador iniciam pedidos HTTP. Não existe um canal pelo qual o servidor envie comandos diretamente ao cacifo. Quando aceita um código, a API devolve o compartimento e a operação na resposta ao mesmo pedido, mantendo o firmware independente do catálogo e dos ecrãs de reserva.
+
+## Encontrar uma sala e consultar a reserva
+
+A aplicação tem as secções Salas, Equipamento, Registos e Conta. O `LayoutBuilder` escolhe uma barra lateral de navegação expandida a partir dos 1 000 píxeis de largura, uma versão compacta a partir dos 800 e navegação inferior abaixo desse valor. Os cartões do catálogo adaptam-se entre uma e três colunas.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={rooms}
+    alt="Mockup original da pesquisa de salas, com laboratórios, salas de aula e gabinetes e os respetivos lugares, tomadas e recursos."
+    caption="O desenho da pesquisa de salas apresentado no projeto. A implementação Flutter evoluiu a partir destes desenhos."
+    portrait
+  />
+  <ProjectFigure
+    src={records}
+    alt="Desenho original do ecrã de registos, que reúne reservas de equipamento e salas com as horas de início e fim."
+    caption="O ecrã de registos reúne os dois tipos de reserva. Estas imagens são mockups originais, não capturas da versão final da aplicação."
+    portrait
+  />
+</div>
+
+A pesquisa por texto é feita no Flutter, enquanto o Flask aplica filtros estruturados por lugares, tomadas, tipo de sala e disponibilidade. Os filtros numéricos significam «pelo menos»: pedir vinte lugares também deve devolver uma sala com trinta. Os detalhes das salas incluem computadores, osciloscópios, geradores de sinais, multímetros, projetores e quadros brancos.
+
+Uma reserva de sala envia um timestamp Unix de início, a duração e um motivo opcional. A aplicação converte minutos em segundos; a API exige um mínimo de quinze minutos e verifica se existem reservas antes de inserir a nova. A verificação de sobreposições da versão arquivada falha num caso particular: quando uma nova reserva engloba por completo uma já existente. Esse caso está descrito nas notas técnicas.
+
+O modelo de dados mantém os catálogos separados das reservas. `rooms` descreve os recursos das salas; `equipments` guarda o compartimento e a disponibilidade atual. `reservations` e `equipment_reservations` associam os utilizadores a esses elementos e guardam os instantes de início e fim. O endpoint de registos devolve até cem reservas de cada utilizador em cada categoria, ordenadas pelo instante de início.
+
+## A reserva dá origem a um código de levantamento
+
+O equipamento segue uma lógica temporal diferente: a requisição começa quando o pedido é aceite. O Flask verifica a sessão, consulta o equipamento, insere a reserva e marca o material como indisponível. Depois cria um PIN de seis dígitos e mantém a operação pendente em memória:
+
+```python
+codes[code] = {
+    "expires": time.time() + 120,
+    "equipment_id": equipment_id,
+    "user_id": user_id,
+    "type": "get"
+}
+```
+
+Este excerto da rota de reserva mostra a diferença entre uma reserva e a autorização para abrir um compartimento. A reserva fica no SQLite. O código identifica um levantamento pendente, com o respetivo utilizador, equipamento e operação.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={reservation}
+    alt="Mockup de reserva de equipamento com a duração da requisição e um campo para o local de utilização de um kit FPGA."
+    caption="O formulário de reserva pede a duração da requisição."
+    portrait
+  />
+  <ProjectFigure
+    src={pickup}
+    alt="Mockup de confirmação do levantamento com um código de seis dígitos e um prazo de dois minutos para o utilizar."
+    caption="O passo seguinte dá ao utilizador um código que pode introduzir no cacifo."
+    portrait
+  />
+</div>
+
+Um callback agendado é executado ao fim de 120 segundos. Se o código ainda estiver pendente, liberta o equipamento, assinala na reserva que não foi levantado e remove o código. Introduzir o PIN a tempo envia-o para `/api/locker/{code}` com o segredo partilhado do cacifo. A API consome-o e responde com uma operação, como `get`, e um compartimento, como `1A`.
+
+<MermaidDiagram
+  label="Processo de levantamento de equipamento no Gestire"
+  caption="O percurso implementado para o pedido. O código é consumido antes de o ESP32 ativar o relé."
+  source={`sequenceDiagram
+    participant App as Aplicação Flutter
+    participant API as API Flask
+    participant DB as SQLite
+    participant Locker as ESP32
+    App->>API: Reservar equipamento
+    API->>DB: Guardar reserva e marcar indisponível
+    API-->>App: Código de levantamento de seis dígitos
+    Locker->>API: Código do teclado e segredo do cacifo
+    API->>API: Consumir código pendente
+    API-->>Locker: get, compartimento 1A
+    Locker->>Locker: Ativar relé durante 10 segundos`}
+/>
+
+Há uma diferença entre o cliente e a API que importa manter documentada: o formulário de equipamento indica a duração em minutos, mas envia o valor sem conversão, que o Flask interpreta como segundos. Ao contrário do formulário de salas, esta conversão precisa de ser corrigida. O campo opcional para o motivo também aparece no ecrã sem ser incluído no pedido.
+
+## Oito estados e oito saídas para relés
+
+O firmware está escrito em C++, usa a framework Arduino e é compilado com o PlatformIO. A máquina de estados tem os estados `S_IDLE`, `S_INPUT`, `S_ABORTED`, `S_PROCESSING`, `S_INVALID`, `S_GET`, `S_PUT` e `S_ERROR`.
+
+A introdução do código usa um teclado de 3 por 4. `*` apaga o dígito anterior e `#` cancela; a introdução do sexto dígito submete o código automaticamente. Durante o processamento, o ESP32 envia o pedido HTTP e interpreta a resposta JSON com o ArduinoJson. Uma resposta 400 seleciona o estado de código inválido; falhas de rede e outras respostas de erro selecionam o estado de erro.
+
+Quando o pedido é aceite, o LCD de 20 por 4 identifica o compartimento e indica ao utilizador se deve levantar ou devolver o material. Os compartimentos `1A`–`1D` e `2A`–`2D` correspondem a oito saídas GPIO. Os relés começam em HIGH e são ativados com LOW. A saída selecionada fica ativa durante dez segundos antes de o controlador regressar ao estado de repouso. Esta versão usa esperas bloqueantes durante esse intervalo, pelo que trata uma interação de cada vez.
+
+## Devolver o material e recuperar de falhas
+
+O ecrã de registos permite pedir um novo código para devolver equipamento. O Flask verifica o ID do último utilizador a requisitá-lo e a disponibilidade do material. Um código de devolução usa `put`; pedi-lo não torna o equipamento disponível. Essa alteração só acontece quando o endpoint do cacifo aceita o código.
+
+<ProjectFigure
+  src={equipmentReturn}
+  alt="Mockup original da devolução de equipamento, com um campo opcional de observações sobre o histórico de reservas."
+  caption="O ecrã de devolução proposto incluía observações. O endpoint implementado recebe o token de sessão e emite um código; não recebe este campo de observações."
+  portrait
+/>
+
+Ainda existe uma diferença entre aceitar um código e saber o que aconteceu fisicamente. O controlador não tem um sensor que confirme o fecho da porta ou a presença do equipamento. A API pode marcar material como devolvido antes de alguém o colocar no cacifo, e uma resposta perdida pode consumir um código de levantamento sem que o relé seja acionado. Reiniciar o servidor também faz perder os códigos e temporizadores pendentes, mantendo as reservas no SQLite.
+
+Guardar as operações pendentes de forma persistente e acrescentar confirmação física seriam os passos seguintes. Também colocaria as alterações à reserva, à disponibilidade e ao código numa transação: a função de acesso à base de dados abre uma ligação e faz commit de cada consulta separadamente. Os testes HTTP originais cobrem as operações da API, mas dependem de dados partilhados e não demonstram o comportamento de recuperação; o teste do cacifo nunca chega a enviar o pedido porque o código é reposto na preparação do teste.
+
+O [repositório](https://github.com/miguelovila/gestire-smart-locker) inclui o cliente Flutter, o firmware, os relatórios e as versões compiladas originais para Android, Linux e web. A aplicação anteriormente alojada já não está em funcionamento. A [referência técnica](https://github.com/miguelovila/gestire-smart-locker/blob/main/DOCUMENTATION.md) regista as alterações necessárias à configuração e os problemas que restam no protótipo, incluindo a expiração dos códigos de devolução.
