@@ -6,6 +6,7 @@ import { dateLabel, isPublished, localePath, readingMinutes, tagSlug } from "@/l
 import type { SitePage } from "@/lib/routes";
 import PostList from "../content/post-list.astro";
 import ProjectPreview from "../content/project-preview.astro";
+import ImageModal from "../content/ImageModal.astro";
 interface Props {
   page: Extract<SitePage, { kind: "entry" }>;
 }
@@ -94,14 +95,22 @@ const author = entry.collection === "posts" ? entry.data.author : "Miguel Vila";
       {
         entry.data.coverImage && (
           <figure class="article-cover">
-            <Image
-              src={entry.data.coverImage}
-              alt={entry.data.coverImageAlt!}
-              widths={[480, 800, 1120, 1600]}
-              sizes="(max-width: 960px) 100vw, 960px"
-              width={1120}
-              loading="eager"
-            />
+            <a
+              href={entry.data.coverImage.src}
+              aria-label={`${t.imageOpen}: ${entry.data.coverImageAlt}`}
+              aria-haspopup="dialog"
+              data-image-open
+              data-astro-reload
+            >
+              <Image
+                src={entry.data.coverImage}
+                alt={entry.data.coverImageAlt!}
+                widths={[480, 800, 1120, 1600]}
+                sizes="(max-width: 960px) 100vw, 960px"
+                width={1120}
+                loading="eager"
+              />
+            </a>
           </figure>
         )
       }
@@ -135,6 +144,8 @@ const author = entry.collection === "posts" ? entry.data.author : "Miguel Vila";
                     <a
                       href={item.image.src}
                       aria-label={`${t.imageOpen}: ${item.alt}`}
+                      aria-haspopup="dialog"
+                      data-image-open
                       data-astro-reload
                     >
                       <Image
@@ -192,3 +203,4 @@ const author = entry.collection === "posts" ? entry.data.author : "Miguel Vila";
     )
   }
 </div>
+<ImageModal {language} />

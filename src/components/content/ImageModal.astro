@@ -1,0 +1,27 @@
+---
+import ImageDialog from "./ImageDialog";
+import type { Language } from "@/lib/publishing";
+
+interface Props {
+  language: Language;
+}
+---
+
+<div data-pagefind-ignore>
+  <ImageDialog language={Astro.props.language} client:load />
+</div>
+
+<style>
+  :global([data-image-open]) {
+    cursor: zoom-in;
+  }
+
+  :global(.image-modal-trigger) {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: inherit;
+  }
+</style>
