@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "check": "astro check",
-    "test": "bun test tests/publishing.test.ts tests/feature-flags.test.ts",
+    "test": "bun test tests/publishing.test.ts tests/feature-flags.test.ts tests/search-client.test.ts",
     "test:site": "node scripts/test-site.mjs",
     "verify": "bun run check && bun run lint && bun run format:check && bun run test && bun run build && bun run test:site",
     "social-card": "node scripts/generate-social-card.mjs"

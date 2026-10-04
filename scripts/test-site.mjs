@@ -6,6 +6,7 @@ import { load } from "cheerio";
 
 const root = path.resolve(".test-dist");
 const landingRoot = path.resolve(".test-dist-landing");
+const projectsOnlyRoot = path.resolve(".test-dist-projects-only");
 const origin = "https://miguelovila.pt";
 const run = (args, env = {}) => {
   const result = spawnSync("bun", args, { stdio: "inherit", env: { ...process.env, ...env } });
@@ -13,6 +14,7 @@ const run = (args, env = {}) => {
 };
 await rm(".test-content", { recursive: true, force: true });
 await rm(landingRoot, { recursive: true, force: true });
+await rm(projectsOnlyRoot, { recursive: true, force: true });
 await cp("tests/fixtures", ".test-content", { recursive: true });
 for (let index = 1; index <= 12; index++) {
   const slug = index === 1 ? "reading-tool" : `archive-${index}`;
@@ -267,9 +269,52 @@ for (const [url, $] of landingDocuments) {
   );
 }
 
+run(["run", "astro", "build"], {
+  SITE_TEST_CONTENT: "1",
+  SITE_TEST_OUT_DIR: ".test-dist-projects-only",
+  TEST_FEATURE_FLAGS: "1",
+  FEATURE_FLAGS: "projects",
+  FEATURE_BLOG: "false",
+  FEATURE_PROJECTS: "true",
+  FEATURE_ABOUT: "false",
+  FEATURE_SEARCH: "false",
+});
+const projectsOnlyPaths = await files(projectsOnlyRoot);
+for (const file of projectsOnlyPaths.filter((file) => file.endsWith(".html"))) {
+  const $ = load(await readFile(file, "utf8"));
+  assert.equal(
+    $("a[href='/about/'], a[href='/pt/about/']").length,
+    0,
+    `${file}: disabled About link`
+  );
+  assert.equal(
+    $("a[href$='rss.xml'], link[href$='rss.xml']").length,
+    0,
+    `${file}: disabled RSS link`
+  );
+  assert.equal($("[data-open-search]").length, 0, `${file}: disabled search trigger`);
+}
+for (const languagePrefix of ["", "pt/"]) {
+  const projectSlug = languagePrefix ? "ferramenta-de-leitura" : "reading-tool";
+  assert.ok(
+    projectsOnlyPaths.includes(
+      path.join(projectsOnlyRoot, languagePrefix, `projects/${projectSlug}/index.html`)
+    ),
+    `${languagePrefix}projects/${projectSlug}/: projects remain published`
+  );
+  assert.ok(
+    !projectsOnlyPaths.includes(path.join(projectsOnlyRoot, languagePrefix, "about/index.html")),
+    `${languagePrefix}about/: disabled page was built`
+  );
+  assert.ok(
+    !projectsOnlyPaths.includes(path.join(projectsOnlyRoot, languagePrefix, "rss.xml")),
+    `${languagePrefix}rss.xml: disabled feed was built`
+  );
+}
+
 // Browser-only audit dependency, placed exclusively in the isolated test output.
 await mkdir(path.join(root, "_test"), { recursive: true });
 await cp("node_modules/axe-core/axe.min.js", path.join(root, "_test/axe.min.js"));
 console.log(
-  `Verified ${documents.size} rendered pages plus landing mode: links, metadata, locales, pagination, publication rules, feeds, headings, and sitemap.`
+  `Verified ${documents.size} rendered pages plus landing and projects-only modes: links, metadata, locales, pagination, publication rules, feeds, headings, and sitemap.`
 );

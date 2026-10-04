@@ -6,6 +6,8 @@ dist/
 .astro/
 .astro-test/
 .test-dist/
+.test-dist-landing/
+.test-dist-projects-only/
 test-results/
 
 # Config files that shouldn't be auto-formatted
