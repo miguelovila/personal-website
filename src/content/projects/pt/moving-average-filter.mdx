@@ -1,0 +1,166 @@
+---
+title: "Uma média móvel implementada em hardware"
+description: "Por dentro de um filtro em VHDL: o percurso das quatro amostras, a coordenação da ROM, os controladores de reset e as simulações numa FPGA DE2-115."
+language: pt
+translationKey: moving-average-filter
+draft: false
+publishedDate: 2026-10-03
+status: completed
+featured: false
+technologies: [VHDL, FPGA, Quartus, ModelSim, Python]
+tags: [sistemas-embebidos, fpga, processamento-de-sinal]
+repositoryUrl: https://github.com/miguelovila/ua-lsd-moving-average-filter
+coverImage: ../../assets/moving-average-filter/signal-comparison.png
+coverImageAlt: "Gráfico da apresentação original, com um sinal triangular com ruído a azul e a sua média móvel de quatro amostras a laranja."
+---
+
+import MovingAverageDemo from "@/components/demos/MovingAverageDemo";
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import schematic from "../../assets/moving-average-filter/top-level-schematic.png";
+import registerBank from "../../assets/moving-average-filter/register-bank.png";
+import romController from "../../assets/moving-average-filter/rom-controller.png";
+import controlStates from "../../assets/moving-average-filter/control-states.png";
+import boardControls from "../../assets/moving-average-filter/board-controls.jpg";
+import registerWaveform from "../../assets/moving-average-filter/register-bank-waveform.png";
+import arithmeticWaveform from "../../assets/moving-average-filter/arithmetic-waveform.png";
+import outputChecks from "../../assets/moving-average-filter/output-checks.png";
+
+Uma média móvel precisa de poucas linhas de aritmética. Implementá-la numa FPGA obriga a responder a outras perguntas: que amostras estão disponíveis neste ciclo de relógio, quando se deve escrever na memória e o que acontece se alguém carregar no reset a meio? Grande parte deste projeto está à volta da soma e da divisão.
+
+Implementei o caminho de dados, os controladores e a interface da placa em 2022, para Laboratório de Sistemas Digitais, na Universidade de Aveiro. O projeto foi entregue em conjunto com Luíz Fernando. Corre numa Terasic DE2-115: uma ROM de 256 × 8 bits fornece um sinal triangular com ruído, um filtro de quatro amostras suaviza-o e uma RAM com as mesmas dimensões guarda o resultado. A placa apresenta os dois valores em decimal, com sinal.
+
+## Seguir o sinal pelo circuito
+
+<ProjectFigure
+  src={schematic}
+  alt="Esquemático original do Quartus, que liga o condicionamento das entradas e a unidade de controlo ao gerador de endereços, gestor da ROM, banco de quatro registos, unidade aritmética, gestor da RAM e dois módulos de apresentação."
+  caption="O esquemático original do circuito completo. Os barramentos mais grossos transportam as amostras e os endereços de oito bits; as restantes ligações transportam o relógio e os sinais de controlo e de ativação."
+/>
+
+O gerador de endereços fornece a posição da amostra ao gestor da ROM, à unidade aritmética e ao gestor da RAM. O gestor da ROM lê dois valores; o banco de registos junta-os a dois valores que já tinha guardado; a unidade aritmética escolhe entre a média dos quatro e a amostra atual. O resultado é escrito na RAM, no endereço atual.
+
+Os caminhos para os displays são separados. Um mostra a amostra atual da ROM, enquanto o outro lê o valor guardado na RAM. O condicionamento das entradas e o controlador principal determinam quando o endereço avança, quando a memória é limpa e se o filtro está ligado.
+
+Toda a lógica síncrona usa `CLOCK_50`, o relógio de 50 MHz da placa. O `PulseGenerator` gera uma autorização de avanço aproximadamente a cada meio segundo, para ser possível acompanhar os displays. Não cria um segundo relógio. As duas memórias estão descritas em VHDL dentro do projeto da FPGA; o sinal não vem de um ADC nem da SDRAM externa da placa.
+
+## Quatro amostras nos sítios certos
+
+O filtro calcula a média de quatro amostras: as duas anteriores ao endereço atual, a amostra atual e a seguinte.
+
+```text
+y[n] = (x[n-2] + x[n-1] + x[n] + x[n+1]) / 4
+```
+
+O termo `x[n+1]` determinou a estrutura do banco de registos. Deslocar valores já lidos permite guardar o histórico, mas não fornece um valor futuro. Acrescentei entradas separadas para a amostra atual da ROM e para a seguinte.
+
+<ProjectFigure
+  src={registerBank}
+  alt="Diagrama da apresentação original, com DataIn e DataIn+1 à entrada do banco de registos e D−2, D−1, D e D+1 ligados à unidade aritmética."
+  caption="A entrada para a amostra seguinte resolveu a dificuldade destacada na apresentação: guardar o histórico não chega para obter o próximo valor."
+/>
+
+No banco, `s_Data0` guarda o valor atual, `s_Data1` o anterior, `s_Data2` o que vem antes desse e `s_Data3` a amostra seguinte. Num flanco de subida com a escrita autorizada, são feitas estas atribuições:
+
+```vhdl
+s_Data2 <= s_Data1;
+s_Data1 <= s_Data0;
+s_Data0 <= currDataIn;
+s_Data3 <= nextDataIn;
+```
+
+As atribuições têm efeito em simultâneo. `s_Data1` recebe o valor que estava em `s_Data0`, e `s_Data2` recebe o que estava em `s_Data1`. Como a ROM contém todo o sinal de entrada, é possível ir buscar a próxima amostra; num sinal recebido em tempo real, seria necessário esperar por ela.
+
+## Ler o par antes de atualizar o banco
+
+<ProjectFigure
+  src={romController}
+  alt="Ciclo de quatro estados do gestor da ROM: IDLE, CURRADDRESS, NEXTADDRESS, DATAREADY e regresso a IDLE."
+  caption="O diagrama de estados original do gestor da ROM. A seta inicial aponta para IDLE; o VHDL inicializa esse estado, sem disponibilizar uma entrada de reset."
+/>
+
+A leitura da ROM é combinatória, mas o `RomManager` distribui a seleção dos dois endereços por vários flancos de relógio. Guarda o último endereço pedido e inicia uma leitura quando a entrada muda. Os nomes dos estados, por si só, não mostram exatamente quando cada valor é capturado:
+
+| Flanco | Ação do gestor da ROM                                                                   |
+| ------ | --------------------------------------------------------------------------------------- |
+| 1      | Em `t_IDLE`, deteta a mudança de endereço e passa a `t_CURRADDRESS`.                    |
+| 2      | Seleciona o endereço `n` da ROM e passa a `t_NEXTADDRESS`.                              |
+| 3      | Captura `x[n]`, seleciona `n+1` e passa a `t_DATAREADY`.                                |
+| 4      | Captura `x[n+1]`, ativa `dataReady` e regressa a `t_IDLE`.                              |
+| 5      | Desativa `dataReady`; o banco de registos lê o seu valor alto anterior e carrega o par. |
+
+O último flanco é importante. Os dois processos usam o mesmo relógio, pelo que o banco vê o valor do sinal de prontidão anterior ao flanco. Não carrega a amostra seguinte no flanco em que esse sinal é ativado. No módulo de topo, `s_DataReady` liga diretamente a `writeEnable` do banco, fazendo de cada leitura concluída uma atualização do histórico.
+
+## Aritmética com sinal e os extremos do sinal
+
+A `ArithmeticUnit` converte cada operando para um inteiro com sinal antes da soma. Quatro valores de oito bits com sinal podem somar entre −512 e 508; a média continua a caber em oito bits. A divisão inteira trunca em direção a zero, e `TO_SIGNED(..., 8)` faz a conversão de volta.
+
+No endereço 2, os valores são `-87`, `-83`, `-110` e `-87`. A média é −91,75, por isso o hardware guarda `-91`. Substituir esta divisão por um deslocamento aritmético à direita exigiria cuidado: os valores negativos nem sempre são arredondados da mesma forma.
+
+Os endereços 0, 1 e 255 passam sem filtragem, porque as suas janelas ultrapassam os limites do sinal guardado. Desligar o filtro seleciona o mesmo caminho direto em todos os endereços. O contador de oito bits volta a zero depois de 255, mas a janela da média não cruza os extremos do sinal. As duas primeiras amostras, que passam inalteradas, também dão tempo para preencher o histórico antes de filtrar o endereço 2.
+
+A versão interativa usa as 256 amostras originais da ROM e as mesmas regras de aritmética e de tratamento dos extremos. Podes percorrer os endereços ou desligar o filtro para observar uma janela. A demonstração representa o cálculo, não a temporização da memória ou do relógio da FPGA.
+
+<MovingAverageDemo language="pt" client:visible />
+
+## Limpar a memória sem perder a posição
+
+<ProjectFigure
+  src={controlStates}
+  alt="Diagrama original do controlador, com os estados GLOBALRESET, RAMRESET, RUNNING e STOPPED e as transições de reset e de início ou pausa."
+  caption="O controlador principal separa o reinício do sinal da limpeza da memória de saída. Um reset da RAM guarda se o processamento estava a correr ou parado."
+/>
+
+No arranque, o sistema passa pelo reset global e pelo reset da RAM antes de entrar em `t_RUNNING`. O reset global mantém o endereço principal das amostras a zero. De seguida, o reset da RAM escreve zeros por toda a memória, usando um contador de oito bits separado dentro de `RamManager`:
+
+```vhdl
+s_WriteEnable <= '1';
+s_Address <= STD_LOGIC_VECTOR(s_AddressReset);
+s_DataIn <= "00000000";
+s_AddressReset <= s_AddressReset + 1;
+```
+
+O controlador mantém o estado de limpeza durante tempo suficiente para percorrer as 256 posições. Como este contador é independente do endereço da amostra, um reset apenas da RAM pode preservar a posição atual. `keepRunningState` guarda a indicação de retomar o processamento ou de continuar parado. O reset global, por sua vez, regressa ao endereço zero e retoma o processamento.
+
+Nas escritas normais, o gestor regista o endereço da amostra e o resultado aritmético, e a RAM escreve esses valores no flanco seguinte. A saída de leitura da RAM acompanha o endereço selecionado, sem uma etapa adicional de leitura sincronizada pelo relógio.
+
+## Controlos para observar o resultado
+
+<ProjectFigure
+  src={boardControls}
+  alt="Placa DE2-115 anotada, com os valores da RAM nos displays da esquerda, os da ROM à direita, o interruptor do filtro e os botões de reset global, reset da RAM e início ou pausa."
+  caption="A disposição dos controlos no relatório original. Cada grupo de displays usa uma posição para o sinal e três para os algarismos decimais."
+/>
+
+`SW[0]` escolhe entre filtrar e deixar passar o valor original. `KEY[0]` pausa ou retoma, `KEY[1]` limpa a RAM e `KEY[2]` pede um reset global. Os botões, ativos a zero, passam por um intervalo de debounce de 100 ms e geram um evento por pressão validada. O interruptor do filtro é amostrado pelo relógio do sistema.
+
+A pausa controla o avanço dos endereços, mas a autorização de escrita na RAM mantém-se ligada a `'1'` no módulo de topo. A posição atual continua a receber o resultado aritmético, pelo que mudar o interruptor do filtro durante a pausa permite comparar o valor original e a média no mesmo endereço. Depois de limpar a RAM, essa posição volta a ser escrita, mesmo que o processamento continue parado.
+
+## Verificar a aritmética e a temporização
+
+Usei simulações individuais do gerador de endereços, do banco de registos e da unidade aritmética. As capturas originais mostram os sinais que foram analisados.
+
+<ProjectFigure
+  src={registerWaveform}
+  alt="Forma de onda do ModelSim com o relógio e a autorização de escrita do banco de registos, as entradas atual e seguinte a mudar e as quatro saídas a guardar e deslocar o histórico de amostras."
+  caption="Simulação do banco de registos: as amostras atual e seguinte são carregadas nos flancos de subida com escrita autorizada, enquanto os valores anteriores avançam pelos dois registos de histórico."
+/>
+
+<ProjectFigure
+  src={arithmeticWaveform}
+  alt="Simulação da unidade aritmética, com operandos positivos e negativos, resultados das médias e passagem direta nos endereços de fronteira 255, 0 e 1."
+  caption="Simulação aritmética com o filtro ligado. As mudanças de endereço exercitam tanto o cálculo da média como os três casos de fronteira."
+/>
+
+<ProjectFigure
+  src={outputChecks}
+  alt="Tabela original de verificações, com amostras de entrada, filtro ligado ou desligado e saídas: os primeiros valores passam inalterados, −110 passa a −91 com o filtro ligado e −60 mantém-se −60 sem filtragem."
+  caption="Verificações de saída registadas no relatório. A linha ON/OFF permite distinguir a passagem direta dos resultados filtrados."
+/>
+
+O script Python do repositório aplica a mesma janela aos dados da ROM e imprime os 256 pares de valores originais e filtrados. Os resultados decimais dão uma referência aritmética independente. Os testbenches VHDL fornecem estímulos para analisar as formas de onda; não têm asserções automáticas de aprovação ou falha.
+
+A primeira alteração que faria seria acrescentar um sinal explícito de resultado válido para controlar as escritas na RAM. Atualmente, um endereço novo pode receber brevemente um resultado antigo enquanto decorre a leitura da ROM, antes de ser reescrito com a média final. O intervalo de meio segundo da demonstração dá tempo mais do que suficiente, mas não substitui essa coordenação.
+
+O reset e a pausa também merecem asserções ao nível do sistema. O gerador de impulsos mantém a saída enquanto está parado, pelo que parar exatamente quando a autorização de avanço está ativa é um caso limite. O seu reset só é verificado durante o funcionamento, por isso o reset global não garante que a contagem do intervalo de meio segundo recomece do zero. Estas interações ficam fora das verificações individuais que foram guardadas. O relógio de 50 MHz e o ritmo escolhido para os displays são parâmetros do projeto, não uma medição da capacidade máxima de processamento.
+
+O [repositório](https://github.com/miguelovila/ua-lsd-moving-average-filter) inclui o projeto Quartus completo, os módulos VHDL, os testbenches e a referência em Python. O [relatório original](https://github.com/miguelovila/ua-lsd-moving-average-filter/blob/main/written_report/documento.pdf) conserva os diagramas e as capturas de simulação apresentados aqui.

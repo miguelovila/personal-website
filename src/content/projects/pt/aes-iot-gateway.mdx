@@ -1,0 +1,180 @@
+---
+title: "Um gateway IoT em FPGA com um núcleo AES próprio"
+description: "De um núcleo AES-128 em VHDL às leituras dos sensores: um gateway Nexys A7 com firmware C sem sistema operativo, telemetria por Ethernet e uma aplicação Python."
+language: pt
+translationKey: aes-iot-gateway
+draft: false
+publishedDate: 2026-10-03
+status: completed
+featured: true
+featuredOrder: 1
+technologies: [VHDL, C, Python, FPGA, Vivado, AXI4-Lite]
+tags: [sistemas-embebidos, fpga, criptografia, redes]
+repositoryUrl: https://github.com/miguelovila/custom-aes-encripted-iot-gateway
+coverImage: ../../assets/aes-iot-gateway/gateway-demo.jpg
+coverImageAlt: "A placa Nexys A7 ao lado da aplicação Python, com os estados dos LEDs e interruptores, a temperatura e as leituras de aceleração."
+---
+
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
+import architecture from "../../assets/aes-iot-gateway/system-architecture.png";
+import roundReference from "../../assets/aes-iot-gateway/aes-round-reference.jpg";
+import waveform from "../../assets/aes-iot-gateway/aes-waveform.jpg";
+import blockDesign from "../../assets/aes-iot-gateway/vivado-block-design.jpg";
+import timing from "../../assets/aes-iot-gateway/timing-summary.jpg";
+import utilization from "../../assets/aes-iot-gateway/resource-utilization.jpg";
+import demoPoster from "../../assets/aes-iot-gateway/gateway-demo.jpg";
+import demoVideo from "../../assets/aes-iot-gateway/gateway-demo.mp4?url";
+
+Basta mover a placa para as leituras de aceleração mudarem. Ao premir um botão, o indicador correspondente acende-se no computador. Um clique num LED da aplicação muda o estado do LED físico. No caminho entre a placa e o ecrã, cada atualização dos sensores passa por um núcleo AES-128 que escrevi em VHDL.
+
+Desenvolvi este gateway em janeiro de 2026 para a cadeira de Sistemas Integrados para Aplicações Embutidas, na Universidade de Aveiro. Implementei o núcleo de cifra, a interface AXI, o firmware sem sistema operativo e a aplicação Python. O sistema corre numa Nexys A7-100T, com uma FPGA Artix-7 e um processador MicroBlaze RISC-V implementado na sua lógica, a 100 MHz.
+
+## O processador e o resto do sistema
+
+O processador lê os sensores, constrói os pacotes e trata dos comandos. O AES corre num periférico de hardware separado, ligado por AXI tal como as interfaces GPIO, I²C, SPI, UART e Ethernet. Para o firmware, cifrar um bloco resume-se a escrever e ler registos mapeados em memória.
+
+<ProjectFigure
+  src={architecture}
+  alt="Slide original da arquitetura: o processador MicroBlaze RISC-V e o acelerador AES partilham um barramento AXI com os periféricos GPIO, SPI, UART, Ethernet e I2C."
+  caption="A arquitetura apresentada no projeto. O GPIO liga os controlos físicos, o SPI e o I²C ligam os sensores, e a Ethernet transporta os pacotes até ao computador."
+/>
+
+O sensor de temperatura e o acelerómetro dão ao sistema valores que podemos observar a mudar. O caminho de regresso ajuda a verificar a cadeia completa: um comando enviado pelo computador altera um LED, e o pacote seguinte devolve esse novo estado.
+
+## Um circuito de ronda, usado dez vezes
+
+O núcleo AES recebe uma chave de 128 bits e um bloco de 128 bits em claro. Internamente, o estado é uma matriz de quatro por quatro bytes. O VHDL separa SubBytes, ShiftRows, MixColumns, AddRoundKey e a expansão da chave em módulos, permitindo verificar cada transformação individualmente.
+
+O circuito de ronda é reutilizado ao longo dos ciclos de relógio. A máquina de estados começa por fazer XOR entre o bloco em claro e a chave inicial, executa nove rondas normais e termina com uma ronda que omite MixColumns. A expansão da chave calcula a chave da ronda seguinte em paralelo com o processamento dos dados, a partir da chave anterior e da constante da ronda.
+
+<ProjectFigure
+  src={roundReference}
+  alt="Exemplo AES do NIST com a matriz de estado após SubBytes, ShiftRows e MixColumns, e as chaves das primeiras três rondas."
+  caption="O exemplo resolvido do NIST que incluí na apresentação. As matrizes intermédias dão um resultado esperado para cada transformação, antes de verificar o bloco cifrado completo."
+/>
+
+MixColumns tem a forma de uma multiplicação de matrizes, mas a aritmética dos bytes traduz-se em deslocamentos e operações XOR. Por exemplo, esta é a parte funcional de `gf_mult_by2.vhd`, sem os comentários:
+
+```vhdl
+shifted <= byte_in(6 DOWNTO 0) & '0';
+mask <= x"1B" WHEN byte_in(7) = '1' ELSE
+    x"00";
+byte_out <= shifted XOR mask;
+```
+
+A aplicação condicional de `0x1B` faz a redução exigida pelo corpo finito usado no AES. Para multiplicar por três, basta fazer XOR entre esse resultado e o byte original. Em `aes_round.vhd`, um multiplexador seleciona diretamente a saída de ShiftRows na última ronda, saltando MixColumns antes da adição da chave de ronda.
+
+## Verificar o resultado antes de ligar a Ethernet
+
+Os testbenches cobrem as transformações individuais e o núcleo completo. O teste do núcleo verifica quatro resultados conhecidos, incluindo exemplos do NIST e um caso com a chave e o bloco de entrada a zero. Uma diferença provoca uma falha de asserção; os testes correm com `make run-all` na pasta `CoreAes128`.
+
+<ProjectFigure
+  src={waveform}
+  alt="Forma de onda da simulação AES original, com start, busy, done, key, plaintext e o registo ciphertext a mudar ao longo dos ciclos de relógio."
+  caption="A captura original da simulação. As mudanças no barramento ciphertext mostram o estado interno durante o cálculo; o resultado está pronto quando done fica ativo."
+/>
+
+A interface de controlo é pequena: `start`, `busy` e `done`. Um flanco de subida em `start` inicia o processamento de um bloco. O controlador mantém `busy` ativo durante o cálculo e ativa `done` depois do resultado final. São cerca de doze ciclos de relógio, incluindo os passos de controlo. Esta é a latência do núcleo, não o tempo total da chamada em C ou de uma atualização pela rede.
+
+## Transformar o núcleo num periférico AXI
+
+Empacotei o núcleo como um bloco IP AXI4-Lite no Vivado. Os registos de 32 bits dividem cada valor de 128 bits em quatro palavras:
+
+| Deslocamento | Registos    | Acesso          | Conteúdo                                                  |
+| ------------ | ----------- | --------------- | --------------------------------------------------------- |
+| `0x00`       | `CTRL`      | Leitura/escrita | O bit 0 controla `start`                                  |
+| `0x04`       | `STATUS`    | Leitura         | Bit 0: `done`; bit 1: `busy`                              |
+| `0x08–0x14`  | `KEY0–KEY3` | Leitura/escrita | Chave, começando pela palavra mais significativa          |
+| `0x18–0x24`  | `PT0–PT3`   | Leitura/escrita | Bloco em claro, começando pela palavra mais significativa |
+| `0x28–0x34`  | `CT0–CT3`   | Leitura         | Bloco cifrado, começando pela palavra mais significativa  |
+
+A interface concatena os quatro registos da chave e os quatro registos do bloco em claro para formar as entradas do núcleo. Também inverte o reset do AXI, ativo a zero, para o reset do núcleo AES, ativo a um.
+
+O driver em C coloca `start` a zero, escreve a chave e o bloco, ativa `start`, consulta `STATUS.done` até à conclusão e lê as quatro palavras cifradas. Voltar a colocar `start` a zero prepara o próximo flanco de subida. Esta consulta por polling é suficiente para a aplicação, cujo intervalo inicial entre pacotes é de 500 milissegundos.
+
+A ordem dos bytes tem de ser coerente nos registos, no pacote e no descodificador Python. Esta função torna explícita a representação usada nos registos:
+
+```c
+static u32 pack_bytes(const u8 *b) {
+    return ((u32)b[0] << 24) | ((u32)b[1] << 16) | ((u32)b[2] << 8) | b[3];
+}
+```
+
+<ProjectFigure
+  src={blockDesign}
+  alt="Diagrama de blocos do Vivado, com o processador RISC-V e a memória local em baixo, a interligação AXI ao centro e os periféricos AES, Ethernet, GPIO, I2C, SPI e UART à direita."
+  caption="O diagrama de blocos usado no Vivado. O bloco AES fica por baixo do MAC Ethernet e do FIFO, ligado à mesma interligação de periféricos. A imagem completa permite seguir cada sinal."
+/>
+
+O relatório da implementação registou uma margem de setup de 1,024 ns, sem violações temporais nos pontos analisados. O sistema usa 8 627 LUTs e 53 blocos BRAM. Estes valores correspondem ao gateway completo, incluindo o processador e os periféricos; não são custos isolados do AES.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={timing}
+    alt="Resumo temporal do Vivado com uma margem de setup de 1,024 ns, uma margem de hold de 0,013 ns e zero pontos com violações temporais."
+    caption="Resultados temporais da implementação original do sistema a 100 MHz."
+  />
+  <ProjectFigure
+    src={utilization}
+    alt="Tabela de utilização após a implementação, com 8 627 LUTs, 10 570 flip-flops e 53 blocos BRAM."
+    caption="O sistema completo ocupou 13,61% das LUTs e 39,26% da BRAM da FPGA escolhida."
+  />
+</div>
+
+## O estado da placa em dezasseis bytes
+
+A leitura de temperatura do ADT7420 chega por I²C. O driver SPI lê de uma vez os seis bytes de aceleração do ADXL362 e reconstrói três valores com sinal a partir da ordem little-endian dos registos do sensor. A construção do pacote coloca depois os campos com vários bytes em ordem big-endian.
+
+| Bytes do bloco          | Campo                    | Representação                              |
+| ----------------------- | ------------------------ | ------------------------------------------ |
+| `0`                     | Número de sequência      | Byte sem sinal; volta a zero depois de 255 |
+| `1–2`                   | Estado dos LEDs          | Máscara de 16 bits                         |
+| `3–4`                   | Estado dos interruptores | Máscara de 16 bits                         |
+| `5`                     | Botões                   | Cinco bits menos significativos            |
+| `6–7`                   | Temperatura              | Valor bruto do registo ADT7420             |
+| `8–9`, `10–11`, `12–13` | Aceleração X, Y, Z       | Três valores de 16 bits com sinal          |
+| `14–15`                 | Reservado                | Preenchido com zeros                       |
+
+Estes dezasseis bytes passam pelo AES. Só depois é acrescentado, no início, um byte em claro que identifica o tipo de pacote, atualmente `0x01`. O recetor consegue assim reconhecer o pacote antes de o decifrar, e a carga útil UDP tem exatamente 17 bytes.
+
+## Dos cabeçalhos da rede ao ecrã
+
+O firmware constrói um cabeçalho de 42 bytes sem preenchimento entre campos: 14 de Ethernet, 20 de IPv4 e 8 de UDP. Preenche os endereços e os comprimentos, calcula o checksum do cabeçalho IPv4 e escreve o cabeçalho e os dados cifrados no FIFO Ethernet. Como o envio usa endereços de broadcast, este pequeno driver não implementa ARP.
+
+<MermaidDiagram
+  source={
+    'flowchart LR\n  FPGA["Firmware da FPGA + AES"] -->|"Telemetria · UDP para :6000"| PC["Aplicação Python"]\n  PC -->|"Comandos ASCII · UDP para :5000"| FPGA'
+  }
+  label="Telemetria e comandos UDP entre a FPGA e a aplicação Python"
+  caption="Os dois sentidos usam o endereço de broadcast local 192.168.1.255. A aplicação recebe na porta 6000 e envia comandos para a porta 5000."
+/>
+
+No computador, uma thread de receção verifica o comprimento e o tipo do pacote, decifra-o com PyCryptodome e coloca o estado numa fila. O ciclo de eventos do tkinter esvazia essa fila e mostra a leitura mais recente, sem bloquear a interface à espera do socket. Converte a temperatura bruta para graus Celsius e apresenta a aceleração em `mg`, ou milésimos de g.
+
+Clicar no LED 5 envia `L5`; `LR` e `LL` rodam o padrão de LEDs. `D1000` pede um intervalo de atualização de um segundo, e `K` seguido de 32 caracteres hexadecimais define a chave. Há também um modo que usa o acelerómetro para mover a janela da aplicação com a placa.
+
+<figure className="project-figure">
+  <video
+    controls
+    playsInline
+    preload="none"
+    poster={demoPoster.src}
+    width="800"
+    height="450"
+    aria-label="Gravação original, sem som, da placa FPGA e da aplicação de monitorização dos sensores"
+  >
+    <source src={demoVideo} type="video/mp4" />
+    <a href={demoVideo}>Descarregar a demonstração original do gateway.</a>
+  </video>
+  <figcaption>
+    Uma breve gravação do projeto, sem som, com a placa e a aplicação em funcionamento lado a lado.
+    É a demonstração original, convertida de GIF para um ficheiro de vídeo mais pequeno.
+  </figcaption>
+</figure>
+
+## Os limites do protótipo
+
+O gateway demonstra o percurso completo do hardware ao ecrã, mas a cifra, por si só, não prepara o protocolo para utilização real. Os blocos não têm autenticação nem proteção contra repetição de mensagens, e os comandos de controlo, incluindo as mudanças de chave, seguem em claro. O driver de receção também assume um formato de cabeçalho fixo. Antes de o colocar numa rede partilhada, faltariam mensagens autenticadas, um mecanismo seguro para instalar as chaves e a validação adequada das tramas.
+
+O [repositório](https://github.com/miguelovila/custom-aes-encripted-iot-gateway) contém o projeto Vivado, o firmware, a aplicação, os testbenches e a apresentação original. A [máquina de estados AES](https://github.com/miguelovila/custom-aes-encripted-iot-gateway/blob/master/CoreAes128/src/aes_core.vhd), o [driver AXI](https://github.com/miguelovila/custom-aes-encripted-iot-gateway/blob/master/SimplifiedIotGateway/IoTGatewayApp/src/aes_driver.c) e a [construção dos pacotes](https://github.com/miguelovila/custom-aes-encripted-iot-gateway/blob/master/SimplifiedIotGateway/IoTGatewayApp/src/udp_driver.c) são bons pontos de entrada, conforme a parte do sistema que te interessar.

@@ -1,0 +1,211 @@
+---
+title: "Aditus: abrir uma porta com o telemóvel ou o relógio"
+description: "Um protótipo de controlo de acessos em Flutter e Wear OS, com chaves RSA por dispositivo, autenticação por Bluetooth, um controlador ESP32 e um backend Flask."
+language: pt
+translationKey: aditus
+draft: false
+publishedDate: 2026-10-03
+status: completed
+featured: true
+featuredOrder: 0
+technologies: [Flutter, Dart, Python, Flask, SQLAlchemy, SQLite, "C++", ESP32, "Wear OS", BLE]
+tags: [mobile, sistemas-embebidos, bluetooth, autenticacao]
+repositoryUrl: https://github.com/miguelovila/aditus-door-access-system
+coverImage: ../../assets/aditus/watch-door.png
+coverImageAlt: "Aditus num ecrã redondo com Wear OS, com a Sala do GLUA selecionada e um botão para abrir a porta."
+---
+
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
+import registration from "../../assets/aditus/device-registration.png";
+import devices from "../../assets/aditus/device-management.png";
+import discovery from "../../assets/aditus/nearby-doors.png";
+import progress from "../../assets/aditus/unlock-progress.png";
+import phonePairing from "../../assets/aditus/watch-pairing.png";
+import watchPairing from "../../assets/aditus/watch-pair-code.png";
+import doorDetails from "../../assets/aditus/door-details.png";
+import groupMembers from "../../assets/aditus/group-members.png";
+import history from "../../assets/aditus/access-history.png";
+
+O Aditus é um protótipo de controlo de acessos que desenvolvi entre o final de 2025 e o início de 2026. Fiz a aplicação Android, a aplicação Wear OS, o firmware do ESP32 e o backend Flask. A ideia era usar o telemóvel ou o relógio que uma pessoa já traz consigo para pedir acesso a uma sala, com uma forma de gerir os dispositivos e as permissões por trás desse pedido.
+
+Uma pessoa pode ter um telemóvel, um tablet e um relógio. Perder o relógio não deveria obrigar a substituir as credenciais dos outros dois. Uma turma pode precisar de acesso a um laboratório, com uma exceção para um dos alunos. Estes casos influenciaram a base de dados e o processo de registo tanto como o botão de abrir a porta.
+
+<video
+  controls
+  playsInline
+  preload="none"
+  poster="/project-media/aditus/watch-unlock-poster.jpg"
+  width="1360"
+  height="766"
+  aria-label="Um relógio Wear OS autentica-se junto de um ESP32, cujo LED representa a abertura de uma porta."
+>
+  <source src="/project-media/aditus/watch-unlock.mp4" type="video/mp4" />
+  <a href="/project-media/aditus/watch-unlock.mp4">
+    Descarregar a demonstração de abertura com o relógio.
+  </a>
+</video>
+
+_A demonstração original entre o relógio e o ESP32. Quando a autenticação é bem-sucedida, o LED da placa pisca durante três segundos; este protótipo não aciona uma fechadura física. [Abrir o vídeo diretamente](/project-media/aditus/watch-unlock.mp4)._
+
+## Quatro componentes, duas formas de comunicar
+
+O telemóvel e o relógio comunicam com a porta por Bluetooth Low Energy. O ESP32 tem a sua própria ligação Wi-Fi ao backend, onde consulta permissões e obtém chaves públicas. Estes pedidos não passam pelo telemóvel.
+
+Esta divisão é especialmente útil no relógio: depois de emparelhado, consegue completar a troca por BLE sem o telemóvel por perto nem uma ligação própria à Internet. O controlador continua a precisar de contactar o Flask. O telemóvel também verifica a sessão da conta online ao arrancar, pelo que o sistema não funciona inteiramente offline.
+
+Ao arrancar, o ESP32 identifica-se junto do backend pelo seu endereço MAC de BLE. Depois de registado, recebe o identificador da porta e o nome a apresentar, e passa a anunciar-se com esse nome. Mudar o nome de uma sala não exige, por isso, recompilar o firmware.
+
+| Componente                       | Principais responsabilidades                                                         |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| Aplicação Flutter para telemóvel | Configuração da conta, registo de dispositivos, descoberta, abertura e administração |
+| Aplicação Flutter para Wear OS   | Emparelhamento, seleção da porta com sinal mais forte e abertura                     |
+| ESP32 / C++                      | Características BLE, pedidos ao backend, verificação de assinaturas e estado do LED  |
+| Flask / SQLAlchemy               | Contas, chaves, permissões, sessões de emparelhamento e registos de acesso em SQLite |
+
+## Uma conta não é um dispositivo
+
+Na primeira utilização, o telemóvel inicia sessão, configura um PIN de quatro a seis dígitos e regista-se com um nome. O registo gera um par de chaves RSA-2048 com o PointyCastle. A chave privada fica no armazenamento local cifrado; a chave pública passa a fazer parte de um registo de dispositivo associado ao seu proprietário.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={registration}
+    alt="Ecrã de registo de dispositivo que explica a geração local das chaves e o envio da chave pública."
+    caption="O registo cria um par de chaves para este telemóvel em particular."
+    portrait
+  />
+  <ProjectFigure
+    src={devices}
+    alt="Um tablet, um Pixel Watch e um telemóvel listados separadamente, cada um com a sua opção de revogação."
+    caption="É possível remover um dispositivo da conta e manter os restantes registos."
+    portrait
+  />
+</div>
+
+Há três mecanismos com funções diferentes. Os tokens JWT de acesso e de renovação autenticam os pedidos à API da conta. O PIN local ou a verificação biométrica controla a entrada na aplicação. A chave RSA assina o desafio enviado pelo controlador. Registar outro dispositivo não exige copiar uma chave privada ou um token de sessão do primeiro.
+
+A tabela de dispositivos do backend guarda o proprietário, o nome e a chave pública. Apagar esse registo impede que um controlador obtenha a chave num pedido posterior. As chaves são geradas em Dart e guardadas como texto em formato PEM; não são chaves não exportáveis geradas no hardware do dispositivo Android.
+
+## Seguir um pedido de abertura por Bluetooth
+
+A aplicação procura o serviço BLE do Aditus e ordena as portas encontradas por RSSI. Assim, é fácil encontrar o sinal mais forte, embora este seja apenas uma indicação aproximada da distância.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={discovery}
+    alt="Lista de portas próximas com nomes, endereços Bluetooth e intensidade do sinal recebido."
+    caption="O UUID do serviço identifica os controladores Aditus; os anúncios BLE fornecem os nomes das portas."
+    portrait
+  />
+  <ProjectFigure
+    src={progress}
+    alt="Janela de progresso da autenticação sobre a lista de portas próximas."
+    caption="A interface acompanha a ligação, a autenticação, a assinatura e a abertura."
+    portrait
+  />
+</div>
+
+O protocolo usa quatro características GATT. Duas aceitam escritas do cliente; as outras duas permitem ao controlador enviar-lhe notificações:
+
+| Característica | Sentido           | Conteúdo                               |
+| -------------- | ----------------- | -------------------------------------- |
+| Identidade     | Aplicação → ESP32 | JSON com `user_id` e `device_id`       |
+| Desafio        | ESP32 → aplicação | Desafio de seis dígitos em texto       |
+| Assinatura     | Aplicação → ESP32 | Assinatura RSA codificada em Base64    |
+| Estado         | ESP32 → aplicação | `AUTHORIZED` ou um motivo `DENIED_...` |
+
+O cliente ativa as notificações de desafio e estado antes de escrever a sua identidade. Um pedido bem-sucedido segue esta sequência:
+
+<MermaidDiagram
+  label="Sequência de autenticação BLE do Aditus"
+  caption="O percurso implementado para um pedido bem-sucedido. As consultas de permissões e chaves vão diretamente do controlador para o Flask."
+  source={`sequenceDiagram
+    participant App as Telemóvel ou relógio
+    participant Door as ESP32
+    participant API as API Flask
+    App->>Door: IDs do utilizador e dispositivo
+    Door->>API: Verificar permissão
+    API-->>Door: Acesso permitido
+    Door->>API: Obter chave pública do dispositivo
+    API-->>Door: Chave PEM
+    Door-->>App: Desafio
+    App->>App: Assinar desafio
+    App->>Door: Assinatura em Base64
+    Door->>API: Obter novamente a chave pública
+    API-->>Door: Chave PEM
+    Door->>Door: Verificar assinatura
+    Door-->>App: AUTHORIZED
+    Door->>Door: Piscar LED`}
+/>
+
+O PointyCastle assina os bytes UTF-8 do desafio com SHA-256/RSA. O ESP32 descodifica a assinatura, interpreta a chave pública PEM e verifica-a com o mbedTLS. As duas implementações têm de concordar nos bytes e nos formatos, não apenas no nome do algoritmo.
+
+Uma assinatura RSA-2048 ocupa 256 bytes, ou 344 caracteres em Base64. O cliente ativa explicitamente as escritas longas de BLE:
+
+```dart
+await _bleService.writeToCharacteristic(
+  signatureUuid,
+  signature,
+  allowLongWrite: true,
+);
+```
+
+Este excerto vem do `DoorUnlockBloc`, que coordena a troca de mensagens separadamente do ecrã. A espera pelo desafio e a espera pelo estado final têm, cada uma, um timeout de trinta segundos. Tanto a conclusão como os caminhos de erro terminam a ligação BLE. O ESP32 também acompanha o estado atual do pedido, rejeita assinaturas fora do estado de espera e regressa ao estado de repouso quando a ligação termina.
+
+## Emparelhar sem copiar as chaves do telemóvel
+
+O telemóvel pede um código de emparelhamento de seis dígitos, válido durante cinco minutos. O Flask guarda-o numa `PairingSession` com o ID do utilizador, a hora de expiração e um indicador de utilização. O relógio gera o seu próprio par de chaves e envia o código, o nome e a chave pública para o endpoint de emparelhamento.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={phonePairing}
+    alt="O telemóvel a apresentar um código temporário de emparelhamento do relógio e a contagem decrescente até à expiração."
+    caption="O telemóvel inicia a sessão autenticada de emparelhamento."
+    portrait
+  />
+  <ProjectFigure
+    src={watchPairing}
+    alt="Um ecrã redondo Wear OS com um campo para o código de seis dígitos e um botão de emparelhamento."
+    caption="O relógio envia o código com a sua própria chave pública. Estas capturas mostram códigos de exemplo de sessões diferentes."
+  />
+</div>
+
+O backend verifica se o código existe, se ainda é válido e se não foi usado. Cria um dispositivo na mesma conta e marca a sessão como utilizada. A resposta dá ao relógio os IDs do dispositivo e do proprietário; este processo não lhe atribui JWTs como os usados pelo telemóvel.
+
+No pulso, o ecrã principal apresenta a porta com o sinal mais forte e um botão para a abrir. Repor o relógio apaga as chaves e o registo locais. Revogar o registo no backend continua a ser uma ação separada, feita na lista de dispositivos do telemóvel.
+
+## Regras de acesso que se conseguem gerir
+
+O telemóvel também permite gerir utilizadores, grupos e portas. O SQLAlchemy representa a pertença a grupos, as permissões diretas de utilizadores, as permissões de grupos e as respetivas exceções através de tabelas de associação. A propriedade do dispositivo é independente dessas permissões: uma chave pública permite provar a posse de um dispositivo registado, enquanto a consulta de permissões determina se o utilizador indicado pode entrar.
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={doorDetails}
+    alt="Detalhes da porta da Sala do GLUA, com estado, identificador Bluetooth e acesso à gestão de permissões."
+    caption="A configuração da porta e as permissões são geridas aqui. O atalho para os registos de acesso ficou por implementar."
+    portrait
+  />
+  <ProjectFigure
+    src={groupMembers}
+    alt="Janela com pesquisa para selecionar utilizadores a adicionar a um grupo."
+    caption="Os grupos evitam ter de atribuir a mesma porta a cada pessoa individualmente."
+    portrait
+  />
+</div>
+
+A ordem de avaliação é concreta. Uma exceção de utilizador nega o acesso logo no início. Caso contrário, uma permissão direta autoriza-o. Na ausência dessa permissão, basta pertencer a um grupo autorizado que não tenha uma exceção para a porta. Uma exceção de grupo não anula uma permissão direta independente nem uma permissão atribuída através de outro grupo. Ser administrador dá privilégios de gestão, não acesso automático a todas as portas.
+
+## Os limites do protótipo
+
+Os registos de acesso incluem o utilizador, o dispositivo, a porta, a data e hora, o resultado e o motivo de falha. O ecrã de histórico pessoal carrega vinte registos de cada vez. O Flask também disponibiliza filtros administrativos por utilizador, porta, dispositivo, data e resultado.
+
+<ProjectFigure
+  src={history}
+  alt="Histórico de acessos com entradas bem-sucedidas, uma falha por timeout e vinte registos carregados."
+  caption="O ecrã original de histórico apresenta as tentativas guardadas. É preciso corrigir a diferença entre as rotas do firmware e do backend para receber novos registos do controlador de forma fiável."
+  portrait
+/>
+
+A demonstração gravada liga o registo, a consulta de permissões e a verificação de assinaturas, mas instalar o sistema numa porta exige mais trabalho. O firmware desativa atualmente a verificação dos certificados TLS, usa um desafio pseudoaleatório curto e não associa explicitamente o ID de utilizador recebido ao proprietário do dispositivo. Também envia os registos para a rota errada. O relatório original descreve bloqueios intermitentes do controlador durante pedidos feitos pelo relógio, sem uma causa confirmada.
+
+Estas limitações estão documentadas na [referência técnica](https://github.com/miguelovila/aditus-door-access-system/blob/main/DOCUMENTATION.md#known-limitations). O [repositório](https://github.com/miguelovila/aditus-door-access-system) inclui as quatro implementações, o relatório original e o material de demonstração.
