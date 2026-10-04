@@ -1428,6 +1428,40 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
   border-top: 2px solid var(--accent);
   padding-top: 22px;
 }
+.about-aside nav {
+  margin-top: 20px;
+}
+.about-location,
+.about-university,
+.about-education dd {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.about-education {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.about-education h2 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.about-education dt {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+.about-education dd {
+  margin-top: 4px;
+}
+.about-contact {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.about-contact h2 {
+  margin-top: 0;
+}
 .about-aside img {
   width: 112px;
   height: 112px;
@@ -1737,14 +1771,17 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
     gap: 36px;
   }
   .about-aside {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 0 24px;
+    display: block;
+  }
+  .about-profile {
+    display: flex;
+    gap: 24px;
+    align-items: center;
   }
   .about-aside img {
     width: 90px;
     height: 90px;
-    grid-row: span 4;
+    margin-bottom: 0;
   }
   .footer-top {
     grid-template-columns: 1fr 1fr;

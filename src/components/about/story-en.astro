@@ -1,0 +1,116 @@
+---
+interface Props {
+  projectLinks: Partial<Record<string, string>>;
+}
+const { projectLinks } = Astro.props;
+---
+
+<p>
+  Estarreja, Portugal, is still the place I call home. I can open the door and see pine trees and
+  dirt tracks, walk half an hour into town, or go fishing when I feel like it. It's a small place
+  where people know each other, and quite a lot of my life happens here.
+</p>
+
+<h2 id="childhood">Taking things apart</h2>
+
+<p>
+  When I was ten, I took apart my mother's computer during the summer holidays. It was the only
+  computer in the house. She was at work. I cleaned it. I'd never dismantled a whole computer
+  before, and once it was in pieces, I'd also dismantled my only way of looking up a tutorial. I was
+  connecting the last front-panel wire as she was parking the car.
+</p>
+<p>
+  I did much the same with remote-controlled cars and whatever else I could get my hands on. My
+  grandfather got me interested in electrical work, and for a while I wanted to become an
+  electrician. Electronic components cost money, though, and ordering them online wasn't
+  straightforward. Programming was easier to get into: I could still write programs even if my
+  computer was a potato.
+</p>
+<p>
+  One of my first electronics projects was for my birds. I love pretty much anything with a beak and
+  feathers. When my grandfather accidentally left their enclosure open, my favourite dove escaped.
+  She eventually came back, but I didn't want it happening again. At about eleven, I fitted a
+  battery-powered buzzer that sounded whenever the door was open.
+</p>
+
+<h2 id="work">Hardware, software and a soldering iron</h2>
+
+<p>
+  I still particularly enjoy the point where software meets something physical. A good afternoon is
+  one spent soldering and getting everything to work. That's why the
+  {
+    projectLinks["weather-station"] ? (
+      <a href={projectLinks["weather-station"]}>weather station</a>
+    ) : (
+      "weather station"
+    )
+  }
+  and
+  {
+    projectLinks["aes-iot-gateway"] ? (
+      <a href={projectLinks["aes-iot-gateway"]}>AES IoT gateway</a>
+    ) : (
+      "AES IoT gateway"
+    )
+  }
+  are among my favourite university projects. The
+  {
+    projectLinks.aditus ? (
+      <a href={projectLinks.aditus}>Aditus access system</a>
+    ) : (
+      "Aditus access system"
+    )
+  }
+  was another one I enjoyed building.
+</p>
+<p>
+  Sometimes I add work just to try something. In an unpublished weather-station experiment, I used
+  an ATtiny to make a sensor communicate with the ESP32 over I²C. The ESP32 had plenty of spare
+  pins. I wanted to learn how to build my own I²C peripheral.
+</p>
+<p>
+  When something fails, I debug it by separating the problems and dealing with them one at a time.
+  Friends and colleagues also tend to come to me for ideas. I'm currently curious about Audio over
+  IP and reverse engineering embedded devices, and I'd like to spend more time learning analogue
+  electronics.
+</p>
+
+<h2 id="aveiro">Aveiro, research and Linux</h2>
+
+<p>
+  I completed my bachelor's in Computer and Informatics Engineering at the University of Aveiro in
+  2024 and am now doing a master's in Computer and Telematics Engineering there.
+</p>
+<p>
+  From 2023 to 2026, I worked in research at Instituto de Telecomunicações, starting with an
+  undergraduate research grant. My first work explored IPFS in 5G scenarios for edge computing. I
+  then worked on the Aveiro Tech City Living Lab (ATCLL), building a platform to see the city's
+  sensor data in real time, including data from LiDAR, radar and cameras. Later, I extended it to
+  look back through past data: average speeds along road sections, congestion and parking
+  statistics. Much of the work involved implementation and reading and writing documentation.
+</p>
+<p>
+  A big part of university life was GLUA, the University of Aveiro's Linux group, where I was a
+  coordinator. I ran introductory Linux workshops, wrote installation and troubleshooting guides,
+  and made a script to install Quartus Prime Lite on Ubuntu and Fedora. I also grew attached to the
+  department itself, and got to know its professors and security staff.
+</p>
+<p>
+  I started with Ubuntu and never really wanted to go back to Windows. I like GNOME's design and
+  being able to automate things from the command line. My homelab runs Linux too. Open source
+  matters to me because I can read someone else's code and learn from it.
+</p>
+
+<h2 id="offline">Away from the desk</h2>
+
+<p>
+  I play accordion in a folk group and help with a carnival group, doing everything from mechanical
+  work to costumes. I make liqueurs, repair computers, do electrical work and set up sound for
+  corporate events. I've also worked behind a bar and built OSB walls. I do quite a few odd jobs.
+</p>
+<p>
+  Running has been part of my life for a long time, although it's taken a back seat over the last
+  few years. A good weekend includes dinner with friends, a rehearsal, a walk or time with my
+  girlfriend. I like having people around. That matters at work too: I want a welcoming team where
+  people are happy to answer questions, because I'll probably ask quite a few.
+</p>
