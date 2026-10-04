@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" role="img" aria-labelledby="title description">
+  <title id="title">A device making over forty times the baseline maximum DNS flows</title>
+  <desc id="description">In dataset 10, the busiest device in the clean day made 1,655 DNS flows. The critical rule threshold was 3,310. Device 192.168.110.21 made 67,610 flows during the day under investigation. Horizontal bars share a linear scale from zero to 70,000 flows.</desc>
+  <rect width="1120" height="700" rx="20" fill="#f1f5f3"/>
+  <g font-family="system-ui, sans-serif" fill="#173d3c">
+    <text x="64" y="72" font-size="22" letter-spacing="2">FIREWALL FLOW ANALYSIS · DATASET 10</text>
+    <text x="64" y="134" font-size="40" font-weight="700">One device, over 40× the baseline</text>
+    <text x="64" y="175" font-size="25" fill="#47625d">DNS flows per device, over one day</text>
+    <text x="64" y="248" font-size="27">Busiest device in the clean day</text>
+    <text x="1044" y="248" text-anchor="end" font-size="30" font-weight="700">1,655</text>
+    <rect x="64" y="269" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="269" width="23.17" height="30" rx="4" fill="#5d827d"/>
+    <text x="64" y="361" font-size="27">Critical threshold · 2× baseline maximum</text>
+    <text x="1044" y="361" text-anchor="end" font-size="30" font-weight="700">3,310</text>
+    <rect x="64" y="382" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="382" width="46.34" height="30" rx="4" fill="#ae7435"/>
+    <text x="64" y="474" font-size="27">Flagged device · 192.168.110.21</text>
+    <text x="1044" y="474" text-anchor="end" font-size="30" font-weight="700">67,610</text>
+    <rect x="64" y="495" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="495" width="946.54" height="30" rx="4" fill="#176b61"/>
+    <path d="M64 550H1044 M64 550V558 M344 550V558 M624 550V558 M904 550V558 M1044 550V558" stroke="#647d76" stroke-width="2"/>
+    <g font-size="23" fill="#47625d">
+      <text x="64" y="589">0</text>
+      <text x="344" y="589" text-anchor="middle">20,000</text>
+      <text x="624" y="589" text-anchor="middle">40,000</text>
+      <text x="904" y="589" text-anchor="middle">60,000</text>
+      <text x="1044" y="589" text-anchor="end">70,000</text>
+    </g>
+    <text x="64" y="650" font-size="22" fill="#47625d">Recreated from the project's recorded results. Flow counts are not decoded DNS queries.</text>
+  </g>
+</svg>

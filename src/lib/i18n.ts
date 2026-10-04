@@ -35,6 +35,10 @@ const en = {
   emptyProjects: "A few things are taking shape.",
   emptyProjectsBody:
     "I’m putting together the stories behind my projects. In the meantime, you can find my code on GitHub.",
+  projectsOtherLanguage: "There’s more to read in Portuguese.",
+  projectsOtherLanguageBody:
+    "The project articles are currently available in Portuguese, with code, images and details of the work.",
+  readProjectsOtherLanguage: "Read the projects in Portuguese",
   emptyPosts: "A notebook, ready for its first page.",
   emptyPostsBody:
     "Project notes and longer thoughts will live here. Subscribe by RSS to catch the first one.",
@@ -42,7 +46,7 @@ const en = {
   rss: "Subscribe via RSS",
   rssShort: "RSS feed",
   projectsDescription:
-    "Experiments, useful tools, and the occasional rabbit hole. A look at the work and the thinking behind it.",
+    "Projects from my bachelor’s and master’s at the University of Aveiro. Hardware, embedded systems and software, with the code and the decisions behind each one.",
   blogDescription:
     "Notes from building things. Thoughts on software, open source, and everything around it.",
   all: "All",
@@ -70,6 +74,8 @@ const en = {
   live: "Visit project",
   gallery: "A closer look",
   imageOpen: "Open full-size image",
+  diagramScroll: "Scroll horizontally to view the full diagram.",
+  watchYouTube: "Watch on YouTube",
   previous: "Previous",
   next: "Next",
   page: "Page",
@@ -175,6 +181,10 @@ const pt: typeof en = {
   emptyProjects: "Há algumas coisas a ganhar forma.",
   emptyProjectsBody:
     "Estou a preparar as histórias por trás dos meus projetos. Entretanto, podes encontrar o meu código no GitHub.",
+  projectsOtherLanguage: "Os projetos estão disponíveis em inglês.",
+  projectsOtherLanguageBody:
+    "Os artigos contam o trabalho por trás de cada projeto, com código, imagens e detalhes da implementação.",
+  readProjectsOtherLanguage: "Ler os projetos em inglês",
   emptyPosts: "Um caderno à espera da primeira página.",
   emptyPostsBody:
     "Este será o espaço para notas de projetos e reflexões mais demoradas. Subscreve o RSS para acompanhar o primeiro artigo.",
@@ -182,7 +192,7 @@ const pt: typeof en = {
   rss: "Subscrever por RSS",
   rssShort: "Feed RSS",
   projectsDescription:
-    "Experiências, ferramentas úteis e algumas explorações inesperadas. Um olhar sobre o trabalho e as ideias por trás dele.",
+    "Projetos da minha licenciatura e mestrado na Universidade de Aveiro. Hardware, sistemas embebidos e software, com o código e as decisões por trás de cada um.",
   blogDescription:
     "Notas de quem gosta de construir coisas. Reflexões sobre software, código aberto e tudo o que os rodeia.",
   all: "Todos",
@@ -209,7 +219,9 @@ const pt: typeof en = {
   source: "Código-fonte",
   live: "Visitar projeto",
   gallery: "Mais de perto",
-  imageOpen: "Abrir imagem em tamanho completo",
+  imageOpen: "Abrir imagem no tamanho original",
+  diagramScroll: "Desloca o diagrama na horizontal para o veres por completo.",
+  watchYouTube: "Ver no YouTube",
   previous: "Anterior",
   next: "Seguinte",
   page: "Página",

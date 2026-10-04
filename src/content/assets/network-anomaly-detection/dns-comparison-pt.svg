@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" role="img" aria-labelledby="title description">
+  <title id="title">Um dispositivo com mais de quarenta vezes o máximo de fluxos DNS de referência</title>
+  <desc id="description">No conjunto de dados 10, o dispositivo mais ativo no dia de referência gerou 1 655 fluxos DNS. O limiar crítico da regra era 3 310. O dispositivo 192.168.110.21 gerou 67 610 fluxos no dia em análise. As barras horizontais partilham uma escala linear de zero a 70 000 fluxos.</desc>
+  <rect width="1120" height="700" rx="20" fill="#f1f5f3"/>
+  <g font-family="system-ui, sans-serif" fill="#173d3c">
+    <text x="64" y="72" font-size="22" letter-spacing="2">ANÁLISE DE FLUXOS · CONJUNTO DE DADOS 10</text>
+    <text x="64" y="134" font-size="38" font-weight="700">Um dispositivo, mais de 40× o máximo</text>
+    <text x="64" y="175" font-size="25" fill="#47625d">Fluxos DNS por dispositivo, num dia</text>
+    <text x="64" y="248" font-size="27">Dispositivo mais ativo no dia de referência</text>
+    <text x="1044" y="248" text-anchor="end" font-size="30" font-weight="700">1 655</text>
+    <rect x="64" y="269" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="269" width="23.17" height="30" rx="4" fill="#5d827d"/>
+    <text x="64" y="361" font-size="27">Limiar crítico · 2× o máximo de referência</text>
+    <text x="1044" y="361" text-anchor="end" font-size="30" font-weight="700">3 310</text>
+    <rect x="64" y="382" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="382" width="46.34" height="30" rx="4" fill="#ae7435"/>
+    <text x="64" y="474" font-size="27">Dispositivo sinalizado · 192.168.110.21</text>
+    <text x="1044" y="474" text-anchor="end" font-size="30" font-weight="700">67 610</text>
+    <rect x="64" y="495" width="980" height="30" rx="4" fill="#dce6df"/>
+    <rect x="64" y="495" width="946.54" height="30" rx="4" fill="#176b61"/>
+    <path d="M64 550H1044 M64 550V558 M344 550V558 M624 550V558 M904 550V558 M1044 550V558" stroke="#647d76" stroke-width="2"/>
+    <g font-size="23" fill="#47625d">
+      <text x="64" y="589">0</text>
+      <text x="344" y="589" text-anchor="middle">20 000</text>
+      <text x="624" y="589" text-anchor="middle">40 000</text>
+      <text x="904" y="589" text-anchor="middle">60 000</text>
+      <text x="1044" y="589" text-anchor="end">70 000</text>
+    </g>
+    <text x="64" y="650" font-size="20" fill="#47625d">Recriado a partir dos resultados do projeto. Contam-se fluxos, não consultas DNS descodificadas.</text>
+  </g>
+</svg>

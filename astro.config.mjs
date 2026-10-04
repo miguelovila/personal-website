@@ -9,6 +9,7 @@ import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 import rehypeSlug from "rehype-slug";
 import rehypePermalinks from "./scripts/rehype-permalinks.mjs";
+import rehypeTables from "./scripts/rehype-tables.mjs";
 
 const isTestContent = process.env.SITE_TEST_CONTENT === "1";
 const testOutDir = process.env.SITE_TEST_OUT_DIR ?? "./.test-dist";
@@ -26,6 +27,6 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: { themes: { light: "github-light", dark: "github-dark" } },
-    rehypePlugins: [rehypeSlug, rehypePermalinks],
+    rehypePlugins: [rehypeSlug, rehypePermalinks, rehypeTables],
   },
 });

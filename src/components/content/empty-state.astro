@@ -1,25 +1,51 @@
 ---
 import { copy } from "@/lib/i18n";
 import { localePath, type Language } from "@/lib/publishing";
+import { getSiteContent } from "@/lib/content";
 interface Props {
   language: Language;
   kind: "posts" | "projects";
 }
 const { language, kind } = Astro.props;
 const t = copy[language];
+const otherLanguage = language === "pt" ? "en" : "pt";
+const hasOtherProjects =
+  kind === "projects" &&
+  (await getSiteContent({ posts: false })).projects.some(
+    (entry) => entry.data.language === otherLanguage
+  );
+const title = hasOtherProjects
+  ? t.projectsOtherLanguage
+  : kind === "projects"
+    ? t.emptyProjects
+    : t.emptyPosts;
+const body = hasOtherProjects
+  ? t.projectsOtherLanguageBody
+  : kind === "projects"
+    ? t.emptyProjectsBody
+    : t.emptyPostsBody;
+const href = hasOtherProjects
+  ? localePath(otherLanguage, "projects")
+  : kind === "projects"
+    ? "https://github.com/miguelovila"
+    : localePath(language, "rss.xml");
+const label = hasOtherProjects
+  ? t.readProjectsOtherLanguage
+  : kind === "projects"
+    ? t.github
+    : t.rss;
 ---
 
 <div class="empty-state">
   <span class="empty-icon" aria-hidden="true">{kind === "projects" ? "[ ]" : "¶"}</span>
   <div>
-    <h3>{kind === "projects" ? t.emptyProjects : t.emptyPosts}</h3><p>
-      {kind === "projects" ? t.emptyProjectsBody : t.emptyPostsBody}
-    </p>
+    <h3>{title}</h3><p>{body}</p>
   </div>
   <a
     class="text-link"
-    href={kind === "projects" ? "https://github.com/miguelovila" : localePath(language, "rss.xml")}
+    href={href}
+    hreflang={hasOtherProjects ? otherLanguage : undefined}
     data-astro-reload={kind === "posts" ? true : undefined}
-    >{kind === "projects" ? t.github : t.rss}<span aria-hidden="true">↗</span></a
+    >{label}<span aria-hidden="true">↗</span></a
   >
 </div>

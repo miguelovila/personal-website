@@ -1,7 +1,7 @@
 ---
 import { render } from "astro:content";
 import { Image } from "astro:assets";
-import { copy, statusLabel } from "@/lib/i18n";
+import { copy } from "@/lib/i18n";
 import { dateLabel, isPublished, localePath, readingMinutes, tagSlug } from "@/lib/publishing";
 import type { SitePage } from "@/lib/routes";
 import PostList from "../content/post-list.astro";
@@ -69,16 +69,11 @@ const author = entry.collection === "posts" ? entry.data.author : "Miguel Vila";
           entry.collection === "projects" && (
             <>
               <div class="article-meta">
-                <>
-                  <span class="status" data-status={entry.data.status}>
-                    {statusLabel(entry.data.status, language)}
-                  </span>
-                  <div class="technology-list">
-                    {entry.data.technologies.map((technology) => (
-                      <span>{technology}</span>
-                    ))}
-                  </div>
-                </>
+                <div class="technology-list">
+                  {entry.data.technologies.map((technology) => (
+                    <span>{technology}</span>
+                  ))}
+                </div>
               </div>
               <div class="article-actions" data-pagefind-ignore>
                 {entry.data.repositoryUrl && (

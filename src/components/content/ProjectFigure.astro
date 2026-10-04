@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { copy } from "@/lib/i18n";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  portrait?: boolean;
+}
+const { src, alt, caption, portrait = false } = Astro.props;
+const t = copy[Astro.url.pathname.startsWith("/pt/") ? "pt" : "en"];
+const widths = [
+  ...new Set([480, 800, 1120, 1600].filter((width) => width < src.width).concat(src.width)),
+];
+---
+
+<figure class:list={["project-figure", { "project-figure-portrait": portrait }]}>
+  <a
+    class="project-figure-image"
+    href={src.src}
+    aria-label={`${t.imageOpen}: ${alt}`}
+    data-astro-reload
+  >
+    <Image
+      {src}
+      {alt}
+      {widths}
+      sizes={portrait ? "(max-width: 639px) 85vw, 360px" : "(max-width: 1023px) 100vw, 750px"}
+      width={Math.min(src.width, portrait ? 720 : 1600)}
+      loading="lazy"
+    />
+  </a>
+  <figcaption>{caption}</figcaption>
+</figure>

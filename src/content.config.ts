@@ -1,13 +1,29 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
+import type { Loader } from "astro/loaders";
+import { existsSync } from "node:fs";
 
 const root = process.env.SITE_TEST_CONTENT === "1" ? ".test-content" : "src/content";
-const loader = (collection: string) =>
-  glob({
+const loader = (collection: string): Loader => {
+  const source = glob({
     pattern: "**/*.{md,mdx}",
     base: `${root}/${collection}`,
     generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ""),
   });
+  return {
+    ...source,
+    async load(context) {
+      // Astro 5.14's glob loader returns early for an empty directory. Remove
+      // deleted files first so clearing an archive cannot publish cached entries.
+      for (const [id, entry] of context.store.entries()) {
+        if (entry.filePath && !existsSync(new URL(entry.filePath, context.config.root))) {
+          context.store.delete(id);
+        }
+      }
+      await source.load(context);
+    },
+  };
+};
 
 const common = {
   title: z.string().min(1),
