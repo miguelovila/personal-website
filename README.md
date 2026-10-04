@@ -11,7 +11,9 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-The local development server includes drafts and future-dated entries, with preview labels and `noindex` metadata. The site starts with empty archives: no sample project or opinion is published on your behalf.
+The local development server includes drafts and future-dated entries, with preview labels and `noindex` metadata. The project archive contains eight articles about my university work, each available in English and European Portuguese. The blog is empty, and synthetic content lives only in the test fixtures.
+
+[Project source notes](docs/project-sources.md) record the evidence, contributions and asset origins for each article. Images, local videos and the moving-average demo's ROM samples live in this repository; sibling project directories are not required to build the site. Gestire's hardware demonstration is embedded from YouTube, with a direct viewing link. The build does not need to download that external video.
 
 ```sh
 bun run check        # Astro and TypeScript diagnostics
@@ -20,6 +22,7 @@ bun run format:check
 bun run test         # Publication and URL behavior
 bun run build        # Static site, then Pagefind when content exists
 bun run preview      # Preview the real production output
+bun run test:production # Crawl the real dist/ pages, links and media
 bun run test:site    # Isolated fixture build and generated-site checks
 bun run verify       # All checks, production build, and fixture checks
 ```
@@ -49,6 +52,8 @@ docker compose up --build -d
 ```
 
 Feature flags are build-time values because they control generated routes and the Pagefind search index. After changing `FEATURE_FLAGS`, `FEATURE_BLOG`, `FEATURE_PROJECTS`, `FEATURE_ABOUT`, or `FEATURE_SEARCH`, rebuild the image with `docker compose up --build -d`. The container listens on port 80; `SITE_PORT` controls the host port, defaulting to `8080`.
+
+`PUBLIC_GOOGLE_SITE_VERIFICATION` is also passed into the image at build time. Set it in `.env` when using Google's HTML-tag verification method, then rebuild. nginx revalidates HTML and search files after deployments; fingerprinted Astro assets retain immutable caching. Directory redirects are relative, so they preserve the public scheme and port behind a reverse proxy.
 
 ## Publish a post or project
 
@@ -87,6 +92,16 @@ Translations are optional. The selector links directly to an available translati
 
 UI translations live in `src/lib/i18n.ts`; URL and publication conventions live in `src/lib/publishing.ts`. The shared page registry is in `src/lib/routes.ts`.
 
+The eight project pairs share their filenames and `translationKey` values. Keep code identifiers, measured values, ownership and media consistent between versions. Translate titles, descriptions, figure captions, alternative text and diagram labels as well as the prose. Original project screenshots retain their original text; the recreated DNS chart has a separate Portuguese SVG.
+
+`ProjectFigure`, `YouTubeEmbed` and `MermaidDiagram` select their interface labels from the page URL. For the interactive filter, pass the language explicitly: `<MovingAverageDemo language="pt" client:visible />`. Its default is English; the Portuguese version also uses a decimal comma in the calculation.
+
+### About page
+
+The English and European Portuguese stories live in `src/components/about/story-en.astro` and `story-pt.astro`. The shared layout is `src/components/pages/about.astro`; introductory copy and the education summary live in `src/lib/i18n.ts`. The biography is based on Miguel's interview and résumé, with an ongoing master's and research at Instituto de Telecomunicações during 2023–2026. Keep both versions consistent when updating these details.
+
+Named projects link to published entries in the current language. If an entry is absent or projects are disabled, its name remains plain text. This also keeps the About page usable with fixture content and in About-only builds.
+
 ### Images and downloads
 
 Keep content images in `src/content/assets/` and reference them relative to the Markdown file, for example `coverImage: ../../assets/project-cover.jpg`. Astro validates local image paths and generates dimensioned responsive images. A cover requires `coverImageAlt`. Entries without a cover render without a placeholder image.
@@ -100,11 +115,74 @@ gallery:
     caption: Additional context for the reader.
 ```
 
-Gallery images link to the full-size asset and do not autoplay. Prefer ordinary Markdown image syntax for images inside prose. Keep tables and code blocks within the article; they scroll independently on narrow screens.
+Gallery images link to the full-size asset. Ordinary Markdown image syntax works inside prose. For a captioned figure with responsive sizing and a full-size link, use `ProjectFigure` in MDX as described below. Place figures beside the explanation they support and avoid repeating the same images in a gallery.
 
 An optional `shareImage` supplies a dedicated raster social image. Otherwise the site uses the branded default in `public/images/social-card.png`. Its source and generator are included; run `bun run social-card` to regenerate it. A 1200 × 630 PNG or JPEG is recommended for custom share images.
 
 For downloads, place the file in `public/downloads/` and link to it from Markdown, or import `src/components/DownloadButton.astro` in MDX. Content links must point to files that actually exist.
+
+### Figures, video and diagrams in MDX
+
+Use `.mdx` when an article needs these components. Put imports after the frontmatter. `ProjectFigure` takes an imported image, descriptive `alt` text and a `caption`; the optional `portrait` flag constrains tall phone screenshots. Astro generates responsive image variants, while the figure links to the original asset.
+
+```mdx
+import ProjectFigure from "@/components/content/ProjectFigure.astro";
+import discovery from "../../assets/aditus/nearby-doors.png";
+import progress from "../../assets/aditus/unlock-progress.png";
+
+<div className="project-figure-grid">
+  <ProjectFigure
+    src={discovery}
+    alt="Nearby doors with their Bluetooth signal strength."
+    caption="Discovery orders the doors by received signal strength."
+    portrait
+  />
+  <ProjectFigure
+    src={progress}
+    alt="The app showing authentication in progress."
+    caption="The unlock controller reports each stage to the screen."
+    portrait
+  />
+</div>
+```
+
+Use `project-figure-grid` for a related pair of figures; it stacks on narrow screens. A single `ProjectFigure` needs no wrapper. Original diagrams, screenshots and photos should retain clear source attribution in [project-sources.md](docs/project-sources.md). Label mockups, reconstructed charts and historical measurements in the article itself.
+
+`YouTubeEmbed` takes `videoId`, `title` and `caption`. It embeds the player from `youtube-nocookie.com`, loads lazily and includes a direct YouTube link. Its default layout is portrait for Shorts; pass `portrait={false}` for a landscape recording.
+
+```mdx
+import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
+
+<YouTubeEmbed
+  videoId="Ew3Ff9O0Odw"
+  title="Gestire smart-locker hardware demonstration"
+  caption="The original controller responding to a keypad code."
+/>
+```
+
+For local recordings, use a native `<video controls playsInline preload="none">` element with a poster, dimensions, an accessible label and a nearby description or transcript appropriate to the recording. Keep a direct fallback link and omit autoplay. Store the file under `public/project-media/` for a stable URL, or import an asset from `src/content/assets/` with `?url`, as the AES article does.
+
+`MermaidDiagram` uses `beautiful-mermaid` to render SVG during the build. It takes `source`, `label` and `caption` and allows keyboard scrolling when the diagram is wide. Rendering needs no client-side diagram script or remote fonts.
+
+```mdx
+import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
+
+<MermaidDiagram
+  label="A controller checking a pickup code"
+  caption="The controller requests an operation from the API."
+  source={`sequenceDiagram
+    participant Locker as ESP32
+    participant API as Flask API
+    Locker->>API: Pickup code
+    API-->>Locker: Compartment and operation`}
+/>
+```
+
+Use simple flowchart or sequence-diagram syntax and validate it with `bun run build`. `beautiful-mermaid` supports a subset of Mermaid syntax, so advanced Mermaid directives or extensions may not work. Diagrams use this MDX component; fenced `mermaid` blocks remain code blocks.
+
+### Tables and code
+
+Write tables with normal Markdown syntax. The build's `rehype-tables` plugin automatically adds a labelled, keyboard-focusable horizontal scroll region and column-header scope. Shared styles provide cell spacing, row stripes and numeric alignment; authors do not need to add a scroll wrapper. Code blocks scroll independently on narrow screens as well.
 
 ### Related writing and topics
 
@@ -130,6 +208,25 @@ Pagefind indexes only published entry bodies. Header, footer, contents navigatio
 
 Feeds live at `/rss.xml` and `/pt/rss.xml`, containing article summaries and links. The sitemap index is `/sitemap-index.xml`; only public, indexable pages appear in `/sitemap-0.xml`. Entry modification dates come from content metadata. Search and error pages use `noindex`. Former prototype pages are not built.
 
+## Google Search Console and SEO
+
+The technical pieces Google needs are generated with the site:
+
+- `https://miguelovila.pt/robots.txt` allows crawling and points to the sitemap index.
+- `https://miguelovila.pt/sitemap-index.xml` points to the concrete URL sitemap.
+- `https://miguelovila.pt/sitemap-0.xml` lists public, indexable URLs and their language alternates.
+- Every generated page has a canonical URL, a unique title and description, and reciprocal `hreflang` links when translations exist.
+
+To register the site in Google Search Console:
+
+1. Add a Domain property for `miguelovila.pt` when you can edit DNS. This covers HTTPS, HTTP, `www`, and any subdomains.
+2. If DNS is not convenient, add a URL-prefix property for `https://miguelovila.pt/`.
+3. For the HTML tag verification method, copy only the token from the tag’s `content` attribute into `PUBLIC_GOOGLE_SITE_VERIFICATION`, then rebuild and deploy. Leave this unset if you verify by DNS.
+4. Submit `https://miguelovila.pt/sitemap-index.xml` in the Sitemaps report.
+5. Use URL Inspection for `https://miguelovila.pt/` and any important new pages after deployment. Check that the live fetch succeeds and the canonical URL is the one you expect.
+
+Search Console helps Google discover and diagnose the site; it does not guarantee ranking. Ranking depends mostly on useful, specific pages, clear internal links, freshness where relevant, and reputable external links. If production is built with `FEATURE_FLAGS=landing`, only `/` and `/pt/` are discoverable, so publish the blog, projects, or about pages before expecting visibility beyond name searches.
+
 ## Test content and visual review
 
 `tests/fixtures/` contains synthetic examples, clearly labeled as tests. `bun run test:site` copies them into ignored `.test-content/`, adds pagination fixtures, and builds to ignored `.test-dist/` using a separate cache. It never writes into `src/content/` or replaces the production `dist/` directory.
@@ -146,11 +243,11 @@ Generated-site checks cover links and image targets, one main heading/landmark, 
 
 ## Release
 
-GitHub Actions runs `bun run verify` for pushes and pull requests. Deployment is intentionally independent of the checks workflow because this repository does not describe the existing hosting service.
+GitHub Actions runs `bun run verify`, builds the Docker image and tests its health, routes, redirects, verification tag and bilingual 404 responses for pushes and pull requests. Deployment is independent of the checks workflow because this repository does not describe the existing hosting service. The latest audit, including remaining dependency advisories, is recorded in [verification notes](docs/verification.md).
 
 Before launch:
 
-- Publish real project write-ups and articles; review both interface languages and any translations you provide.
+- Make the DETI coins, Weather Station, anomaly-detection and BUD repositories public, as planned. Their source and report links currently return 404 to anonymous visitors.
 - Configure the existing host to build with `bun run build` and publish `dist/`.
 - Serve directory indexes and static assets directly. Use `404.html` for unknown URLs with HTTP status 404; configure `/pt/404/index.html` for Portuguese paths if the host supports localized error handling.
 - Redirect the `www` host to `https://miguelovila.pt/` and verify HTTPS on both hosts. Normalize directory URLs with trailing slashes.
@@ -158,4 +255,4 @@ Before launch:
 - Measure the populated production site and inspect metadata/structured data.
 - Verify ownership in Google Search Console and submit `https://miguelovila.pt/sitemap-index.xml`.
 
-At the initial audit, the configured public host returned 404 for the root, robots file, and sitemap. Hosting access and Search Console ownership are not configured here; deployment and sitemap submission require those services.
+The public-host check on 2026-10-04 returned HTTP 200 for the HTTPS apex homepage, robots file and both sitemap files; HTTP redirects to HTTPS. The public sitemap still describes the older landing deployment. `http://www.miguelovila.pt/` returns 404, and HTTPS `www` serves Traefik's default certificate rather than a certificate valid for that hostname. DNS already resolves: configure the `www` router, certificate and redirect at the hosting layer. Search Console ownership and sitemap submission require access to Google Search Console.
