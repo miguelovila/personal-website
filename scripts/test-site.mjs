@@ -153,6 +153,19 @@ const sitemap = load(await readFile(path.join(root, "sitemap-0.xml"), "utf8"), {
 const locations = sitemap("url > loc")
   .toArray()
   .map((node) => new URL(sitemap(node).text()).pathname);
+const homeAlternates = sitemap("url")
+  .filter((_, node) => sitemap(node).find("loc").text() === `${origin}/`)
+  .find("xhtml\\:link[rel='alternate']")
+  .toArray()
+  .map((node) => ({
+    hreflang: sitemap(node).attr("hreflang"),
+    href: sitemap(node).attr("href"),
+  }));
+assert.deepEqual(homeAlternates, [
+  { hreflang: "en", href: `${origin}/` },
+  { hreflang: "pt-PT", href: `${origin}/pt/` },
+  { hreflang: "x-default", href: `${origin}/` },
+]);
 for (const url of locations) {
   assert.ok(documents.has(url), `Sitemap references absent URL ${url}`);
   assert.ok(

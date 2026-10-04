@@ -46,6 +46,7 @@ const {
 const canonical = new URL(canonicalPath, siteURL).href;
 const shareImage = new URL(image, siteURL).href;
 const pageTitle = title.includes("Miguel Vila") ? title : `${title} — Miguel Vila`;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const flags = getFeatureFlags();
 const hideFooter = isHomeOnlySite(flags);
 const structuredData = {
@@ -135,6 +136,11 @@ const structuredData = {
       })();
     </script>
     <title>{pageTitle}</title><meta name="description" content={description} />
+    {
+      googleSiteVerification && (
+        <meta name="google-site-verification" content={googleSiteVerification} />
+      )
+    }
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     {
