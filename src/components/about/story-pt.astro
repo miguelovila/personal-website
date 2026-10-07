@@ -7,42 +7,50 @@ const { projectLinks } = Astro.props;
 ---
 
 <p>
-  Estarreja continua a ser a minha casa. Posso abrir a porta e ver pinheiros e caminhos de terra,
-  chegar ao centro a pé em meia hora ou ir à pesca quando me apetece. É uma terra pequena, onde as
-  pessoas se conhecem, e é aqui que acontece boa parte da minha vida.
+  Cresci em Estarreja e continuo a considerar esta terra a minha casa. Gosto de abrir a porta e ver
+  mato, pinhais e caminhos de terra, sabendo que em meia hora a pé estou no centro e que posso ir à
+  pesca quando me apetece. É uma terra pequena, onde as pessoas se conhecem, e boa parte da minha
+  vida continua ligada às pessoas e às atividades daqui.
 </p>
 
 <h2 id="childhood">Desmontar coisas</h2>
 
 <p>
-  Aos dez anos, durante as férias de verão, desmontei o computador da minha mãe. Era o único
-  computador lá de casa. Ela estava a trabalhar. Desmontei-o por completo e limpei-o. Nunca tinha
-  desmontado um computador inteiro e, quando ficou tudo às peças, também tinha desmontado a minha
-  única forma de procurar um tutorial. Estava a ligar o último fio do painel frontal quando ela
-  estacionou o carro.
+  Em miúdo, desmontava os carrinhos telecomandados, os computadores velhos e praticamente tudo o que
+  me fosse parar às mãos. Aos dez anos, durante as férias de verão, decidi fazer o mesmo ao
+  computador da minha mãe, o único que tínhamos em casa, enquanto ela estava a trabalhar. Depois de
+  o desmontar por completo e limpar, tive de descobrir como o voltar a montar sem poder procurar um
+  tutorial no YouTube: o único computador que podia usar estava agora às peças, e eu nunca tinha
+  feito aquilo antes. Estava a ligar o último fio do painel frontal quando ela estacionou o carro.
 </p>
 
 <p>
-  Fazia o mesmo aos carrinhos telecomandados e ao que mais me fosse parar às mãos. O meu avô
-  despertou-me o interesse pela eletricidade e, durante algum tempo, quis ser eletricista. Mas os
-  componentes eletrónicos custavam dinheiro e encomendá-los pela Internet não era assim tão simples.
-  A programação estava mais ao meu alcance: podia criar coisas mesmo que o computador fosse uma
-  batata.
+  Por essa altura, também comecei a encontrar razões para construir coisas. Adoro pássaros, tudo o
+  que tenha bico e penas, e lembro-me bem do que senti quando o meu avô deixou a porta do viveiro
+  aberta sem querer e a minha rolinha preferida fugiu. Ela acabou por voltar, mas eu não queria
+  voltar a passar por aquele susto. Por volta dos onze anos, instalei um buzzer ligado a uma
+  bateria, que tocava enquanto a porta estivesse aberta.
 </p>
 
 <p>
-  Um dos meus primeiros projetos de eletrónica foi para os meus pássaros. Gosto de praticamente tudo
-  o que tenha bico e penas. Um dia, o meu avô deixou a porta do viveiro aberta sem querer e a minha
-  rolinha preferida fugiu. Acabou por voltar, mas eu não queria que acontecesse outra vez. Por volta
-  dos onze anos, instalei um avisador sonoro alimentado por bateria, que tocava sempre que a porta
-  estava aberta.
+  O meu avô teve bastante influência no meu interesse pela eletricidade, ao ponto de eu também
+  querer ser eletricista. Mas a eletrónica era um hobby complicado para uma criança sem dinheiro: os
+  componentes eram caros e encomendá-los pela Internet não era assim tão simples. Acabei por passar
+  mais tempo na programação, onde podia experimentar e fazer os meus próprios programas mesmo que o
+  computador fosse uma batata.
 </p>
 
 <h2 id="work">Hardware, software e um ferro de soldar</h2>
 
 <p>
-  Continuo a gostar especialmente de juntar software e hardware. Uma boa tarde é uma tarde a soldar
-  e a pôr tudo a funcionar. É por isso que a{" "}{
+  Fui estudar Engenharia de Computadores e Informática para a Universidade de Aveiro, onde terminei
+  a licenciatura em 2024. Continuo por lá, agora no mestrado em Engenharia de Computadores e
+  Telemática, e com o mesmo gosto por juntar código e eletrónica. Poder passar uma tarde a soldar e
+  acabar com tudo a funcionar continua a ser das partes de que mais gosto.
+</p>
+
+<p>
+  Entre os projetos que fiz na universidade, a{" "}{
     projectLinks["weather-station"] ? (
       <a href={projectLinks["weather-station"]}>estação meteorológica</a>
     ) : (
@@ -54,75 +62,69 @@ const { projectLinks } = Astro.props;
     ) : (
       "gateway IoT com AES"
     )
-  }{" "}estão entre os meus projetos preferidos da universidade. O{" "}{
+  }{" "}são dos meus preferidos precisamente porque me deram espaço para trabalhar tanto no hardware
+  como no software, tal como o{" "}{
     projectLinks["aditus"] ? (
       <a href={projectLinks["aditus"]}>sistema de controlo de acessos Aditus</a>
     ) : (
       "sistema de controlo de acessos Aditus"
     )
-  }{" "}foi outro que gostei de desenvolver.
+  }. Às vezes, essa vontade de experimentar acaba por me dar mais trabalho do que o necessário: num
+  dos sensores da estação meteorológica, numa experiência que não cheguei a publicar, usei um ATtiny
+  para comunicar com o ESP32 por I²C, apesar de o ESP32 ter pinos livres de sobra. Queria
+  experimentar construir o meu próprio periférico I²C e perceber como se fazia.
 </p>
 
 <p>
-  Às vezes arranjo mais trabalho só para experimentar uma ideia. Numa experiência com a estação
-  meteorológica que não cheguei a publicar, usei um ATtiny para pôr um sensor a comunicar com o
-  ESP32 por I²C. O ESP32 tinha pinos livres de sobra. Queria aprender a construir o meu próprio
-  periférico I²C.
-</p>
-
-<p>
-  Quando alguma coisa falha, separo os problemas e trato de um de cada vez. Os amigos e colegas
-  também costumam vir ter comigo quando precisam de ideias. Neste momento, tenho curiosidade pelo
-  áudio sobre IP e pela engenharia inversa de dispositivos embebidos, e gostava de dedicar mais
-  tempo à eletrónica analógica.
+  Quando alguma dessas experiências não funciona, vou separando os problemas e tratando de um de
+  cada vez, até perceber onde está a falha. Ainda há muito que quero explorar, sobretudo na
+  eletrónica analógica, no áudio sobre IP e na engenharia inversa de dispositivos embebidos.
 </p>
 
 <h2 id="aveiro">Aveiro, investigação e Linux</h2>
 
 <p>
-  Terminei a licenciatura em Engenharia de Computadores e Informática na Universidade de Aveiro em
-  2024 e estou agora a fazer o mestrado em Engenharia de Computadores e Telemática na mesma
-  universidade.
+  Ainda durante a licenciatura, em 2023, comecei a trabalhar no Instituto de Telecomunicações com
+  uma bolsa de iniciação à investigação. Até 2026, o trabalho levou-me do uso de IPFS em cenários 5G
+  para edge computing ao Aveiro Tech City Living Lab (ATCLL), onde desenvolvi uma plataforma para
+  consultar, em tempo real, os dados de LiDAR, radares e câmaras espalhados pela cidade. Mais tarde,
+  alarguei-a à consulta de dados históricos, com velocidades médias em troços de estrada,
+  congestionamento e estatísticas de estacionamento. Pelo meio havia muito código para escrever,
+  documentação para ler e decisões para deixar documentadas.
 </p>
 
 <p>
-  Entre 2023 e 2026, trabalhei em investigação no Instituto de Telecomunicações, começando com uma
-  bolsa de iniciação à investigação. O primeiro trabalho explorava o uso de IPFS em cenários 5G para
-  edge computing. Depois trabalhei no Aveiro Tech City Living Lab (ATCLL), a construir uma
-  plataforma para consultar os dados dos sensores da cidade em tempo real, incluindo LiDAR, radar e
-  câmaras. Mais tarde, acrescentei a possibilidade de consultar dados históricos: velocidades médias
-  em troços de estrada, congestionamento e estatísticas de estacionamento. Grande parte do trabalho
-  passava por implementar funcionalidades e por ler e escrever documentação.
+  Fora do trabalho de investigação, passei bastante tempo envolvido com Linux. Comecei com Ubuntu e
+  nunca tive grande vontade de voltar ao Windows, tanto pelo design do GNOME como pela facilidade de
+  automatizar coisas na linha de comandos. Como também tenho um homelab com servidores Linux, faz-me
+  sentido conhecer bem esse ambiente. Uma das coisas que mais valorizo no código aberto é poder
+  abrir o código de outra pessoa, tentar perceber como resolveu um problema e aprender com isso.
 </p>
 
 <p>
-  O GLUA, o grupo de Linux da Universidade de Aveiro, foi uma parte importante da minha vida
-  académica. Fui coordenador, dei workshops de iniciação ao Linux, escrevi guias de instalação e
-  resolução de problemas e fiz um script para instalar o Quartus Prime Lite em Ubuntu e Fedora.
-  Também ganhei uma ligação ao próprio departamento e fui conhecendo professores e seguranças.
-</p>
-
-<p>
-  Comecei com Ubuntu e nunca tive grande vontade de voltar ao Windows. Gosto do design do GNOME e de
-  poder automatizar coisas pela linha de comandos. O meu homelab também corre Linux. O código aberto
-  é importante para mim porque posso ler o que outras pessoas escreveram e aprender com isso.
+  Na universidade, esse interesse deu-me também a oportunidade de conhecer pessoas através do GLUA,
+  o Grupo de Linux da Universidade de Aveiro, de que fui coordenador. Dei workshops de iniciação ao
+  Linux, escrevi guias de instalação e resolução de problemas e fiz um script para instalar o
+  Quartus Prime Lite em Ubuntu e Fedora. O GLUA é uma das razões pelas quais guardo tanto carinho
+  pela universidade, a par dos professores e seguranças que fui conhecendo e do próprio
+  departamento, a que me afeiçoei.
 </p>
 
 <h2 id="offline">Longe do computador</h2>
 
 <p>
-  Toco acordeão num rancho folclórico e ajudo num grupo de carnaval, onde faço um pouco de tudo,
-  desde a mecânica aos trajes. Faço licores, reparo computadores, faço trabalhos de eletricidade e
-  monto som para eventos de empresas. Já trabalhei ao balcão de um bar e construí paredes em OSB.
-  Vou fazendo bastantes biscates.
+  Em Estarreja, essa parte social da minha vida faz-se muito à volta do rancho folclórico, onde toco
+  acordeão, e do grupo de carnaval, onde ajudo no que for preciso, desde trabalhos de mecânica aos
+  trajes. Também faço licores e vou fazendo bastantes biscates: reparar computadores, fazer
+  instalações elétricas, alugar e montar som para eventos de empresas, trabalhar ao balcão de um bar
+  ou até construir paredes em OSB. É frequente os amigos e colegas virem ter comigo quando precisam
+  de uma ideia para resolver alguma coisa.
 </p>
 
 <p>
-  A corrida acompanha-me há muito tempo, embora tenha ficado para segundo plano nos últimos anos.
-</p>
-
-<p>
-  Um bom fim de semana inclui um jantar com amigos, um ensaio, um passeio ou tempo com a minha
-  namorada. Gosto de ter pessoas por perto. Isso também conta no trabalho: quero uma equipa
-  acolhedora, com vontade de esclarecer dúvidas, porque provavelmente vou ter bastantes.
+  A corrida acompanha-me desde pequeno, embora tenha ficado para segundo plano nos últimos anos.
+  Continuo a gostar de sair para passear e, num fim de semana bem passado, há lugar para um jantar
+  com amigos, um ensaio do rancho ou tempo com a minha namorada. Sou uma pessoa sociável e preciso
+  de me sentir bem com quem está à minha volta, coisa que também procuro numa equipa de trabalho: um
+  ambiente acolhedor, onde possa fazer perguntas à vontade, porque provavelmente vou ter bastantes.
 </p>
