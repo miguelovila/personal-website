@@ -6,111 +6,117 @@ const { projectLinks } = Astro.props;
 ---
 
 <p>
-  Estarreja, Portugal, is still the place I call home. I can open the door and see pine trees and
-  dirt tracks, walk half an hour into town, or go fishing when I feel like it. It's a small place
-  where people know each other, and quite a lot of my life happens here.
+  I grew up in Estarreja, Portugal, and it's still the place I call home. I like being able to open
+  the door and see woodland and dirt tracks, knowing that town is half an hour's walk away and I can
+  go fishing whenever I feel like it. It's a small place where people know each other, and much of
+  my life still revolves around the people and activities here.
 </p>
 
 <h2 id="childhood">Taking things apart</h2>
 
 <p>
-  When I was ten, I took apart my mother's computer during the summer holidays. It was the only
-  computer in the house. She was at work. I cleaned it. I'd never dismantled a whole computer
-  before, and once it was in pieces, I'd also dismantled my only way of looking up a tutorial. I was
-  connecting the last front-panel wire as she was parking the car.
+  As a child, I took apart remote-controlled cars, old computers and pretty much anything I could
+  get my hands on. During the summer holidays when I was ten, I decided to do the same to my
+  mother's computer, the only one we had at home, while she was at work. After dismantling and
+  cleaning the whole thing, I had to work out how to put it back together without being able to look
+  up a YouTube tutorial: the only computer I could use was now in pieces, and I'd never done this
+  before. I was connecting the last front-panel wire as she was parking the car.
 </p>
 <p>
-  I did much the same with remote-controlled cars and whatever else I could get my hands on. My
-  grandfather got me interested in electrical work, and for a while I wanted to become an
-  electrician. Electronic components cost money, though, and ordering them online wasn't
-  straightforward. Programming was easier to get into: I could still write programs even if my
-  computer was a potato.
+  Around that time, I was starting to find reasons to build things too. I love birds, pretty much
+  anything with a beak and feathers, so when my grandfather accidentally left their enclosure open
+  and my favourite dove escaped, I was devastated. She eventually came back, but I didn't want to go
+  through that again. At about eleven, I fitted a battery-powered buzzer that would sound for as
+  long as the door was open.
 </p>
 <p>
-  One of my first electronics projects was for my birds. I love pretty much anything with a beak and
-  feathers. When my grandfather accidentally left their enclosure open, my favourite dove escaped.
-  She eventually came back, but I didn't want it happening again. At about eleven, I fitted a
-  battery-powered buzzer that sounded whenever the door was open.
+  My grandfather had a lot to do with my interest in electrical work, and I also wanted to become an
+  electrician. Electronics was a difficult hobby for a child with no money, though: components were
+  expensive, and ordering them online wasn't straightforward. I ended up spending more time
+  programming, where I could experiment and write my own programs even if my computer was a potato.
 </p>
 
 <h2 id="work">Hardware, software and a soldering iron</h2>
 
 <p>
-  I still particularly enjoy the point where software meets something physical. A good afternoon is
-  one spent soldering and getting everything to work. That's why the
-  {
+  I went on to study Computer and Informatics Engineering at the University of Aveiro, finishing my
+  bachelor's in 2024. I'm still there, now doing a master's in Computer and Telematics Engineering,
+  and I still enjoy bringing code and electronics together. Spending an afternoon soldering and
+  finally getting everything to work is one of my favourite parts of it.
+</p>
+
+<p>
+  Of the projects I've built at university, the{" "}{
     projectLinks["weather-station"] ? (
       <a href={projectLinks["weather-station"]}>weather station</a>
     ) : (
       "weather station"
     )
-  }
-  and
-  {
+  }{" "}and the{" "}{
     projectLinks["aes-iot-gateway"] ? (
       <a href={projectLinks["aes-iot-gateway"]}>AES IoT gateway</a>
     ) : (
       "AES IoT gateway"
     )
-  }
-  are among my favourite university projects. The
-  {
+  }{" "}are among my favourites because they let me work on both the hardware and the software, as
+  did the{" "}{
     projectLinks.aditus ? (
       <a href={projectLinks.aditus}>Aditus access system</a>
     ) : (
       "Aditus access system"
     )
-  }
-  was another one I enjoyed building.
+  }. Sometimes wanting to try something gives me more work than the project actually needs: in an
+  unpublished experiment with one of the weather-station sensors, I used an ATtiny to communicate
+  with the ESP32 over I²C, even though the ESP32 had plenty of spare pins. I wanted to build my own
+  I²C peripheral and find out how it was done.
 </p>
 <p>
-  Sometimes I add work just to try something. In an unpublished weather-station experiment, I used
-  an ATtiny to make a sensor communicate with the ESP32 over I²C. The ESP32 had plenty of spare
-  pins. I wanted to learn how to build my own I²C peripheral.
-</p>
-<p>
-  When something fails, I debug it by separating the problems and dealing with them one at a time.
-  Friends and colleagues also tend to come to me for ideas. I'm currently curious about Audio over
-  IP and reverse engineering embedded devices, and I'd like to spend more time learning analogue
-  electronics.
+  When one of those experiments doesn't work, I separate the problems and deal with them one at a
+  time until I find the fault. There are still plenty of things I want to explore, especially
+  analogue electronics, Audio over IP and reverse engineering embedded devices.
 </p>
 
 <h2 id="aveiro">Aveiro, research and Linux</h2>
 
 <p>
-  I completed my bachelor's in Computer and Informatics Engineering at the University of Aveiro in
-  2024 and am now doing a master's in Computer and Telematics Engineering there.
+  While I was still doing my bachelor's, I started working at Instituto de Telecomunicações in 2023
+  through an undergraduate research grant. My work there continued until 2026, taking me from
+  exploring IPFS in 5G scenarios for edge computing to the Aveiro Tech City Living Lab (ATCLL),
+  where I developed a platform for viewing data from the city's LiDAR, radar and cameras in real
+  time. I later extended it to look back through historical data, including average speeds along
+  road sections, congestion and parking statistics. Along the way there was plenty of code to write,
+  documentation to read and decisions to document.
 </p>
 <p>
-  From 2023 to 2026, I worked in research at Instituto de Telecomunicações, starting with an
-  undergraduate research grant. My first work explored IPFS in 5G scenarios for edge computing. I
-  then worked on the Aveiro Tech City Living Lab (ATCLL), building a platform to see the city's
-  sensor data in real time, including data from LiDAR, radar and cameras. Later, I extended it to
-  look back through past data: average speeds along road sections, congestion and parking
-  statistics. Much of the work involved implementation and reading and writing documentation.
+  Outside the research work, I spent a lot of time involved with Linux. I started with Ubuntu and
+  never really wanted to go back to Windows, partly because I like GNOME's design and partly because
+  of how much I can automate from the command line. With Linux servers in my homelab too, it makes
+  sense to get to know that environment well. One of the things I value most about open source is
+  being able to read someone else's code, work out how they approached a problem and learn from it.
 </p>
 <p>
-  A big part of university life was GLUA, the University of Aveiro's Linux group, where I was a
-  coordinator. I ran introductory Linux workshops, wrote installation and troubleshooting guides,
-  and made a script to install Quartus Prime Lite on Ubuntu and Fedora. I also grew attached to the
-  department itself, and got to know its professors and security staff.
-</p>
-<p>
-  I started with Ubuntu and never really wanted to go back to Windows. I like GNOME's design and
-  being able to automate things from the command line. My homelab runs Linux too. Open source
-  matters to me because I can read someone else's code and learn from it.
+  At university, that interest also gave me a way to meet people through GLUA, the University of
+  Aveiro's Linux group, where I was a coordinator. I ran introductory Linux workshops, wrote
+  installation and troubleshooting guides, and made a script to install Quartus Prime Lite on Ubuntu
+  and Fedora. GLUA is a big part of why I'm so fond of the university, along with the professors and
+  security staff I got to know and the department itself, which I've become rather attached to.
 </p>
 
 <h2 id="offline">Away from the desk</h2>
 
 <p>
-  I play accordion in a folk group and help with a carnival group, doing everything from mechanical
-  work to costumes. I make liqueurs, repair computers, do electrical work and set up sound for
-  corporate events. I've also worked behind a bar and built OSB walls. I do quite a few odd jobs.
+  Back in Estarreja, a lot of that social side of my life happens around the folk group where I play
+  accordion and the carnival group where I help with whatever needs doing, from mechanical work to
+  costumes. I also make liqueurs and take on quite a few odd jobs: repairing computers, doing
+  electrical installations, hiring out and setting up sound for corporate events, working behind a
+  bar or even building OSB walls. Friends and colleagues often come to me when they need an idea for
+  solving something.
 </p>
 <p>
-  Running has been part of my life for a long time, although it's taken a back seat over the last
-  few years. A good weekend includes dinner with friends, a rehearsal, a walk or time with my
-  girlfriend. I like having people around. That matters at work too: I want a welcoming team where
-  people are happy to answer questions, because I'll probably ask quite a few.
+  Running has been part of my life since I was little, although it's taken a back seat over the last
+  few years. I still enjoy getting out for a walk, and a good weekend has room for dinner with
+  friends, a rehearsal with the folk group or time with my girlfriend. I'm a sociable person and
+  need to feel comfortable with the people around me, which is something I look for in a team at
+  work too: a welcoming place where I can ask questions freely, because I'll probably have quite a
+  few.
 </p>
