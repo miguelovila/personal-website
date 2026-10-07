@@ -10,7 +10,7 @@ featured: false
 technologies: [C, ESP32, ESP-IDF, FreeRTOS, MQTT, Grafana]
 tags: [embedded-systems, electronics, iot]
 repositoryUrl: https://github.com/miguelovila/smart-weather-station
-coverImage: ../../assets/weather-station/assembled-station.jpg
+coverImage: ../../assets/weather-station/cover-image.png
 coverImageAlt: "The assembled weather station outdoors, with a cup anemometer, shielded BME280, wind vane, and electronics mounted on a tripod."
 ---
 

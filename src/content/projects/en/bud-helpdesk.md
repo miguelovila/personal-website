@@ -10,7 +10,7 @@ featured: false
 technologies: [C#, Windows Forms, SQL Server, ADO.NET]
 tags: [databases, desktop-applications, software-engineering]
 repositoryUrl: https://github.com/miguelovila/ua-bd-bud
-coverImage: ../../assets/bud-helpdesk/ticket-conversation.png
+coverImage: ../../assets/bud-helpdesk/cover-image.png
 coverImageAlt: "BUD's ticket editor, with request details and staff controls on the left and a conversation with a PDF attachment on the right."
 ---
 

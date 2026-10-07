@@ -11,7 +11,7 @@ featuredOrder: 2
 technologies: [C, CUDA, OpenMP, AVX2, AVX-512, WebAssembly]
 tags: [computacao-de-alto-desempenho, computacao-paralela, redes]
 repositoryUrl: https://github.com/miguelovila/mining-deti-coins
-coverImage: ../../assets/deti-coin-miner/network-workers.png
+coverImage: ../../assets/deti-coin-miner/cover-image.png
 coverImageAlt: "Captura de terminal do relatório do projeto, com um servidor de mineração a receber moedas de clientes AVX e AVX2/OpenMP."
 ---
 
