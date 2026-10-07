@@ -11,10 +11,11 @@ featuredOrder: 1
 technologies: [VHDL, C, Python, FPGA, Vivado, AXI4-Lite]
 tags: [embedded-systems, fpga, cryptography, networking]
 repositoryUrl: https://github.com/miguelovila/custom-aes-encripted-iot-gateway
-coverImage: ../../assets/aes-iot-gateway/gateway-demo.jpg
+coverImage: ../../assets/aes-iot-gateway/gateway-demo.png
 coverImageAlt: "The Nexys A7 board beside its Python controller, showing LEDs, switches, temperature, and acceleration readings."
 ---
 
+import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
 import ProjectFigure from "@/components/content/ProjectFigure.astro";
 import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
 import architecture from "../../assets/aes-iot-gateway/system-architecture.png";
@@ -23,7 +24,7 @@ import waveform from "../../assets/aes-iot-gateway/aes-waveform.jpg";
 import blockDesign from "../../assets/aes-iot-gateway/vivado-block-design.jpg";
 import timing from "../../assets/aes-iot-gateway/timing-summary.jpg";
 import utilization from "../../assets/aes-iot-gateway/resource-utilization.jpg";
-import demoPoster from "../../assets/aes-iot-gateway/gateway-demo.jpg";
+import demoPoster from "../../assets/aes-iot-gateway/gateway-demo.png";
 import demoVideo from "../../assets/aes-iot-gateway/gateway-demo.mp4?url";
 
 Move the board and the acceleration readings change. Press a button and its indicator lights up on the computer. Click an LED in the controller and the physical LED toggles. Between the board and the screen, each sensor update passes through an AES-128 core I wrote in VHDL.
@@ -154,24 +155,11 @@ On the computer, a listener thread checks packet length and type, decrypts with 
 
 Clicking LED 5 sends `L5`; `LR` and `LL` rotate the pattern. `D1000` requests a one-second update interval, and `K` followed by 32 hexadecimal characters sets the key. There is also an accelerometer mode that moves the desktop window with the board.
 
-<figure className="project-figure">
-  <video
-    controls
-    playsInline
-    preload="none"
-    poster={demoPoster.src}
-    width="800"
-    height="450"
-    aria-label="Original silent recording of the FPGA board and desktop sensor monitor"
-  >
-    <source src={demoVideo} type="video/mp4" />
-    <a href={demoVideo}>Download the original gateway demonstration.</a>
-  </video>
-  <figcaption>
-    A short, silent recording from the project: the board and the live controller side by side. This
-    is the original demo, converted from GIF to a smaller video file.
-  </figcaption>
-</figure>
+<YouTubeEmbed
+  videoId="wVWUDfTZosg"
+  title="Recording of the FPGA board and desktop data aqquisition software"
+  caption="The board and the live controller side by side while communicating."
+/>
 
 ## Where the prototype stops
 
