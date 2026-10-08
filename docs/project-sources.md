@@ -4,7 +4,7 @@ These notes record the evidence and asset origins behind the eight portfolio art
 
 ## Public repository links before deployment
 
-An anonymous link check on 2026-10-04 returned 404 for `mining-deti-coins`, `smart-weather-station`, `src-project-2` and `ua-bd-bud`, including the miner's linked PDFs. Their URLs match the local Git origins. Miguel confirmed that these repositories will be made public before deployment, so their article links are retained. Making those four repositories public and checking their links again is a release prerequisite; no repository visibility was changed during the website work.
+An anonymous link check on 2026-10-08 found `mining-deti-coins`, `smart-weather-station` and `ua-bd-bud` publicly accessible, including the miner's linked PDFs. `src-project-2` still returns 404. Miguel confirmed during this audit that its source links should remain for the planned public release. Recheck that repository after publication; no repository visibility was changed during the website work.
 
 ## European Portuguese versions
 

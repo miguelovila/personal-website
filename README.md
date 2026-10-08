@@ -258,7 +258,7 @@ GitHub Actions runs `bun run verify`, builds the Docker image and tests its heal
 
 Before launch:
 
-- Make the DETI coins, Weather Station, anomaly-detection and BUD repositories public, as planned. Their source and report links currently return 404 to anonymous visitors.
+- Make the anomaly-detection repository (`src-project-2`) public, as planned, and recheck its source links. The DETI coins, Weather Station and BUD repositories and the linked reports now respond publicly.
 - Configure the existing host to build with `bun run build` and publish `dist/`.
 - Serve directory indexes and static assets directly. Use `404.html` for unknown URLs with HTTP status 404; configure `/pt/404/index.html` for Portuguese paths if the host supports localized error handling.
 - Deploy the nginx `www` redirect to `https://miguelovila.pt/`, preserving paths and query strings. If using another host, configure the equivalent permanent redirect there. Keep HTTPS valid on both hosts and normalize directory URLs with trailing slashes.
@@ -266,4 +266,4 @@ Before launch:
 - Measure the populated production site and inspect metadata/structured data.
 - Verify ownership in Google Search Console and submit `https://miguelovila.pt/sitemap-index.xml`.
 
-The public-host check on 2026-10-04 returned HTTP 200 for the HTTPS apex homepage, robots file and both sitemap files; HTTP redirects to HTTPS. The public sitemap still describes the older landing deployment. `http://www.miguelovila.pt/` returns 404, and HTTPS `www` serves Traefik's default certificate rather than a certificate valid for that hostname. DNS already resolves: configure the `www` router, certificate and redirect at the hosting layer. Search Console ownership and sitemap submission require access to Google Search Console.
+The public-host check on 2026-10-08 returned HTTP 200 for the HTTPS apex homepage, both project archives, robots file and both sitemap files; the live sitemap contains 66 URLs, and a missing page returns HTTP 404. HTTPS certificates are valid on both the apex and `www`. The live `www` host still returns a duplicate page with the correct apex canonical; the nginx configuration now adds a 308 redirect, effective after deployment when the proxy forwards the original hostname. HTTP currently redirects to HTTPS with 302 at the upstream host; use 301 or 308 there for a permanent redirect. Search Console ownership and sitemap submission require access to Google Search Console and were not changed.

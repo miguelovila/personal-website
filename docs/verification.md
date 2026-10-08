@@ -1,5 +1,35 @@
 # Website verification
 
+## Website audit — 2026-10-08
+
+Completed the code, content organization, technical SEO, generated-site and deployment checks below. Changes are local; no commit, push, deployment or Search Console action was performed. Earlier dated sections describe earlier versions and are retained as history.
+
+### Changes
+
+- Grouped each project's English and Portuguese writing under `src/content/projects/<slug>/`, with shared images and data in its `assets/` directory. All 51 moved assets are byte-identical; all 16 articles retain their writing. Existing `en/<slug>` and `pt/<slug>` IDs, translation keys, related-project references and public URLs remain stable. Legacy language-first content is still supported. Aditus's public video and poster retain their existing direct URLs.
+- Removed the obsolete Next.js declaration file, six unused import aliases, ten unused direct dependency declarations, obsolete footer/language CSS and two unused MDX imports. Kept future blog functionality, authoring components, shared UI primitives and original project source imagery.
+- Gave topic archives topic-specific descriptions and paginated archives distinct descriptions. Added accurately scoped About-page `ProfilePage` data, real sharing-image dimensions and fallback-image descriptions, and large-image-preview permission. Extended checks for unique metadata within each language, actual sharing assets, profile identity, and agreement between HTML and sitemap language links.
+- Added an nginx 308 redirect from `www.miguelovila.pt` to the apex, preserving the path and query string, plus a CI regression check. It takes effect after deployment when the upstream proxy forwards the original hostname.
+- Updated authoring instructions, templates and current media/source notes to match the repository, including the AES YouTube demonstration.
+
+### Validation
+
+- Astro/TypeScript: 71 files, zero errors, warnings or hints. ESLint, Prettier, frozen dependency installation and all 23 unit tests pass (90 assertions).
+- Production: 72 pages and 16 indexed articles across two languages. All 72 page URLs match the pre-change route list. The crawl passes 3,586 local references, 254 fragments, 16 tables and six diagrams, including metadata, responsive images, canonical URLs and reciprocal translations.
+- Isolated fixtures: 37 full-site pages, four landing pages and 15 projects-only pages pass. Fixtures now exercise bundled and legacy translations together, related-project references, custom sharing images and paginated descriptions. The strengthened production checker also passes against the landing and projects-only outputs.
+- Docker: clean frozen installation and production build succeed from the repository. The workflow's nginx smoke checks pass locally, including health, direct routes, verification metadata, directory redirects and genuine English/Portuguese 404 responses. Additional checks pass for the new `www` redirect with a query string, HTML/search cache headers and MP4 byte-range responses.
+- Browser: all 16 project articles and both homepages load their images and fit a 320px viewport. Both About pages and project archives also pass at 1440px. Automated WCAG A/AA checks report no violations on those 22 pages in the dark theme; four representative pages also pass in the light theme at 390px. Desktop and mobile screenshots were inspected. These checks do not replace assistive-technology testing or field performance measurements.
+- English `AES` and Portuguese `anemómetro` searches return the expected localized articles. Flutter filtering shows the two matching projects. Search and image dialogs release scroll locking and restore focus on dismissal. The Portuguese moving-average demo hydrates when scrolled into view; its last-sample control reaches address 255, and bypass at address 2 outputs −110.
+
+### Remaining external work and dependency findings
+
+- The anomaly-detection repository `src-project-2` still returns 404 anonymously. Miguel explicitly requested keeping its links for the planned public release. The other project repositories and linked reports respond publicly; LinkedIn blocks automated requests, so its status cannot be established by this check.
+- Both live hostnames now have valid HTTPS. The apex serves the populated site, robots and sitemap; the sitemap contains 66 URLs, and a missing route returns 404. Live `www` still serves a duplicate page with an apex canonical until the redirect is deployed. The upstream HTTP-to-HTTPS redirects currently use 302; configure permanent 301/308 redirects there. Search Console ownership, sitemap submission and field Core Web Vitals remain owner/hosting tasks.
+- Bun reports **15 advisory entries across four packages: one critical, six high, five moderate and three low**. They involve Astro (10), its nested Sharp (3), braces (1) and esbuild (1). Astro/Sharp image-decoding concerns remain build-time risks when processing untrusted images. The runtime image contains static files and nginx, without the JavaScript build dependencies. No major framework migration or dependency override was introduced.
+- The compatible `http-cache-semantics` update from 4.2.0 to 4.3.0 removes its scanner entry, but it is **not a confirmed security fix**: an in-memory reproduction still permits `max-stale` reuse for shared responses containing `Set-Cookie` or `proxy-revalidate`. This site does not provide an authenticated shared-response cache. Keep that caveat when evaluating future server-side features.
+
+Primary references: [Google descriptions](https://developers.google.com/search/docs/appearance/snippet), [ProfilePage guidance](https://developers.google.com/search/docs/appearance/structured-data/profile-page), [robots image-preview controls](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag), [Astro AVIF advisory](https://github.com/withastro/astro/security/advisories/GHSA-26w7-cxv4-gfx2), [Sharp SVG advisory](https://github.com/lovell/sharp/security/advisories/GHSA-wq5f-xc86-pv6w), [cache advisory](https://github.com/advisories/GHSA-ch52-4w7c-c8xp), [esbuild advisory](https://github.com/evanw/esbuild/security/advisories/GHSA-g7r4-m6w7-qqqr) and [braces issue](https://github.com/micromatch/braces/issues/70).
+
 ## Deployment readiness — 2026-10-04
 
 The full static site builds and passes the checks below. No commit, push or production deployment was performed. The remaining hosting and dependency limitations are explicit; this is not a clean security audit.
