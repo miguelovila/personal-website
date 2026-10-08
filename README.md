@@ -261,7 +261,7 @@ Before launch:
 - Make the DETI coins, Weather Station, anomaly-detection and BUD repositories public, as planned. Their source and report links currently return 404 to anonymous visitors.
 - Configure the existing host to build with `bun run build` and publish `dist/`.
 - Serve directory indexes and static assets directly. Use `404.html` for unknown URLs with HTTP status 404; configure `/pt/404/index.html` for Portuguese paths if the host supports localized error handling.
-- Redirect the `www` host to `https://miguelovila.pt/` and verify HTTPS on both hosts. Normalize directory URLs with trailing slashes.
+- Deploy the nginx `www` redirect to `https://miguelovila.pt/`, preserving paths and query strings. If using another host, configure the equivalent permanent redirect there. Keep HTTPS valid on both hosts and normalize directory URLs with trailing slashes.
 - Confirm the homepage, direct article URLs, images, fonts, search index/WASM assets, feeds, robots file, and sitemap return successful responses. Check that missing URLs return a genuine 404.
 - Measure the populated production site and inspect metadata/structured data.
 - Verify ownership in Google Search Console and submit `https://miguelovila.pt/sitemap-index.xml`.

@@ -49,6 +49,10 @@ jobs:
             tr -d '\r' < "$RUNNER_TEMP/site-redirect.headers" | grep -q "^Location: $route/$"
           done
 
+          status=$(curl --silent --show-error --header 'Host: www.miguelovila.pt' --dump-header "$RUNNER_TEMP/site-www.headers" --output /dev/null --write-out '%{http_code}' "$origin/pt/projects/?ref=smoke")
+          test "$status" = 308
+          tr -d '\r' < "$RUNNER_TEMP/site-www.headers" | grep -q '^Location: https://miguelovila.pt/pt/projects/?ref=smoke$'
+
           for locale in en pt; do
             prefix=""
             if [ "$locale" = pt ]; then prefix="/pt"; fi
