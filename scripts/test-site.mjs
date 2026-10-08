@@ -99,6 +99,16 @@ for (const [url, $] of documents) {
 }
 assert.equal(documents.get("/posts/")(".post-row").length, 12);
 assert.equal(documents.get("/posts/page/2/")(".post-row").length, 1);
+assert.notEqual(
+  documents.get("/posts/")("meta[name=description]").attr("content"),
+  documents.get("/posts/page/2/")("meta[name=description]").attr("content"),
+  "Paginated archives need distinct descriptions"
+);
+assert.notEqual(
+  documents.get("/tags/software/")("meta[name=description]").attr("content"),
+  documents.get("/")("meta[name=description]").attr("content"),
+  "Topic archives must describe their topic instead of repeating the homepage"
+);
 assert.equal(documents.get("/pt/posts/")(".post-row").length, 1);
 assert.ok(!documents.has("/pt/posts/page/2/"));
 assert.equal(documents.get("/")(".post-row").length, 5, "Latest writing includes unfeatured posts");

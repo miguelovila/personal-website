@@ -73,9 +73,19 @@ const description =
         ? t.blogDescription
         : page.kind === "about"
           ? t.aboutLead
-          : page.kind === "search"
-            ? searchDescription
-            : homeDescription;
+          : page.kind === "tags"
+            ? t.topicsDescription
+            : page.kind === "tag"
+              ? language === "pt"
+                ? `Projetos e artigos de Miguel Vila sobre ${page.tag}.`
+                : `Miguel Vila’s projects and writing about ${page.tag}.`
+              : page.kind === "search"
+                ? searchDescription
+                : homeDescription;
+const numberedDescription =
+  (page.kind === "posts" || page.kind === "tag") && page.page > 1
+    ? `${description} ${t.page} ${page.page} ${t.of} ${page.totalPages}.`
+    : description;
 const noindex =
   import.meta.env.DEV ||
   page.kind === "search" ||
@@ -89,8 +99,16 @@ const fallbackPath =
         ? "/"
         : page.kind;
 const entryImage = page.kind === "entry" ? page.entry.data.shareImage : undefined;
-const image = entryImage
-  ? (await getImage({ src: entryImage, width: 1200, format: "png" })).src
+const optimizedImage = entryImage
+  ? await getImage({ src: entryImage, width: 1200, format: "png" })
+  : undefined;
+const image = optimizedImage
+  ? {
+      src: optimizedImage.src,
+      width: Number(optimizedImage.attributes.width),
+      height: Number(optimizedImage.attributes.height),
+      alt: title,
+    }
   : undefined;
 const article =
   page.kind === "entry"
@@ -106,13 +124,14 @@ const article =
 
 <Layout
   title={numberedTitle}
-  {description}
+  description={numberedDescription}
   {language}
   {alternates}
   {fallbackPath}
   {image}
   {article}
   {noindex}
+  profile={page.kind === "about"}
   canonicalPath={page.path}
 >
   {page.kind === "home" && <HomePage {page} />}

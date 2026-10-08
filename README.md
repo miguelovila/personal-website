@@ -222,6 +222,11 @@ The technical pieces Google needs are generated with the site:
 - `https://miguelovila.pt/sitemap-index.xml` points to the concrete URL sitemap.
 - `https://miguelovila.pt/sitemap-0.xml` lists public, indexable URLs and their language alternates.
 - Every generated page has a canonical URL, a unique title and description, and reciprocal `hreflang` links when translations exist.
+- Topic descriptions name the topic, and later archive pages include their page number. Open Graph and Twitter metadata use the same page title and description, with the sharing image’s dimensions and alternative text.
+- Indexable pages allow large image previews with `max-image-preview:large`; search, error and development pages remain `noindex`.
+- The About pages describe Miguel as the main entity of a `ProfilePage`, linked to the existing `Person` and `WebSite` data. Project entries use `CreativeWork` and blog entries use `BlogPosting`.
+
+These choices follow Google’s guidance on [page-specific descriptions](https://developers.google.com/search/docs/appearance/snippet), [localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions), [profile pages](https://developers.google.com/search/docs/appearance/structured-data/profile-page), and [image-preview controls](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag). Structured data and preview permissions help describe the site; they do not guarantee enhanced search results or higher rankings.
 
 To register the site in Google Search Console:
 
