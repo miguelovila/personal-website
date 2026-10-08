@@ -155,6 +155,18 @@ for (const [route, $] of documents) {
   );
   const socialImage = $("meta[property='og:image']").attr("content");
   assert.equal($("meta[name='twitter:image']").attr("content"), socialImage);
+  if ($(".article-cover img").length) {
+    assert.notEqual(
+      socialImage,
+      `${origin}/images/social-card.png`,
+      `${route}: an article with a cover should share its own image`
+    );
+  }
+  for (const article of structuredData.filter((node) =>
+    ["BlogPosting", "CreativeWork"].includes(node["@type"])
+  )) {
+    assert.equal(article.image, socialImage, `${route}: structured sharing image`);
+  }
   assert.ok($("meta[property='og:image:alt']").attr("content")?.trim(), `${route}: sharing alt`);
   assert.equal(
     $("meta[name='twitter:image:alt']").attr("content"),
@@ -169,6 +181,7 @@ for (const [route, $] of documents) {
       );
     }
     const metadata = socialImages.get(socialImage);
+    assert.ok(["png", "jpeg"].includes(metadata.format), `${route}: sharing image must be raster`);
     for (const dimension of ["width", "height"]) {
       assert.equal(
         Number($(`meta[property='og:image:${dimension}']`).attr("content")),

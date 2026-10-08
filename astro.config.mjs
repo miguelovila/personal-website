@@ -25,6 +25,9 @@ export default defineConfig({
   },
 
   site: "https://miguelovila.pt",
+  image: {
+    service: { entrypoint: "./src/lib/image-service.ts" },
+  },
   integrations: [react(), mdx(), icon()],
 
   markdown: {

@@ -98,16 +98,22 @@ const fallbackPath =
       : page.kind === "home"
         ? "/"
         : page.kind;
-const entryImage = page.kind === "entry" ? page.entry.data.shareImage : undefined;
+const entryData = page.kind === "entry" ? page.entry.data : undefined;
+const entryImage = entryData?.shareImage ?? entryData?.coverImage;
 const optimizedImage = entryImage
-  ? await getImage({ src: entryImage, width: 1200, format: "png" })
+  ? await getImage({
+      src: entryImage,
+      width: 1200,
+      format: entryData?.shareImage || entryImage.format === "svg" ? "png" : "jpeg",
+      quality: 85,
+    })
   : undefined;
 const image = optimizedImage
   ? {
       src: optimizedImage.src,
       width: Number(optimizedImage.attributes.width),
       height: Number(optimizedImage.attributes.height),
-      alt: title,
+      alt: entryData?.shareImage ? title : (entryData?.coverImageAlt ?? title),
     }
   : undefined;
 const article =

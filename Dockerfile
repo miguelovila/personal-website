@@ -13,6 +13,9 @@ RUN bun install --frozen-lockfile
 FROM deps AS build
 WORKDIR /app
 
+# SVG covers need fonts when rendered into raster sharing images.
+RUN apk add --no-cache fontconfig font-dejavu
+
 ARG FEATURE_FLAGS=all
 ARG FEATURE_BLOG
 ARG FEATURE_PROJECTS

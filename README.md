@@ -123,7 +123,7 @@ gallery:
 
 Gallery images link to the full-size asset. Ordinary Markdown image syntax works inside prose. For a captioned figure with responsive sizing and a full-size link, use `ProjectFigure` in MDX as described below. Place figures beside the explanation they support and avoid repeating the same images in a gallery.
 
-An optional `shareImage` supplies a dedicated raster social image. Otherwise the site uses the branded default in `public/images/social-card.png`. Its source and generator are included; run `bun run social-card` to regenerate it. A 1200 × 630 PNG or JPEG is recommended for custom share images.
+Link previews use `shareImage` when provided, otherwise the entry's `coverImage`. Covers are exported at 1200 pixels wide with their original aspect ratio: photographs use JPEG, and SVG covers become PNG for sharing. The cover's alternative text accompanies its preview. Pages without either image use the branded default in `public/images/social-card.png`; run `bun run social-card` to regenerate it. A 1200 × 630 PNG or JPEG is recommended for an optional custom `shareImage`.
 
 For downloads, place the file in `public/downloads/` and link to it from Markdown, or import `src/components/DownloadButton.astro` in MDX. Content links must point to files that actually exist.
 
