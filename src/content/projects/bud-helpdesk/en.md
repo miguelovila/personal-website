@@ -10,7 +10,7 @@ featured: false
 technologies: [C#, Windows Forms, SQL Server, ADO.NET]
 tags: [databases, desktop-applications, software-engineering]
 repositoryUrl: https://github.com/miguelovila/ua-bd-bud
-coverImage: ../../assets/bud-helpdesk/cover-image.png
+coverImage: ./assets/cover-image.png
 coverImageAlt: "BUD's ticket editor, with request details and staff controls on the left and a conversation with a PDF attachment on the right."
 ---
 
@@ -22,7 +22,7 @@ I built BUD with Miguel Reis in 2024 for the Databases course at the University 
 
 Creating a ticket starts with a service and a category. Choosing Email and then a request for a project email account produces fields for the department, desired address, project name, and responsible person.
 
-![BUD's ticket wizard showing an email-account category and the fields generated for it](../../assets/bud-helpdesk/category-form.png)
+![BUD's ticket wizard showing an email-account category and the fields generated for it](./assets/category-form.png)
 
 _The selected category determines which details the requester needs to supply._
 
@@ -54,7 +54,7 @@ The same idea applies to attachments. `SendAttachmentMessage` stores a message a
 
 Requesters see their own tickets. Staff get a shared queue with filters for service, category, priority, and status, along with controls for updating, reopening, and deleting requests.
 
-![The staff queue with ticket filters, deletion controls, and page navigation](../../assets/bud-helpdesk/staff-queue.png)
+![The staff queue with ticket filters, deletion controls, and page navigation](./assets/staff-queue.png)
 
 _The staff view loads pages of 20 tickets, applying the selected filters in SQL._
 

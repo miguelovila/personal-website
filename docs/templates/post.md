@@ -8,7 +8,7 @@ tags: []
 # translationKey: a-stable-key-shared-by-translations
 # updatedDate: 2026-01-02
 # relatedProjects: [en/project-slug]
-# coverImage: ../../assets/article-cover.jpg
+# coverImage: ./assets/article-cover.jpg
 # coverImageAlt: Describe what the image communicates.
 ---
 

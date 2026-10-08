@@ -17,12 +17,17 @@ const testOutDir = process.env.SITE_TEST_OUT_DIR ?? "./.test-dist";
 export default defineConfig({
   outDir: isTestContent ? testOutDir : "./dist",
   cacheDir: isTestContent ? "./.astro-test" : "./node_modules/.astro",
-  trailingSlash: "always",
+  // Accept either URL form so missing paths reach the custom 404 page.
+  // Published links and canonical URLs still use trailing slashes.
+  trailingSlash: "ignore",
   vite: {
     plugins: [tailwindcss()],
   },
 
   site: "https://miguelovila.pt",
+  image: {
+    service: { entrypoint: "./src/lib/image-service.ts" },
+  },
   integrations: [react(), mdx(), icon()],
 
   markdown: {

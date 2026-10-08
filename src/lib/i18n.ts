@@ -2,6 +2,7 @@ import type { Language } from "./publishing";
 
 const en = {
   home: "Home",
+  homeTitle: "Personal Website",
   projects: "Projects",
   blog: "Blog",
   about: "About",
@@ -143,6 +144,7 @@ const en = {
 
 const pt: typeof en = {
   home: "Início",
+  homeTitle: "Website Pessoal",
   projects: "Projetos",
   blog: "Artigos",
   about: "Sobre",

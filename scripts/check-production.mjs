@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { load } from "cheerio";
+import sharp from "sharp";
 
 // Check the real build as well as the synthetic fixtures in test-site.mjs.
 const root = path.resolve(process.argv[2] ?? "dist");
@@ -20,6 +21,9 @@ async function files(directory) {
 const paths = await files(root);
 const assets = new Set(paths);
 const documents = new Map();
+const titles = new Map();
+const descriptions = new Map();
+const socialImages = new Map();
 let references = 0;
 let fragments = 0;
 let diagrams = 0;
@@ -88,12 +92,40 @@ function checkDiagram($, svg, route) {
 }
 
 for (const [route, $] of documents) {
-  for (const tag of ["h1", "main", "head > title", "meta[name=description]"]) {
+  for (const tag of [
+    "h1",
+    "main",
+    "head > title",
+    "meta[name=description]",
+    "meta[name=robots]",
+    "link[rel=canonical]",
+  ]) {
     assert.equal($(tag).length, 1, `${route}: expected one ${tag}`);
   }
   assert.ok($("meta[name=description]").attr("content")?.trim(), `${route}: empty description`);
   assert.equal($("html").attr("lang"), route.startsWith("/pt/") ? "pt-PT" : "en");
   assert.equal($("link[rel=canonical]").attr("href"), origin + route, `${route}: canonical URL`);
+  if (!$("meta[name=robots]").attr("content").includes("noindex")) {
+    for (const [value, seen, label] of [
+      [$("head > title").text(), titles, "title"],
+      [$("meta[name=description]").attr("content"), descriptions, "description"],
+    ]) {
+      const key = `${$("html").attr("lang")}:${value}`;
+      assert.ok(!seen.has(key), `${route}: ${label} duplicates ${seen.get(key)}`);
+      seen.set(key, route);
+    }
+  }
+  for (const selector of ["meta[property='og:title']", "meta[name='twitter:title']"]) {
+    assert.equal($(selector).attr("content"), $("head > title").text(), `${route}: social title`);
+  }
+  for (const selector of ["meta[property='og:description']", "meta[name='twitter:description']"]) {
+    assert.equal(
+      $(selector).attr("content"),
+      $("meta[name=description]").attr("content"),
+      `${route}: social description`
+    );
+  }
+  assert.equal($("meta[property='og:url']").attr("content"), origin + route);
   assert.equal($("a a,a button,button a,button button").length, 0, `${route}: nested controls`);
   const ids = new Set();
   $("[id]").each((_, node) => {
@@ -101,7 +133,19 @@ for (const [route, $] of documents) {
     assert.ok(!ids.has(id), `${route}: duplicate ID ${id}`);
     ids.add(id);
   });
-  $("script[type='application/ld+json']").each((_, node) => JSON.parse($(node).text()));
+  const structuredData = $("script[type='application/ld+json']")
+    .toArray()
+    .flatMap((node) => JSON.parse($(node).text())["@graph"] ?? []);
+  const person = structuredData.find((node) => node["@type"] === "Person");
+  assert.ok(person?.name && person?.url, `${route}: missing author identity`);
+  checkURL(person.url, route);
+  const profile = structuredData.find((node) => node["@type"] === "ProfilePage");
+  if (/^\/(?:pt\/)?about\/$/.test(route)) {
+    assert.equal(profile?.url, origin + route, `${route}: profile URL`);
+    assert.equal(profile?.mainEntity?.["@id"], person["@id"], `${route}: profile identity`);
+  } else {
+    assert.equal(profile, undefined, `${route}: profile markup on a non-profile page`);
+  }
   const attributes = ["href", "src", "poster", "action", "component-url", "renderer-url"];
   $(attributes.map((attribute) => `[${attribute}]`).join(",")).each((_, node) => {
     for (const attribute of attributes) checkURL($(node).attr(attribute), route);
@@ -109,6 +153,43 @@ for (const [route, $] of documents) {
   $("meta[property='og:image'],meta[name='twitter:image']").each((_, node) =>
     checkURL($(node).attr("content"), route)
   );
+  const socialImage = $("meta[property='og:image']").attr("content");
+  assert.equal($("meta[name='twitter:image']").attr("content"), socialImage);
+  if ($(".article-cover img").length) {
+    assert.notEqual(
+      socialImage,
+      `${origin}/images/social-card.png`,
+      `${route}: an article with a cover should share its own image`
+    );
+  }
+  for (const article of structuredData.filter((node) =>
+    ["BlogPosting", "CreativeWork"].includes(node["@type"])
+  )) {
+    assert.equal(article.image, socialImage, `${route}: structured sharing image`);
+  }
+  assert.ok($("meta[property='og:image:alt']").attr("content")?.trim(), `${route}: sharing alt`);
+  assert.equal(
+    $("meta[name='twitter:image:alt']").attr("content"),
+    $("meta[property='og:image:alt']").attr("content")
+  );
+  const socialURL = new URL(socialImage);
+  if (socialURL.origin === origin) {
+    if (!socialImages.has(socialImage)) {
+      socialImages.set(
+        socialImage,
+        await sharp(path.resolve(root, `.${decodeURIComponent(socialURL.pathname)}`)).metadata()
+      );
+    }
+    const metadata = socialImages.get(socialImage);
+    assert.ok(["png", "jpeg"].includes(metadata.format), `${route}: sharing image must be raster`);
+    for (const dimension of ["width", "height"]) {
+      assert.equal(
+        Number($(`meta[property='og:image:${dimension}']`).attr("content")),
+        metadata[dimension],
+        `${route}: incorrect sharing image ${dimension}`
+      );
+    }
+  }
   $("[srcset]").each((_, node) => {
     for (const candidate of $(node).attr("srcset").split(",")) {
       checkURL(candidate.trim().split(/\s+/)[0], route);
@@ -123,6 +204,10 @@ for (const [route, $] of documents) {
   $("link[hreflang]").each((_, node) => {
     const target = documents.get(new URL($(node).attr("href")).pathname);
     assert.ok(target, `${route}: missing language alternate`);
+    const language = $(node).attr("hreflang");
+    if (language !== "x-default") {
+      assert.equal(language, target("html").attr("lang"), `${route}: alternate language`);
+    }
     assert.ok(
       target("link[hreflang]")
         .toArray()
@@ -168,6 +253,21 @@ for (const file of paths.filter((file) => /sitemap.*\.xml$/.test(file))) {
     const value = $(node).text();
     checkURL(value, "/");
     sitemapRoutes.add(new URL(value).pathname);
+  });
+  $("url").each((_, node) => {
+    const location = $(node).find("loc").text();
+    const document = documents.get(new URL(location).pathname);
+    assert.ok(document, `Sitemap URL is not a generated page: ${location}`);
+    const alternates = $(node)
+      .find("xhtml\\:link")
+      .toArray()
+      .map((link) => `${$(link).attr("hreflang")}:${$(link).attr("href")}`)
+      .sort();
+    const htmlAlternates = document("link[hreflang]")
+      .toArray()
+      .map((link) => `${document(link).attr("hreflang")}:${document(link).attr("href")}`)
+      .sort();
+    assert.deepEqual(alternates, htmlAlternates, `${location}: sitemap/HTML language mismatch`);
   });
 }
 for (const [route, $] of documents) {

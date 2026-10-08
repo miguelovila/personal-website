@@ -10,7 +10,7 @@ featured: false
 technologies: [Python, pandas, NumPy, Jupyter, GeoLite2]
 tags: [seguranca-de-redes, analise-de-dados, python]
 repositoryUrl: https://github.com/miguelovila/src-project-2
-coverImage: ../../assets/network-anomaly-detection/dns-comparison-pt.svg
+coverImage: ./assets/dns-comparison-pt.svg
 coverImageAlt: "Fluxos DNS num dia: o dispositivo mais ativo no tráfego de referência gerou 1 655, o limiar crítico da regra era 3 310 e o dispositivo sinalizado 192.168.110.21 gerou 67 610."
 ---
 

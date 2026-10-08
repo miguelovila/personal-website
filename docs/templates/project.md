@@ -12,10 +12,10 @@ tags: []
 # translationKey: a-stable-key-shared-by-translations
 # repositoryUrl: https://github.com/your-account/your-project
 # liveUrl: https://your-project.example
-# coverImage: ../../assets/project-cover.jpg
+# coverImage: ./assets/project-cover.jpg
 # coverImageAlt: Describe the project screenshot.
 # gallery:
-#   - image: ../../assets/project-detail.jpg
+#   - image: ./assets/project-detail.jpg
 #     alt: Describe this detail.
 #     caption: Explain why it is worth showing.
 ---

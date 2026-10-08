@@ -1,4 +1,4 @@
-import samples from "@/content/assets/moving-average-filter/samples.json";
+import samples from "@/content/projects/moving-average-filter/assets/samples.json";
 
 // Signed 8-bit values copied from the original FPGA project's 256-word ROM.
 export const romSamples: readonly number[] = samples;

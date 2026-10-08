@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   chronological,
+  contentId,
   dateLabel,
   entrySlug,
   isPublished,
@@ -29,6 +30,20 @@ describe("publication and addresses", () => {
     expect(entrySlug("pt/notas-de-campo")).toBe("notas-de-campo");
     for (const id of ["en/page", "en/index", "../escape", "en/nested/entry", "no-language"]) {
       expect(() => entrySlug(id)).toThrow();
+    }
+  });
+  test("project bundles retain language-first IDs and existing public addresses", () => {
+    for (const language of ["en", "pt"] as const) {
+      const id = contentId(`aditus/${language}.mdx`);
+      expect(id).toBe(`${language}/aditus`);
+      expect(contentId(`${language}/aditus.md`)).toBe(id);
+      expect(localePath(language, `projects/${entrySlug(id)}`)).toBe(
+        `${language === "pt" ? "/pt" : ""}/projects/aditus/`
+      );
+    }
+    expect(contentId("en/pt.md")).toBe("en/pt");
+    for (const entry of ["page/en.md", "index/pt.mdx", "nested/project/en.md", "project/fr.md"]) {
+      expect(() => contentId(entry)).toThrow();
     }
   });
   test("Portuguese accents become stable topic addresses", () => {

@@ -3,6 +3,7 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { load } from "cheerio";
+import sharp from "sharp";
 
 const root = path.resolve(".test-dist");
 const landingRoot = path.resolve(".test-dist-landing");
@@ -16,12 +17,20 @@ await rm(".test-content", { recursive: true, force: true });
 await rm(landingRoot, { recursive: true, force: true });
 await rm(projectsOnlyRoot, { recursive: true, force: true });
 await cp("tests/fixtures", ".test-content", { recursive: true });
+await cp("public/images/social-card.png", ".test-content/assets/share-image.png");
 for (let index = 1; index <= 12; index++) {
   const slug = index === 1 ? "reading-tool" : `archive-${index}`;
   const projectReference = index === 1 ? "relatedProjects: [en/reading-tool]\n" : "";
+  const shareImage = index === 1 ? "shareImage: ../../assets/share-image.png\n" : "";
+  const coverImage =
+    index === 1
+      ? "coverImage: ../../assets/architecture.svg\ncoverImageAlt: Cover overridden by a custom sharing image.\n"
+      : index === 2
+        ? "coverImage: ../../assets/share-image.png\ncoverImageAlt: A raster cover used for the article preview.\n"
+        : "";
   await writeFile(
     `.test-content/posts/en/${slug}.md`,
-    `---\ntitle: Archive fixture ${index}\ndescription: Pagination and related-topic test content.\nlanguage: en\ndraft: false\npublishedDate: 2024-01-${String(index).padStart(2, "0")}\ntags: [Software]\n${projectReference}---\n\nA pagination fixture.\n\n## Context\n\nA first section.\n\n### Detail\n\nA subsection.\n\n## Outcome\n\nA final section.\n`
+    `---\ntitle: Archive fixture ${index}\ndescription: Pagination and related-topic test content.\nlanguage: en\ndraft: false\npublishedDate: 2024-01-${String(index).padStart(2, "0")}\ntags: [Software]\n${projectReference}${shareImage}${coverImage}---\n\nA pagination fixture.\n\n## Context\n\nA first section.\n\n### Detail\n\nA subsection.\n\n## Outcome\n\nA final section.\n`
   );
 }
 run(["run", "astro", "build"], { SITE_TEST_CONTENT: "1" });
@@ -52,7 +61,7 @@ for (const file of paths.filter((file) => file.endsWith(".html"))) {
   assert.equal($("h1").length, 1, `${url}: exactly one page heading`);
   assert.equal($("main").length, 1, `${url}: exactly one main landmark`);
   assert.equal($("a button, a a, button a").length, 0, `${url}: nested interactive controls`);
-  assert.ok($("title").text().length > 5, `${url}: missing title`);
+  assert.ok($("head > title").text().length > 5, `${url}: missing title`);
   assert.ok($("meta[name=description]").attr("content"), `${url}: missing description`);
   assert.ok($("link[rel=canonical]").attr("href")?.startsWith(origin), `${url}: invalid canonical`);
   assert.equal($("html").attr("lang"), url.startsWith("/pt/") ? "pt-PT" : "en");
@@ -99,6 +108,81 @@ for (const [url, $] of documents) {
 }
 assert.equal(documents.get("/posts/")(".post-row").length, 12);
 assert.equal(documents.get("/posts/page/2/")(".post-row").length, 1);
+assert.notEqual(
+  documents.get("/posts/")("meta[name=description]").attr("content"),
+  documents.get("/posts/page/2/")("meta[name=description]").attr("content"),
+  "Paginated archives need distinct descriptions"
+);
+assert.notEqual(
+  documents.get("/tags/software/")("meta[name=description]").attr("content"),
+  documents.get("/")("meta[name=description]").attr("content"),
+  "Topic archives must describe their topic instead of repeating the homepage"
+);
+const sharingCases = [
+  { route: "/", format: "png", height: 630, fallback: true },
+  {
+    route: "/posts/reading-tool/",
+    format: "png",
+    height: 630,
+    alt: "Archive fixture 1",
+  },
+  {
+    route: "/posts/archive-2/",
+    format: "jpeg",
+    height: 630,
+    alt: "A raster cover used for the article preview.",
+  },
+  {
+    route: "/projects/reading-tool/",
+    format: "png",
+    height: 750,
+    alt: "Test diagram showing input, transformation, and output.",
+  },
+  {
+    route: "/pt/projects/ferramenta-de-leitura/",
+    format: "png",
+    height: 750,
+    alt: "Diagrama de teste com entrada, transformação e saída.",
+  },
+  { route: "/projects/text-project/", format: "png", height: 630, fallback: true },
+];
+for (const { route, format, height, alt, fallback } of sharingCases) {
+  const document = documents.get(route);
+  const shareImage = document("meta[property='og:image']").attr("content");
+  const shareAlt = document("meta[property='og:image:alt']").attr("content");
+  assert.equal(document("meta[name='twitter:image']").attr("content"), shareImage);
+  assert.equal(document("meta[name='twitter:image:alt']").attr("content"), shareAlt);
+  assert.ok(shareAlt?.trim(), `${route}: missing sharing image description`);
+  if (alt) assert.equal(shareAlt, alt, `${route}: sharing image description`);
+  if (fallback) {
+    assert.equal(shareImage, `${origin}/images/social-card.png`, `${route}: generic fallback`);
+  } else {
+    assert.ok(shareImage.startsWith(`${origin}/_astro/`), `${route}: generated sharing image`);
+  }
+  const imagePath = path.resolve(root, `.${decodeURIComponent(new URL(shareImage).pathname)}`);
+  const metadata = await sharp(imagePath).metadata();
+  assert.equal(
+    metadata.format,
+    format,
+    `${route}: sharing images must use a supported raster format`
+  );
+  assert.equal(metadata.width, 1200, `${route}: sharing image width`);
+  assert.equal(metadata.height, height, `${route}: sharing image must preserve its aspect ratio`);
+  for (const dimension of ["width", "height"]) {
+    assert.equal(
+      Number(document(`meta[property='og:image:${dimension}']`).attr("content")),
+      metadata[dimension],
+      `${route}: sharing metadata must match the actual image ${dimension}`
+    );
+  }
+  if (route !== "/") {
+    const article = document("script[type='application/ld+json']")
+      .toArray()
+      .flatMap((node) => JSON.parse(document(node).text())["@graph"] ?? [])
+      .find((node) => ["CreativeWork", "BlogPosting"].includes(node["@type"]));
+    assert.equal(article?.image, shareImage, `${route}: structured data sharing image`);
+  }
+}
 assert.equal(documents.get("/pt/posts/")(".post-row").length, 1);
 assert.ok(!documents.has("/pt/posts/page/2/"));
 assert.equal(documents.get("/")(".post-row").length, 5, "Latest writing includes unfeatured posts");

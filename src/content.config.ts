@@ -2,13 +2,14 @@ import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 import type { Loader } from "astro/loaders";
 import { existsSync } from "node:fs";
+import { contentId } from "./lib/publishing";
 
 const root = process.env.SITE_TEST_CONTENT === "1" ? ".test-content" : "src/content";
 const loader = (collection: string): Loader => {
   const source = glob({
     pattern: "**/*.{md,mdx}",
     base: `${root}/${collection}`,
-    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ""),
+    generateId: ({ entry }) => contentId(entry),
   });
   return {
     ...source,

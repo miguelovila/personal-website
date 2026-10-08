@@ -10,7 +10,7 @@ featured: false
 technologies: [C, ESP32, ESP-IDF, FreeRTOS, MQTT, Grafana]
 tags: [embedded-systems, electronics, iot]
 repositoryUrl: https://github.com/miguelovila/smart-weather-station
-coverImage: ../../assets/weather-station/cover-image.png
+coverImage: ./assets/cover-image.png
 coverImageAlt: "The assembled weather station outdoors, with a cup anemometer, shielded BME280, wind vane, and electronics mounted on a tripod."
 ---
 
@@ -44,7 +44,7 @@ The wind-speed task yields during its counting window, so the other tasks contin
 
 ## Keeping readings on the station
 
-![The ESP32, microSD reader, wiring, and battery UPS module mounted on the station's mast](../../assets/weather-station/controller-and-storage.jpg)
+![The ESP32, microSD reader, wiring, and battery UPS module mounted on the station's mast](./assets/controller-and-storage.jpg)
 
 _The controller and storage sit below the sensors. The battery UPS module is mounted above them._
 
@@ -56,7 +56,7 @@ That gives the project a local record as well as a live feed. If MQTT disconnect
 
 ## Seeing the measurements
 
-![The project's Grafana dashboard showing environmental readings and wind direction and speed](../../assets/weather-station/grafana-dashboard.png)
+![The project's Grafana dashboard showing environmental readings and wind direction and speed](./assets/grafana-dashboard.png)
 
 _The original demonstration dashboard. Its pressure label is retained from the prototype; the firmware value is on the kPa scale, although the panel says hPa._
 

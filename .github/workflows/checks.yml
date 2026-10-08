@@ -49,10 +49,16 @@ jobs:
             tr -d '\r' < "$RUNNER_TEMP/site-redirect.headers" | grep -q "^Location: $route/$"
           done
 
+          status=$(curl --silent --show-error --header 'Host: www.miguelovila.pt' --dump-header "$RUNNER_TEMP/site-www.headers" --output /dev/null --write-out '%{http_code}' "$origin/pt/projects/?ref=smoke")
+          test "$status" = 308
+          tr -d '\r' < "$RUNNER_TEMP/site-www.headers" | grep -q '^Location: https://miguelovila.pt/pt/projects/?ref=smoke$'
+
           for locale in en pt; do
             prefix=""
             if [ "$locale" = pt ]; then prefix="/pt"; fi
-            status=$(curl --silent --show-error --output "$RUNNER_TEMP/site-404.html" --write-out '%{http_code}' "$origin$prefix/missing-smoke-page/")
-            test "$status" = 404
-            grep -q "lang=\"$locale" "$RUNNER_TEMP/site-404.html"
+            for suffix in '' /; do
+              status=$(curl --silent --show-error --output "$RUNNER_TEMP/site-404.html" --write-out '%{http_code}' "$origin$prefix/missing-smoke-page$suffix")
+              test "$status" = 404
+              grep -q "lang=\"$locale" "$RUNNER_TEMP/site-404.html"
+            done
           done

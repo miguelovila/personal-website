@@ -23,27 +23,13 @@ const { page } = Astro.props as Props;
 const { language, alternates } = page;
 const t = copy[language];
 const flags = getFeatureFlags();
-const homeTitle =
-  flags.projects && flags.blog
-    ? language === "pt"
-      ? "Miguel Vila — Projetos e ideias"
-      : "Miguel Vila — Projects & ideas"
-    : flags.projects
-      ? language === "pt"
-        ? "Miguel Vila — Projetos"
-        : "Miguel Vila — Projects"
-      : flags.blog
-        ? language === "pt"
-          ? "Miguel Vila — Ideias"
-          : "Miguel Vila — Ideas"
-        : "Miguel Vila";
 const title =
   page.kind === "home"
-    ? homeTitle
+    ? t.homeTitle
     : page.kind === "entry"
       ? page.entry.data.title
       : page.kind === "tag"
-        ? `${page.tag} — ${t.tags}`
+        ? `${page.tag} - ${t.tags}`
         : page.kind === "posts"
           ? t.blog
           : page.kind === "projects"
@@ -55,7 +41,7 @@ const title =
                 : t.search;
 const numberedTitle =
   (page.kind === "posts" || page.kind === "tag") && page.page > 1
-    ? `${title} — ${t.page} ${page.page}`
+    ? `${title} - ${t.page} ${page.page}`
     : title;
 const homeDescription = !flags.projects && !flags.blog ? t.landingDescription : t.siteDescription;
 const searchDescription =
@@ -73,9 +59,19 @@ const description =
         ? t.blogDescription
         : page.kind === "about"
           ? t.aboutLead
-          : page.kind === "search"
-            ? searchDescription
-            : homeDescription;
+          : page.kind === "tags"
+            ? t.topicsDescription
+            : page.kind === "tag"
+              ? language === "pt"
+                ? `Projetos e artigos de Miguel Vila sobre ${page.tag}.`
+                : `Miguel Vila’s projects and writing about ${page.tag}.`
+              : page.kind === "search"
+                ? searchDescription
+                : homeDescription;
+const numberedDescription =
+  (page.kind === "posts" || page.kind === "tag") && page.page > 1
+    ? `${description} ${t.page} ${page.page} ${t.of} ${page.totalPages}.`
+    : description;
 const noindex =
   import.meta.env.DEV ||
   page.kind === "search" ||
@@ -88,9 +84,23 @@ const fallbackPath =
       : page.kind === "home"
         ? "/"
         : page.kind;
-const entryImage = page.kind === "entry" ? page.entry.data.shareImage : undefined;
-const image = entryImage
-  ? (await getImage({ src: entryImage, width: 1200, format: "png" })).src
+const entryData = page.kind === "entry" ? page.entry.data : undefined;
+const entryImage = entryData?.shareImage ?? entryData?.coverImage;
+const optimizedImage = entryImage
+  ? await getImage({
+      src: entryImage,
+      width: 1200,
+      format: entryData?.shareImage || entryImage.format === "svg" ? "png" : "jpeg",
+      quality: 85,
+    })
+  : undefined;
+const image = optimizedImage
+  ? {
+      src: optimizedImage.src,
+      width: Number(optimizedImage.attributes.width),
+      height: Number(optimizedImage.attributes.height),
+      alt: entryData?.shareImage ? title : (entryData?.coverImageAlt ?? title),
+    }
   : undefined;
 const article =
   page.kind === "entry"
@@ -106,13 +116,14 @@ const article =
 
 <Layout
   title={numberedTitle}
-  {description}
+  description={numberedDescription}
   {language}
   {alternates}
   {fallbackPath}
   {image}
   {article}
   {noindex}
+  profile={page.kind === "about"}
   canonicalPath={page.path}
 >
   {page.kind === "home" && <HomePage {page} />}
