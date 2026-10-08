@@ -23,27 +23,13 @@ const { page } = Astro.props as Props;
 const { language, alternates } = page;
 const t = copy[language];
 const flags = getFeatureFlags();
-const homeTitle =
-  flags.projects && flags.blog
-    ? language === "pt"
-      ? "Miguel Vila — Projetos e ideias"
-      : "Miguel Vila — Projects & ideas"
-    : flags.projects
-      ? language === "pt"
-        ? "Miguel Vila — Projetos"
-        : "Miguel Vila — Projects"
-      : flags.blog
-        ? language === "pt"
-          ? "Miguel Vila — Ideias"
-          : "Miguel Vila — Ideas"
-        : "Miguel Vila";
 const title =
   page.kind === "home"
-    ? homeTitle
+    ? t.homeTitle
     : page.kind === "entry"
       ? page.entry.data.title
       : page.kind === "tag"
-        ? `${page.tag} — ${t.tags}`
+        ? `${page.tag} - ${t.tags}`
         : page.kind === "posts"
           ? t.blog
           : page.kind === "projects"
@@ -55,7 +41,7 @@ const title =
                 : t.search;
 const numberedTitle =
   (page.kind === "posts" || page.kind === "tag") && page.page > 1
-    ? `${title} — ${t.page} ${page.page}`
+    ? `${title} - ${t.page} ${page.page}`
     : title;
 const homeDescription = !flags.projects && !flags.blog ? t.landingDescription : t.siteDescription;
 const searchDescription =

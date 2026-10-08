@@ -52,7 +52,11 @@ const {
 } = Astro.props;
 const canonical = new URL(canonicalPath, siteURL).href;
 const shareImage = new URL(image.src, siteURL).href;
-const pageTitle = title.includes("Miguel Vila") ? title : `${title} — Miguel Vila`;
+const pageTitle = article
+  ? title.includes("Miguel Vila")
+    ? title
+    : `${title} — Miguel Vila`
+  : `Miguel Vila - ${title}`;
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const flags = getFeatureFlags();
 const hideFooter = isHomeOnlySite(flags);
