@@ -290,8 +290,7 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
 .meta,
 .section-number,
 .wordmark,
-.language-links,
-.footer-name {
+.language-links {
   font-family: var(--font-mono);
 }
 .eyebrow {
@@ -387,8 +386,10 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
 .wordmark:hover img {
   transform: translateY(-1px);
 }
-.wordmark-cursor,
-.footer-name span {
+.wordmark-cursor {
+  color: var(--accent);
+}
+.wordmark-still {
   color: var(--accent);
 }
 .header-navigation {
@@ -464,10 +465,6 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
 }
 .language-divider {
   color: var(--line);
-}
-.language-fallback {
-  font-size: 0.72rem;
-  margin-left: 3px;
 }
 .no-script-menu summary {
   display: flex;
@@ -1529,44 +1526,6 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
   margin-top: 24px;
   border-top: 1px solid var(--line);
 }
-.footer-top {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  column-gap: 72px;
-  padding-block: 40px 30px;
-}
-.footer-name {
-  font-size: 0.96rem;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-.footer-top p {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-top: 4px;
-}
-.footer-top nav {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.9rem;
-}
-.footer-top nav a {
-  min-height: 36px;
-  display: flex;
-  align-items: center;
-}
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--line);
-  padding-block: 12px 22px;
-  color: var(--muted);
-}
-.footer-bottom small {
-  font-size: 0.82rem;
-}
 .not-found {
   min-height: 65dvh;
   padding: 100px 20px;
@@ -1656,9 +1615,6 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
   .about-grid {
     grid-template-columns: minmax(0, 1fr) 180px;
     gap: 48px;
-  }
-  .footer-top {
-    column-gap: 36px;
   }
 }
 @media (max-width: 639px) {
@@ -1782,21 +1738,6 @@ html[data-astro-transition="back"]::view-transition-new(main-content) {
     width: 90px;
     height: 90px;
     margin-bottom: 0;
-  }
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    padding-block: 28px;
-  }
-  .footer-top > div {
-    grid-column: 1 / -1;
-  }
-  .footer-top nav a {
-    min-height: 44px;
-  }
-  .footer-bottom {
-    flex-wrap: wrap;
-    gap: 8px;
   }
   .not-found {
     padding-block: 60px;
