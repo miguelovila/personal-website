@@ -8,15 +8,15 @@ An anonymous link check on 2026-10-04 returned 404 for `mining-deti-coins`, `sma
 
 ## European Portuguese versions
 
-Every English article listed below has a complete European Portuguese translation under `src/content/projects/pt/`, with the same filename and a shared `translationKey`. The translations preserve the technical claims, contributor attribution, source-code excerpts and media. Captions, alternative text, diagram labels and metadata are translated; original project images and recordings are reused. Number formatting follows Portuguese conventions, including decimal commas and “mil milhões” for English billions.
+Every English article listed below has a complete European Portuguese translation in the same `src/content/projects/<slug>/` directory, named `pt.md` or `pt.mdx`, with a shared `translationKey`. The translations preserve the technical claims, contributor attribution, source-code excerpts and media. Captions, alternative text, diagram labels and metadata are translated; original project images and recordings are reused. Number formatting follows Portuguese conventions, including decimal commas and “mil milhões” for English billions.
 
-`network-anomaly-detection/dns-comparison-pt.svg` is a translated version of the recreated English chart, with identical data, scale and bar lengths. It is a website illustration derived from the recorded results, not an original project screenshot. The moving-average demo uses the same ROM data and calculation in both languages; its controls, graph descriptions and status text are localized.
+`network-anomaly-detection/assets/dns-comparison-pt.svg` is a translated version of the recreated English chart, with identical data, scale and bar lengths. It is a website illustration derived from the recorded results, not an original project screenshot. The moving-average demo uses the same ROM data and calculation in both languages; its controls, graph descriptions and status text are localized.
 
 The expanded Aditus, Gestire, AES gateway and moving-average articles use MDX to place original figures beside their explanations. Changing `.md` to `.mdx` preserves the content IDs and URLs. Original report imagery is distinguished from the new, source-derived diagrams, which are rendered as static SVG through `MermaidDiagram`. All copied or extracted assets are stored in the website repository.
 
 ## Aditus
 
-- Article: `src/content/projects/en/aditus.mdx`.
+- Article: `src/content/projects/aditus/en.mdx`.
 - Repository: `https://github.com/miguelovila/aditus-door-access-system` (local origin).
 - Sources: `README.md`, `DOCUMENTATION.md`, `report.pdf` (text extraction), git history, `smartphone_client_app/lib/core/security/crypto_service.dart`, `smartwatch_client_app/lib/services/pairing_service.dart`, `aditus_backend_service/app/models/user.py`, `esp32_door_controller/esp32_door_controller.ino`.
 - Identity/date: report is credited to Miguel Vila, student 107276. Git history starts 2025-10-27; implementation changes continue through 2026-01-05. This supports individual development across late 2025/early 2026. No unverified course title or degree label added.
@@ -29,18 +29,18 @@ The expanded Aditus, Gestire, AES gateway and moving-average articles use MDX to
 
 Copied original assets (no transformations):
 
-| Website path under `src/content/assets/aditus/` | Source under `aditus-door-access-system/screenshots/` |
-| ----------------------------------------------- | ----------------------------------------------------- |
-| `watch-door.png`                                | `watch_closest _door.png`                             |
-| `nearby-doors.png`                              | `nearby_door_list.png`                                |
-| `watch-pairing.png`                             | `smartwatch_registration.png`                         |
-| `device-management.png`                         | `device_management.png`                               |
-| `device-registration.png`                       | `device_registration_screen.png`                      |
-| `unlock-progress.png`                           | `door_unlocking_2.png`                                |
-| `watch-pair-code.png`                           | `watch_pair_code_input.png`                           |
-| `door-details.png`                              | `door_details.png`                                    |
-| `group-members.png`                             | `manage_group_members.png`                            |
-| `access-history.png`                            | `access_histry_screen.png`                            |
+| Website path under `src/content/projects/aditus/assets/` | Source under `aditus-door-access-system/screenshots/` |
+| -------------------------------------------------------- | ----------------------------------------------------- |
+| `watch-door.png`                                         | `watch_closest _door.png`                             |
+| `nearby-doors.png`                                       | `nearby_door_list.png`                                |
+| `watch-pairing.png`                                      | `smartwatch_registration.png`                         |
+| `device-management.png`                                  | `device_management.png`                               |
+| `device-registration.png`                                | `device_registration_screen.png`                      |
+| `unlock-progress.png`                                    | `door_unlocking_2.png`                                |
+| `watch-pair-code.png`                                    | `watch_pair_code_input.png`                           |
+| `door-details.png`                                       | `door_details.png`                                    |
+| `group-members.png`                                      | `manage_group_members.png`                            |
+| `access-history.png`                                     | `access_histry_screen.png`                            |
 
 Original `screenshots/smartwatch_unlock_flow.mp4` is also copied to `public/project-media/aditus/watch-unlock.mp4` (6.1 MB). The article uses native video controls, `preload="none"`, no autoplay, an accessible label, explanatory caption and direct fallback link. No video transformation was made. Cover uses the existing watch screenshot; the video poster was extracted from the original recording at one second using FFmpeg, without compositing or illustration.
 
@@ -48,7 +48,7 @@ There are nine inline screenshots plus the cover. Former gallery images are reus
 
 ## Gestire
 
-- Article: `src/content/projects/en/gestire.mdx`.
+- Article: `src/content/projects/gestire/en.mdx`.
 - Repository: `https://github.com/miguelovila/gestire-smart-locker` (local origin).
 - Sources: `README.md`, `DOCUMENTATION.md`, `deliverables/e5-construction/v1.X.X/AS-E5-Construction.md`, `backend/routes/equipments.py`, `backend/routes/locker.py`, `lockers/src/main.cpp`, Flutter client navigation/layout, tests README, git history.
 - Team/date: 2023, Análise de Sistemas, University of Aveiro; Diogo Silva, Ivo Delgado, Martim Carvalho, Miguel Vila. Contributor-specific areas are stated in README and corroborated by Miguel's commits in May/June 2023 (UI, backend/database/authentication, reservations, firmware, tests). The user confirmed during this task that Miguel handled most implementation, including the Flutter app and locker hardware; the article reflects that without diminishing teammates.
@@ -60,22 +60,22 @@ There are nine inline screenshots plus the cover. Former gallery images are reus
 
 Copied original assets (no transformations):
 
-| Website path under `src/content/assets/gestire/` | Source under `gestire-smart-locker/images/` |
-| ------------------------------------------------ | ------------------------------------------- |
-| `locker-controller.png`                          | `Screenshot From 2026-09-23 21-28-16.png`   |
-| `room-browser-design.jpg`                        | `apresentacao_2_page_8_1.jpg`               |
-| `reservation-design.jpg`                         | `apresentacao_2_page_9_1.jpg`               |
-| `pickup-code-design.jpg`                         | `apresentacao_3.pptx_page_2_1.jpg`          |
-| `locker-bank-concept.jpg`                        | `apresentacao_2_page_14_1.jpg`              |
-| `reservation-records-design.jpg`                 | `apresentacao_2_page_12_1.jpg`              |
-| `equipment-return-design.jpg`                    | `apresentacao_2_page_13_1.jpg`              |
+| Website path under `src/content/projects/gestire/assets/` | Source under `gestire-smart-locker/images/` |
+| --------------------------------------------------------- | ------------------------------------------- |
+| `locker-controller.png`                                   | `Screenshot From 2026-09-23 21-28-16.png`   |
+| `room-browser-design.jpg`                                 | `apresentacao_2_page_8_1.jpg`               |
+| `reservation-design.jpg`                                  | `apresentacao_2_page_9_1.jpg`               |
+| `pickup-code-design.jpg`                                  | `apresentacao_3.pptx_page_2_1.jpg`          |
+| `locker-bank-concept.jpg`                                 | `apresentacao_2_page_14_1.jpg`              |
+| `reservation-records-design.jpg`                          | `apresentacao_2_page_12_1.jpg`              |
+| `equipment-return-design.jpg`                             | `apresentacao_2_page_13_1.jpg`              |
 
 Two original images were extracted losslessly with `pdfimages -png` from `deliverables/e5-construction/AS-E5-Construcao.docx.pdf`:
 
-| Website path under `src/content/assets/gestire/` | PDF source      | Dimensions |
-| ------------------------------------------------ | --------------- | ---------- |
-| `original-logical-architecture.png`              | Image 0, page 4 | 749 × 601  |
-| `original-deployment-diagram.png`                | Image 1, page 5 | 1250 × 531 |
+| Website path under `src/content/projects/gestire/assets/` | PDF source      | Dimensions |
+| --------------------------------------------------------- | --------------- | ---------- |
+| `original-logical-architecture.png`                       | Image 0, page 4 | 749 × 601  |
+| `original-deployment-diagram.png`                         | Image 1, page 5 | 1250 × 531 |
 
 Captions distinguish plans from implemented behavior: university IdP versus local accounts, MicroPython versus C++/Arduino, and the drawn database server versus embedded SQLite. The larger locker-bank drawing is labelled a concept; the implemented controller still has eight outputs. The article has eight inline figures plus the controller cover.
 
@@ -83,7 +83,7 @@ The embedded hardware demonstration, `https://youtube.com/shorts/Ew3Ff9O0Odw`, c
 
 ## AES IoT gateway
 
-- Article: `src/content/projects/en/aes-iot-gateway.mdx`.
+- Article: `src/content/projects/aes-iot-gateway/en.mdx`.
 - Repository: `https://github.com/miguelovila/custom-aes-encripted-iot-gateway`. Default branch confirmed from local `origin/HEAD`: `master`.
 - Context: `IotGatewayPresentation.pdf` title slide identifies Miguel Vila and Sistemas Integrados para Aplicações Embutidas. Git history records development on 2026-01-21 through 2026-01-29. Vivado 2025.1 is the tool version, not the project year.
 - Ownership: the user explicitly confirmed on 2026-10-03 that they implemented the entire project. This also agrees with the single-author presentation and source history.
@@ -92,15 +92,15 @@ The embedded hardware demonstration, `https://youtube.com/shorts/Ew3Ff9O0Odw`, c
 - Approximate twelve-cycle block processing is described in the README and supported by the core's initial, nine regular, final, and done states. No throughput benchmark or software-vs-hardware speedup is claimed.
 - System runs at 100 MHz. Original timing screenshot reports 1.024 ns worst setup slack and no failing endpoints. The article identifies this as the integrated system's captured report, not a current synthesis result or AES-only measurement.
 - Protocol limitation follows directly from source and README: individual blocks without authentication/replay protection, ASCII commands including key updates. The article avoids implying a production security protocol.
-- `src/content/assets/aes-iot-gateway/gateway-demo.jpg` is the original embedded image 0 on page 1 of `IotGatewayPresentation.pdf`, extracted without alteration using `pdfimages -all` (800×450, 80,259 bytes).
-- `src/content/assets/aes-iot-gateway/timing-summary.jpg` is embedded image 20 on page 10 of that PDF, extracted without alteration (951×307).
-- The original 11 MiB GIF was converted into a 1.06 MB controlled MP4 for the article. It preserves the 800×450 demonstration at about 2.83 seconds, with H.264/yuv420p, CRF 23, faststart and no audio. The MDX imports the video with `?url`, uses the existing demo still as its poster and disables autoplay. No artificial imagery or screenshots were generated.
+- `src/content/projects/aes-iot-gateway/assets/gateway-demo.png` is the current cover image. An earlier article version used an 800×450 JPEG extracted from image 0 on page 1 of `IotGatewayPresentation.pdf`; that JPEG is no longer included.
+- `src/content/projects/aes-iot-gateway/assets/timing-summary.jpg` is embedded image 20 on page 10 of that PDF, extracted without alteration (951×307).
+- The current article embeds the demonstration at `https://www.youtube.com/watch?v=wVWUDfTZosg` with `YouTubeEmbed` in landscape format and a direct viewing link. An earlier local MP4 conversion of `IotGatewayThumbnail.gif` is no longer included or imported.
 - Deeper hardware claims checked against `aes_core.vhd`, `aes_round.vhd`, `key_expansion.vhd`, `gf_mult_by2.vhd`, `mix_columns.vhd`, and the packaged AXI wrapper: iterative rounds, start-edge detection, finite-field doubling snippet, register concatenation, reset-polarity inversion, status bits and address ranges. Both displayed source snippets were checked against the originals.
 - Sensor/network claims checked against `main.c`, `adxl362_driver.c`, `adt7420_driver.c`, `udp_driver.h` and `udp_driver.c`: default 500 ms updates, little-endian accelerometer-register conversion, sequence/reserved bytes, 42-byte Ethernet/IPv4/UDP headers outside the 17-byte application payload, broadcast transmission without ARP and a fixed-header receive assumption.
 - The new network diagram uses actual configured direction: firmware `Udp_Init(..., 5000, 6000)`, Python `UDP_LISTEN_PORT=6000`, `FPGA_CMD_PORT=5000`, broadcast destination `192.168.1.255`. Old presentation/sub-README port labels disagree and were not used as the current protocol reference. Host receive/decode/UI behavior follows `network.py`, `protocol.py`, `main.py` and `gui.py`.
 - Captured resource figures are for the integrated gateway: 8,627 LUTs (13.61%), 10,570 flip-flops, and 53 BRAMs (39.26%). They are not claimed as the AES core's isolated cost or a fresh synthesis result.
 
-Additional assets under `src/content/assets/aes-iot-gateway/`:
+Additional assets under `src/content/projects/aes-iot-gateway/assets/`:
 
 | Asset                      | Original source                                                 | Processing / dimensions                                    |
 | -------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -109,20 +109,19 @@ Additional assets under `src/content/assets/aes-iot-gateway/`:
 | `aes-waveform.jpg`         | Same PDF, physical page 7, embedded image 16                    | Unchanged extracted JPEG, 1590 × 457                       |
 | `vivado-block-design.jpg`  | Same PDF, physical page 9, embedded image 19                    | Unchanged extracted JPEG, 1900 × 761                       |
 | `resource-utilization.jpg` | Same PDF, physical page 10, embedded image 21                   | Unchanged extracted JPEG, 577 × 298                        |
-| `gateway-demo.mp4`         | `IotGatewayThumbnail.gif`                                       | FFmpeg conversion described above; 1,057,798 bytes         |
 
-The AES reference figure is credited as NIST material used in the original presentation, not claimed as Miguel's original implementation diagram. The article has six inline figures plus the cover, one network diagram and the local video. Source-file links use the repository's `master` branch.
+The AES reference figure is credited as NIST material used in the original presentation, not claimed as Miguel's original implementation diagram. The article has six inline figures plus the cover, one network diagram and the YouTube demonstration. Source-file links use the repository's `master` branch.
 
 ## Moving average filter
 
-- Article: `src/content/projects/en/moving-average-filter.mdx`.
+- Article: `src/content/projects/moving-average-filter/en.mdx`.
 - Repository: `https://github.com/miguelovila/ua-lsd-moving-average-filter`; default branch `main`.
 - Context and collaborators: `written_report/documento.tex` and PDF list June 2022, Luíz Fernando and Miguel Vila, Laboratório de Sistemas Digitais, University of Aveiro.
 - Ownership: the user explicitly confirmed on 2026-10-03 that they implemented the project, although it was submitted with a colleague. The article credits implementation to Miguel and identifies Luíz as the submission collaborator, without inventing a component split. The original report remains the source for the project context and contributor names.
 - Arithmetic: `ArithmeticUnit.vhd`, `RegisterBank.vhd`, `RomManager.vhd`; four-sample window x[n−2], x[n−1], x[n], x[n+1], signed conversion and integer division truncating toward zero. Indices 0, 1, 255 and filter-off mode bypass averaging.
 - Timing, controls, and limits: `FiltroMediaMovel.vhd`, `ControlUnit.vhd`, `CleanInputManager.vhd`, `PulseGenerator.vhd`, `RamManager.vhd`; README and DOCUMENTATION.md. Demonstration advance is about 2 Hz on a 50 MHz clock, rather than an asserted throughput limit. RAM writes stay enabled while sample fetching is underway; no result-valid handoff is claimed.
 - Verification: component stimulus testbenches and original simulation captures; no automated VHDL pass/fail assertions. `RomBinToDecTest.py` supplies independent expected decimal results. No new hardware tests were run for the article.
-- `src/content/assets/moving-average-filter/samples.json` is a flat array of 256 signed integers decoded from the first AST assignment (`romBinData`) of `RomBinToDecTest.py`. All 256 binary strings were checked against `NoisyTriangSignalROM256x8.vhd` and matched exactly. Example: n=2 uses −87, −83, −110, −87 and yields −91.
+- `src/content/projects/moving-average-filter/assets/samples.json` is a flat array of 256 signed integers decoded from the first AST assignment (`romBinData`) of `RomBinToDecTest.py`. All 256 binary strings were checked against `NoisyTriangSignalROM256x8.vhd` and matched exactly. Example: n=2 uses −87, −83, −110, −87 and yields −91.
 - The MDX imports `MovingAverageDemo` from `@/components/demos/MovingAverageDemo` and uses `client:visible`. All 256 browser-calculated outputs were compared with the original Python reference and matched. Prose explicitly calls it an arithmetic illustration rather than a simulation of FPGA timing.
 - Exact asset copies: `signal-comparison.png` ← `written_report/smoothsignal.png`; `board-controls.jpg` ← `written_report/fpga.jpg`; `register-bank.png` ← `images/register-bank-lookahead.png`. Images retain their original annotations, with translated alt text and captions in each article version.
 - The expanded ROM-fetch table was derived from `RomManager.vhd` and VHDL signal-update semantics, not a new simulation capture: stable address change detected at edge 1, current address selected at edge 2, current sample captured/next selected at edge 3, next captured/ready raised at edge 4, bank consumes ready at edge 5. The diagram's reset arrow is qualified as initialization because this module has no reset port.
@@ -130,7 +129,7 @@ The AES reference figure is credited as NIST material used in the original prese
 - `RamManager.vhd` and `CleanTriangSignalRAM256x8.vhd` show a separate wrapping clear counter and registered RAM-write handoff. The article does not claim each sweep begins at zero or takes exactly 256 clocks. `ControlUnit.vhd` and `PulseGenerator.vhd` support the qualified reset/pause discussion, including retained pulse state while stopped and the reset check inside the enabled branch.
 - Original waveform figures are stimulus-driven inspection material. The arithmetic testbench keeps filtering enabled; the independent report output table supplies on/off comparisons. No automated assertion result is invented. The original Python reference was run successfully and produced 256 input/output pairs; no new synthesis, programming or VHDL simulation was performed.
 
-Six more assets copied byte-for-byte from `ua-lsd-moving-average-filter/written_report/` into `src/content/assets/moving-average-filter/`:
+Six more assets copied byte-for-byte from `ua-lsd-moving-average-filter/written_report/` into `src/content/projects/moving-average-filter/assets/`:
 
 | Website filename             | Original                | Dimensions |
 | ---------------------------- | ----------------------- | ---------- |
@@ -145,7 +144,7 @@ These existing report assets match the dimensions of the embedded PDF images, av
 
 ## Mining DETI coins
 
-- Article: `src/content/projects/en/deti-coin-miner.md`.
+- Article: `src/content/projects/deti-coin-miner/en.md`.
 - Repository: `https://github.com/miguelovila/mining-deti-coins`; default branch `main`.
 - Context: `report.pdf` title identifies Miguel Vila and Matilde Teixeira, High Performance Architectures 2024/2025. Git records November–December 2024 work and report commit on 2024-12-04.
 - Ownership: the user explicitly confirmed on 2026-10-03 that they did most of the implementation. The article uses this wording without inventing ownership of every module. Matilde remains credited as a collaborator.
@@ -157,11 +156,11 @@ These existing report assets match the dimensions of the embedded PDF images, av
 - Phrase experiment from page 2: `AAD!` 7.5383264304e10 versus `Arquiteturas Alto Desempenho 24/25!!` 7.13487416e8. Verified 36-byte maximum phrase leaves one incrementing byte after four random bytes in the fixed 52-byte format. The special AVX2/OpenMP source regenerates prefixes on wrap.
 - Networking: `includes/orchestration/{client,server}.h`, `includes/common/communication.h`, and vault header; HELLO / CONFIG / COIN_FOUND, server-side hash rechecking, no disjoint-range assignment. Avoided claiming a scheduler or unique work.
 - WebAssembly: report and `deti_coins_webassembly.c`; historical billion-attempt runs differ from committed 700-million-attempt constant. No live browser miner or NEON miner is claimed.
-- `src/content/assets/deti-coin-miner/network-workers.png` is embedded image 1 on page 2 of `report.pdf`, extracted losslessly using `pdfimages -png` (813×263). It is an original capture, not a mockup.
+- `src/content/projects/deti-coin-miner/assets/network-workers.png` is embedded image 1 on page 2 of `report.pdf`, extracted losslessly using `pdfimages -png` (813×263). It is an original capture, not a mockup.
 
 ## Weather station
 
-- Article: `src/content/projects/en/weather-station.md`.
+- Article: `src/content/projects/weather-station/en.md`.
 - Repository: `https://github.com/miguelovila/smart-weather-station` (local Git origin).
 - Team/year/course: local README and DOCUMENTATION identify Miguel Vila, Francisco Ribeiro, 2025, Embedded Systems Architectures at University of Aveiro. Hardware photos also date to July 2025. No commit exists in the local main branch, so no commit date is used.
 - User-confirmed contributions: Miguel planned/built hardware, designed/built custom sensors and their drivers, and implemented BME280 driver. Francisco handled Grafana, MQTT, Wi-Fi, and SD card. Prose attributes accordingly.
@@ -169,11 +168,11 @@ These existing report assets match the dimensions of the embedded PDF images, av
 - BME280 driver scope and bus configuration: `main/bme280/` and `main/main.c`, with measurement notes in DOCUMENTATION.
 - CSV-before-MQTT writes and topic split verified in `main/data_handler/data_handler.c`. No replay queue; QoS 0, initial broker recovery and memory limits are documented. Do not claim continuous wind sampling, calibrated accuracy, offline startup, guaranteed delivery, or production readiness.
 - Pressure is forwarded on a kPa scale while labelled hPa in the prototype. Article caption explicitly explains the original dashboard label.
-- Copied unchanged: `images/PXL_20250709_172444010.jpg` → `src/content/assets/weather-station/assembled-station.jpg`; `images/PXL_20250709_172431186.jpg` → `controller-and-storage.jpg`; `images/image.png` → `grafana-dashboard.png`. Original photos are large and should be served through Astro image optimization.
+- Copied unchanged: `images/PXL_20250709_172444010.jpg` → `src/content/projects/weather-station/assets/assembled-station.jpg`; `images/PXL_20250709_172431186.jpg` → `controller-and-storage.jpg`; `images/image.png` → `grafana-dashboard.png`. Original photos are large and should be served through Astro image optimization.
 
 ## BUD helpdesk
 
-- Article: `src/content/projects/en/bud-helpdesk.md`.
+- Article: `src/content/projects/bud-helpdesk/en.md`.
 - Repository: `https://github.com/miguelovila/ua-bd-bud` (local Git origin).
 - Team/year/course: README and DOCUMENTATION identify Miguel Vila and Miguel Reis, 2024, Databases at University of Aveiro. Local latest commit is 2024-06-05 and Git history has both names.
 - User-confirmed contributions: equal collaboration, with Miguel Vila focused on complex database relationships and Windows Forms.
@@ -182,11 +181,11 @@ These existing report assets match the dimensions of the embedded PDF images, av
 - Reopening behavior checked in `db/04_triggers.sql`; staff/requester reads and attachment behavior documented in README/DOCUMENTATION and SQL procedures.
 - 20,000 generated tickets from sample-data documentation. Saved one-run timings in `IndexesTesting.rpt` (requester 110→34 ms, priority 47→13 ms); `db/09_test_indexes.sql` confirms single execution before/after and no cache control. Article includes this limitation and does not claim overall speedup.
 - Scope: student helpdesk implementation based on BUD setting, not a deployed replacement of the actual university service. Direct client/database connection and UI-based role checks stated proportionally.
-- Copied unchanged from `screenshots/`: `ticket_viewer_editor.png` → `src/content/assets/bud-helpdesk/ticket-conversation.png`; `new_ticket_category.png` → `category-form.png`; `admin_dashboard_manage_tickets.png` → `staff-queue.png`.
+- Copied unchanged from `screenshots/`: `ticket_viewer_editor.png` → `src/content/projects/bud-helpdesk/assets/ticket-conversation.png`; `new_ticket_category.png` → `category-form.png`; `admin_dashboard_manage_tickets.png` → `staff-queue.png`.
 
 ## Network anomaly detection
 
-- Article: `src/content/projects/en/network-anomaly-detection.md`.
+- Article: `src/content/projects/network-anomaly-detection/en.md`.
 - Repository: `https://github.com/miguelovila/src-project-2` (local Git origin).
 - Team/year/course: README and DOCUMENTATION, and names on original `project_report.pdf`: Miguel Vila and Gonçalo Cunha, 2025, Security in Communications Networks at University of Aveiro. Latest local commit is 2025-07-03.
 - User-confirmed contributions: Miguel implemented the analysis and rules in full. Article distinguishes implementation from submission with Gonçalo without commenting negatively on teammate participation.
@@ -194,5 +193,5 @@ These existing report assets match the dimensions of the embedded PDF images, av
 - Numerical observations come from README, documented rerun in DOCUMENTATION, and original PDF inspected with `pdftotext`: baseline flows 849,657 HTTPS +115,244 DNS =964,901; 197 sources; six private servers; HTTPS/DNS middle range 6.492–8.442; DNS device `.21` counts 34,283+33,327=67,610; baseline max 1,655; critical threshold twice that =3,310; HTTPS source `.122` ratio 10.820 versus baseline q95 approximately .112.
 - External timing values and 19+3 combined report assessment retained as recorded results. Findings are candidates for investigation, not verified compromises or detection accuracy. No live collection, automated response, TLS decryption, decoded DNS query data, or trained ML model is claimed.
 - The article makes clear that external timing compares against the same capture and that report selection differs from broader rule-level outputs.
-- Created `src/content/assets/network-anomaly-detection/dns-comparison.svg` from the three recorded DNS values. New website illustration, not an original project figure; caption and SVG provenance line say so. Linear scale 0–70,000; widths: 23.17, 46.34, 946.54 for values 1,655, 3,310, 67,610 on a 980-unit axis. Includes title/description and detailed image alt text.
+- Created `src/content/projects/network-anomaly-detection/assets/dns-comparison.svg` from the three recorded DNS values. New website illustration, not an original project figure; caption and SVG provenance line say so. Linear scale 0–70,000; widths: 23.17, 46.34, 946.54 for values 1,655, 3,310, 67,610 on a 980-unit axis. Includes title/description and detailed image alt text.
 - Notebook dependencies are absent in the default Python environment; no fresh dataset execution is claimed. Values were cross-checked against recorded project evidence.

@@ -10,7 +10,7 @@ featured: false
 technologies: [C#, Windows Forms, SQL Server, ADO.NET]
 tags: [bases-de-dados, aplicacoes-desktop, engenharia-de-software]
 repositoryUrl: https://github.com/miguelovila/ua-bd-bud
-coverImage: ../../assets/bud-helpdesk/cover-image.png
+coverImage: ./assets/cover-image.png
 coverImageAlt: "Editor de pedidos do BUD, com os detalhes e controlos da equipa de apoio à esquerda e uma conversa com um PDF em anexo à direita."
 ---
 
@@ -22,7 +22,7 @@ Desenvolvi o BUD com o Miguel Reis em 2024, para a cadeira de Bases de Dados da 
 
 Criar um pedido começa pela escolha de um serviço e de uma categoria. Ao escolher Email e depois a criação de uma conta para um projeto, surgem campos para o departamento, o endereço pretendido, o nome do projeto e a pessoa responsável.
 
-![Assistente de criação de pedidos do BUD, com uma categoria de conta de email e os campos gerados para essa categoria](../../assets/bud-helpdesk/category-form.png)
+![Assistente de criação de pedidos do BUD, com uma categoria de conta de email e os campos gerados para essa categoria](./assets/category-form.png)
 
 _A categoria escolhida determina os dados que o requerente precisa de fornecer._
 
@@ -54,7 +54,7 @@ A mesma ideia aplica-se aos anexos. `SendAttachmentMessage` guarda uma mensagem 
 
 Os requerentes veem os seus próprios pedidos. A equipa de apoio tem uma fila partilhada com filtros por serviço, categoria, prioridade e estado, além de controlos para atualizar, reabrir e eliminar pedidos.
 
-![Fila de pedidos da equipa de apoio, com filtros, controlos de eliminação e navegação entre páginas](../../assets/bud-helpdesk/staff-queue.png)
+![Fila de pedidos da equipa de apoio, com filtros, controlos de eliminação e navegação entre páginas](./assets/staff-queue.png)
 
 _A vista da equipa de apoio carrega páginas de 20 pedidos, aplicando os filtros selecionados em SQL._
 

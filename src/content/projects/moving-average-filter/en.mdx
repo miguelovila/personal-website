@@ -10,20 +10,20 @@ featured: false
 technologies: [VHDL, FPGA, Quartus, ModelSim, Python]
 tags: [embedded-systems, fpga, signal-processing]
 repositoryUrl: https://github.com/miguelovila/ua-lsd-moving-average-filter
-coverImage: ../../assets/moving-average-filter/cover-image.png
+coverImage: ./assets/cover-image.png
 coverImageAlt: "Plot from the original presentation, with a noisy triangular signal in blue and its four-sample moving average in orange."
 ---
 
 import MovingAverageDemo from "@/components/demos/MovingAverageDemo";
 import ProjectFigure from "@/components/content/ProjectFigure.astro";
-import schematic from "../../assets/moving-average-filter/top-level-schematic.png";
-import registerBank from "../../assets/moving-average-filter/register-bank.png";
-import romController from "../../assets/moving-average-filter/rom-controller.png";
-import controlStates from "../../assets/moving-average-filter/control-states.png";
-import boardControls from "../../assets/moving-average-filter/board-controls.jpg";
-import registerWaveform from "../../assets/moving-average-filter/register-bank-waveform.png";
-import arithmeticWaveform from "../../assets/moving-average-filter/arithmetic-waveform.png";
-import outputChecks from "../../assets/moving-average-filter/output-checks.png";
+import schematic from "./assets/top-level-schematic.png";
+import registerBank from "./assets/register-bank.png";
+import romController from "./assets/rom-controller.png";
+import controlStates from "./assets/control-states.png";
+import boardControls from "./assets/board-controls.jpg";
+import registerWaveform from "./assets/register-bank-waveform.png";
+import arithmeticWaveform from "./assets/arithmetic-waveform.png";
+import outputChecks from "./assets/output-checks.png";
 
 A moving average only takes a few lines of arithmetic. Putting it on an FPGA means answering several other questions: which samples are available on this clock cycle, when should memory be written, and what happens when someone presses reset halfway through? Most of this project sits around the addition and division.
 

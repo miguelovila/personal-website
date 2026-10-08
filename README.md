@@ -13,7 +13,7 @@ bun run dev
 
 The local development server includes drafts and future-dated entries, with preview labels and `noindex` metadata. The project archive contains eight articles about my university work, each available in English and European Portuguese. The blog is empty, and synthetic content lives only in the test fixtures.
 
-[Project source notes](docs/project-sources.md) record the evidence, contributions and asset origins for each article. Images, local videos and the moving-average demo's ROM samples live in this repository; sibling project directories are not required to build the site. Gestire's hardware demonstration is embedded from YouTube, with a direct viewing link. The build does not need to download that external video.
+[Project source notes](docs/project-sources.md) record the evidence, contributions and asset origins for each article. Images, the Aditus recording and the moving-average demo's ROM samples live in this repository; sibling project directories are not required to build the site. Gestire and the AES gateway embed their demonstrations from YouTube, with direct viewing links. The build does not need to download those external videos.
 
 ```sh
 bun run check        # Astro and TypeScript diagnostics
@@ -62,16 +62,22 @@ Copy a template from `docs/templates/` into the appropriate collection. Both Mar
 ```text
 src/content/
   posts/
-    en/my-article.md
-    pt/o-meu-artigo.md
+    my-article/
+      en.md
+      pt.md
+      assets/
+        article-cover.jpg
   projects/
-    en/my-project.md
-    pt/o-meu-projeto.md
-  assets/
-    project-cover.jpg
+    my-project/
+      en.mdx
+      pt.mdx
+      assets/
+        project-cover.jpg
 ```
 
-Filenames use lowercase ASCII letters, numbers, and hyphens. Use one file directly inside the language directory; nested content directories and the reserved slugs `index` and `page` are rejected. English posts retain `/posts/my-article/`; Portuguese posts use `/pt/posts/o-meu-artigo/`. The same convention applies to projects.
+Keep each entry's writing and assets in one directory. The directory name is its URL slug, using lowercase ASCII letters, numbers, and hyphens; translations are named `en.md` and `pt.md` (or `.mdx`). English posts retain `/posts/my-article/`; Portuguese posts use `/pt/posts/my-article/`. The same convention applies to projects. The reserved slugs `index` and `page` and deeper content nesting are rejected.
+
+The older language-first layout, such as `posts/en/my-article.md` and `posts/pt/o-meu-artigo.md`, is also supported, including different translated slugs. Both layouts retain language-first content IDs such as `en/my-project`, so moving an entry into its own directory does not change its URL or related-content references. Use only one layout for each content ID. For the language names `en` or `pt` as URL slugs, use the language-first layout to avoid ambiguous paths.
 
 Required common fields: `title`, `description`, `language`, and `publishedDate`. Projects also require `status` (`in-progress`, `completed`, or `archived`). New entries default to `draft: true`, even if the field is omitted.
 
@@ -86,13 +92,13 @@ The homepage shows up to three projects marked `featured: true`, sorted by `feat
 
 ### Translations
 
-Each entry declares `language: en` or `language: pt`, matching its directory. To connect translations, give both entries the same `translationKey` within their collection. Their filenames and publication dates can differ. Only one entry per language may use a given translation key.
+Each entry declares `language: en` or `language: pt`, matching its filename (or language directory in the older layout). To connect translations, give both entries the same `translationKey` within their collection. Their slugs and publication dates can differ. Only one entry per language may use a given translation key.
 
 Translations are optional. The selector links directly to an available translation. Otherwise it explicitly offers the other-language archive; no missing translation URL or fabricated alternate is generated. Each translation has its own canonical URL and reciprocal `hreflang` metadata. Topic labels are author-defined, so equivalence between differently named topics is not inferred.
 
 UI translations live in `src/lib/i18n.ts`; URL and publication conventions live in `src/lib/publishing.ts`. The shared page registry is in `src/lib/routes.ts`.
 
-The eight project pairs share their filenames and `translationKey` values. Keep code identifiers, measured values, ownership and media consistent between versions. Translate titles, descriptions, figure captions, alternative text and diagram labels as well as the prose. Original project screenshots retain their original text; the recreated DNS chart has a separate Portuguese SVG.
+The eight project pairs share a project directory, assets and `translationKey` values. Keep code identifiers, measured values, ownership and media consistent between versions. Translate titles, descriptions, figure captions, alternative text and diagram labels as well as the prose. Original project screenshots retain their original text; the recreated DNS chart has a separate Portuguese SVG.
 
 `ProjectFigure`, `YouTubeEmbed` and `MermaidDiagram` select their interface labels from the page URL. For the interactive filter, pass the language explicitly: `<MovingAverageDemo language="pt" client:visible />`. Its default is English; the Portuguese version also uses a decimal comma in the calculation.
 
@@ -104,13 +110,13 @@ Named projects link to published entries in the current language. If an entry is
 
 ### Images and downloads
 
-Keep content images in `src/content/assets/` and reference them relative to the Markdown file, for example `coverImage: ../../assets/project-cover.jpg`. Astro validates local image paths and generates dimensioned responsive images. A cover requires `coverImageAlt`. Entries without a cover render without a placeholder image.
+Keep images in the entry's `assets/` directory beside its translations and reference them relative to the Markdown file, for example `coverImage: ./assets/project-cover.jpg`. Astro validates local image paths and generates dimensioned responsive images. A cover requires `coverImageAlt`. Entries without a cover render without a placeholder image.
 
 Projects can include a gallery:
 
 ```yaml
 gallery:
-  - image: ../../assets/project-detail.jpg
+  - image: ./assets/project-detail.jpg
     alt: A useful description of what the screenshot communicates.
     caption: Additional context for the reader.
 ```
@@ -127,8 +133,8 @@ Use `.mdx` when an article needs these components. Put imports after the frontma
 
 ```mdx
 import ProjectFigure from "@/components/content/ProjectFigure.astro";
-import discovery from "../../assets/aditus/nearby-doors.png";
-import progress from "../../assets/aditus/unlock-progress.png";
+import discovery from "./assets/nearby-doors.png";
+import progress from "./assets/unlock-progress.png";
 
 <div className="project-figure-grid">
   <ProjectFigure
@@ -160,7 +166,7 @@ import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
 />
 ```
 
-For local recordings, use a native `<video controls playsInline preload="none">` element with a poster, dimensions, an accessible label and a nearby description or transcript appropriate to the recording. Keep a direct fallback link and omit autoplay. Store the file under `public/project-media/` for a stable URL, or import an asset from `src/content/assets/` with `?url`, as the AES article does.
+For local recordings, use a native `<video controls playsInline preload="none">` element with a poster, dimensions, an accessible label and a nearby description or transcript appropriate to the recording. Keep a direct fallback link and omit autoplay. Import new recordings from the entry's `assets/` directory with `?url`. The existing Aditus recording and poster remain in `public/project-media/aditus/` to preserve their published direct URLs.
 
 `MermaidDiagram` uses `beautiful-mermaid` to render SVG during the build. It takes `source`, `label` and `caption` and allows keyboard scrolling when the diagram is wide. Rendering needs no client-side diagram script or remote fonts.
 
@@ -186,7 +192,7 @@ Write tables with normal Markdown syntax. The build's `rehype-tables` plugin aut
 
 ### Related writing and topics
 
-Posts can declare `relatedProjects: [en/my-project]`. IDs include the project’s language directory. Only visible projects are linked; a public post referencing a draft project will not reveal it. Project pages show posts in the same language that reference that project. Other related posts share at least one topic and are limited to three.
+Posts can declare `relatedProjects: [en/my-project]`. IDs always begin with the project’s language, regardless of the source directory layout. Only visible projects are linked; a public post referencing a draft project will not reveal it. Project pages show posts in the same language that reference that project. Other related posts share at least one topic and are limited to three.
 
 Tags become locale-specific topic archives. Accents are normalized in their URLs, for example `Programação` becomes `programacao`. Use consistent tag names. Source-code and live-project links are optional.
 

@@ -20,6 +20,16 @@ export function entrySlug(id: string) {
   return match[2];
 }
 
+export function contentId(entry: string) {
+  const stem = entry.replace(/\.(md|mdx)$/, "");
+  // Keep language-first IDs stable for existing links and relatedProjects.
+  // Project bundles store each translation beside their shared assets instead.
+  const bundle = /^(?!en\/|pt\/)([^/]+)\/(en|pt)$/.exec(stem);
+  const id = bundle ? `${bundle[2]}/${bundle[1]}` : stem;
+  entrySlug(id);
+  return id;
+}
+
 export function tagSlug(tag: string) {
   const slug = tag
     .normalize("NFD")

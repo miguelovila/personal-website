@@ -11,20 +11,19 @@ featuredOrder: 1
 technologies: [VHDL, C, Python, FPGA, Vivado, AXI4-Lite]
 tags: [sistemas-embebidos, fpga, criptografia, redes]
 repositoryUrl: https://github.com/miguelovila/custom-aes-encripted-iot-gateway
-coverImage: ../../assets/aes-iot-gateway/gateway-demo.png
+coverImage: ./assets/gateway-demo.png
 coverImageAlt: "A placa Nexys A7 ao lado da aplicação Python, com os estados dos LEDs e interruptores, a temperatura e as leituras de aceleração."
 ---
 
 import YouTubeEmbed from "@/components/content/YouTubeEmbed.astro";
 import ProjectFigure from "@/components/content/ProjectFigure.astro";
 import MermaidDiagram from "@/components/content/MermaidDiagram.astro";
-import architecture from "../../assets/aes-iot-gateway/system-architecture.png";
-import roundReference from "../../assets/aes-iot-gateway/aes-round-reference.jpg";
-import waveform from "../../assets/aes-iot-gateway/aes-waveform.jpg";
-import blockDesign from "../../assets/aes-iot-gateway/vivado-block-design.jpg";
-import timing from "../../assets/aes-iot-gateway/timing-summary.jpg";
-import utilization from "../../assets/aes-iot-gateway/resource-utilization.jpg";
-import demoPoster from "../../assets/aes-iot-gateway/gateway-demo.png";
+import architecture from "./assets/system-architecture.png";
+import roundReference from "./assets/aes-round-reference.jpg";
+import waveform from "./assets/aes-waveform.jpg";
+import blockDesign from "./assets/vivado-block-design.jpg";
+import timing from "./assets/timing-summary.jpg";
+import utilization from "./assets/resource-utilization.jpg";
 
 Basta mover a placa para as leituras de aceleração mudarem. Ao premir um botão, o indicador correspondente acende-se no computador. Um clique num LED da aplicação muda o estado do LED físico. No caminho entre a placa e o ecrã, cada atualização dos sensores passa por um núcleo AES-128 que escrevi em VHDL.
 

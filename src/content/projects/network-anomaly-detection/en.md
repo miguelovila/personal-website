@@ -10,7 +10,7 @@ featured: false
 technologies: [Python, pandas, NumPy, Jupyter, GeoLite2]
 tags: [network-security, data-analysis, python]
 repositoryUrl: https://github.com/miguelovila/src-project-2
-coverImage: ../../assets/network-anomaly-detection/dns-comparison.svg
+coverImage: ./assets/dns-comparison.svg
 coverImageAlt: "DNS flows in one day: the busiest baseline device made 1,655, the critical rule threshold was 3,310, and the flagged device 192.168.110.21 made 67,610."
 ---
 

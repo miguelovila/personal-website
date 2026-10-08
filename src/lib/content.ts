@@ -36,7 +36,7 @@ export async function getSiteContent(options: SiteContentOptions = {}) {
   for (const entry of [...allPosts, ...allProjects]) {
     entrySlug(entry.id);
     if (!entry.id.startsWith(`${entry.data.language}/`)) {
-      throw new Error(`${entry.id}: language must match its directory.`);
+      throw new Error(`${entry.id}: language must match its filename or language directory.`);
     }
     entry.data.tags.forEach(tagSlug);
     if (entry.data.translationKey) {
